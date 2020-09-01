@@ -3,6 +3,7 @@ package com.fm.modules.adapters;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fm.modules.R;
@@ -49,10 +50,12 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
 
         TextView title;
         TextView description;
+        ImageView imageView;
 
         public HolderImagen(View view) {
-            title = (TextView) view.findViewById(R.id.itemTitle);
-            description = (TextView) view.findViewById(R.id.itemText);
+            title = (TextView) view.findViewById(R.id.itemTitlei);
+            description = (TextView) view.findViewById(R.id.itemTexti);
+            imageView = (ImageView) view.findViewById(R.id.itemImage);
         }
     }
 

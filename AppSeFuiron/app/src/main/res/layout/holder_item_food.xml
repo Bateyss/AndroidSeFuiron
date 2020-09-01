@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.fuimonos.app.restaurantmenu.RestaurantMenuViewModel" />
+        <variable
+            name="food"
+            type="com.fuimonos.app.models.Food" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_marginEnd="@dimen/space_2x"
+        android:layout_marginBottom="@dimen/space_2x"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:onClick="@{ () -> viewModel.onSelectFood(food) }">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFoodImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginBottom="@dimen/space_default"
+                tools:srcCompat="@drawable/food_sample"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFoodName"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFoodPrice"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextViewTitleStyle"
+                android:id="@+id/tvFoodName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_marginEnd="@dimen/space_default"
+                android:text="@{food.name}"
+                tools:text="La Doble!"
+                app:layout_constraintStart_toEndOf="@+id/ivFoodImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tvFoodDescription"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFoodDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4n"
+                android:textSize="12sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:text="@{food.description}"
+                tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam"
+                app:layout_constraintStart_toStartOf="@+id/tvFoodName"
+                app:layout_constraintTop_toBottomOf="@+id/tvFoodName"
+                app:layout_constraintEnd_toEndOf="@+id/tvFoodName"
+                app:layout_constraintBottom_toTopOf="@+id/tvFoodPrice"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextViewTitleStyle"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:id="@+id/tvFoodPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4n"
+                android:layout_marginBottom="@dimen/space_default"
+                android:text="@{@string/price_x(food.price)}"
+                tools:text="$6.99"
+                app:layout_constraintStart_toStartOf="@+id/tvFoodName"
+                app:layout_constraintTop_toBottomOf="@+id/tvFoodDescription"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnAdd"
+                android:background="@drawable/add_food_action_bacground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_default"
+                android:includeFontPadding="false"
+                android:paddingTop="@dimen/space_4n"
+                android:paddingBottom="@dimen/space_4n"
+                android:paddingStart="@dimen/space_2x"
+                android:paddingEnd="@dimen/space_2x"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="@string/add"
+                app:layout_constraintTop_toTopOf="@+id/tvFoodPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFoodPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
