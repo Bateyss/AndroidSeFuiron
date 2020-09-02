@@ -6,8 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/DarkerList">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="100dp"
@@ -25,7 +24,6 @@
 
             <TextView
                 android:id="@+id/itemTitle"
-                style="@style/tittleListDarker"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
@@ -39,7 +37,6 @@
 
             <TextView
                 android:id="@+id/itemText"
-                style="@style/summaryListDarker"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"

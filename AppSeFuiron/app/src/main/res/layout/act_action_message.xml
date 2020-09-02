@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <import type="android.view.View"/>
-        <variable
-            name="actionMessage"
-            type="com.fuimonos.app.actionmessage.ActionMessage" />
-    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,8 +16,6 @@
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginTop="@dimen/space_3x"
-            android:visibility="@{actionMessage.isBackEnabled ? View.VISIBLE : View.INVISIBLE}"
-            app:srcCompat="@drawable/ic_left_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +29,6 @@
             android:layout_marginStart="@dimen/space_6x"
             android:layout_marginTop="@dimen/space_2x"
             android:layout_marginEnd="@dimen/space_6x"
-            android:text="@{actionMessage.title}"
             tools:text="¡Listo y seguro!"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack"
@@ -50,7 +42,6 @@
             android:layout_marginTop="@dimen/space_6x"
             android:layout_marginEnd="@dimen/space_10x"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_ready_secure"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -63,7 +54,6 @@
             android:textStyle="bold"
             android:textColor="@color/purple"
             android:includeFontPadding="false"
-            android:text="@{actionMessage.subtitle}"
             tools:text="¡Listo!"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
@@ -75,7 +65,6 @@
             android:id="@+id/tvMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{actionMessage.message}"
             android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/space_default"
@@ -94,7 +83,6 @@
             android:layout_marginEnd="@dimen/space_4x"
             android:layout_marginBottom="@dimen/space_4x"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@{actionMessage.actionButtonText}"
             tools:text="Iniciar sesión"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
             app:layout_constraintEnd_toEndOf="@+id/tvTitle"

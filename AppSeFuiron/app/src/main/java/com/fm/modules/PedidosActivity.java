@@ -12,10 +12,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.adapters.PedidosItemViewAdapter;
-import com.fm.modules.api.PedidoApi;
-import com.fm.modules.api.UsuarioApi;
 import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Usuario;
+import com.fm.modules.service.PedidoService;
+import com.fm.modules.service.UsuarioService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -77,9 +77,9 @@ public class PedidosActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... strings) {
             boolean conextado = false;
             try {
-                UsuarioApi usuarioApi = new UsuarioApi(dominio);
-                List<Usuario> list = usuarioApi.findAll();
-                if (!list.isEmpty()) {
+                UsuarioService usuarioService = new UsuarioService();
+                Usuario u  = usuarioService.obtenerUsuarioPorId(1L);
+                if (u != null) {
                     conextado = true;
                 }
             } catch (Exception e) {
@@ -114,8 +114,8 @@ public class PedidosActivity extends AppCompatActivity {
         protected List<Pedido> doInBackground(String... strings) {
             List<Pedido> pedidoList = new LinkedList<>();
             try {
-                PedidoApi api = new PedidoApi(dominio);
-                pedidoList = api.findPendientes();
+                PedidoService api = new PedidoService();
+                pedidoList = api.obtenerPedidos();
             } catch (Exception ex) {
             }
             return pedidoList;

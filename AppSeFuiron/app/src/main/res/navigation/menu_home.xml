@@ -7,7 +7,6 @@
 
     <fragment
         android:id="@+id/restaurants"
-        android:name="com.fuimonos.app.restaurants.RestaurantsFragment"
         android:label="home"
         tools:layout="@layout/frg_restaurants" >
 
@@ -23,7 +22,6 @@
 
     <fragment
         android:id="@+id/restaurantMenu"
-        android:name="com.fuimonos.app.restaurantmenu.RestaurantMenuFragment"
         android:label="menu restaurante"
         tools:layout="@layout/frg_restaurant_menu">
 
@@ -43,7 +41,6 @@
 
     <fragment
         android:id="@+id/foodComplements"
-        android:name="com.fuimonos.app.foodcomplements.FoodComplementsFragment"
         android:label="complementos"
         tools:layout="@layout/frg_food_complements">
 

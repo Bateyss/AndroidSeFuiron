@@ -2,12 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.signup.SignUpViewModel" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +33,6 @@
                 android:background="@drawable/ripple_circle_profile_photo_shape"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="@{ () -> viewModel.onPickProfilePhoto() }"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,15 +41,15 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivProfilePhoto"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_empty_profile_photo" />
+                    android:layout_height="match_parent"/>
 
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                app:srcCompat="@drawable/ic_plus"
                 app:layout_constraintCircle="@id/flProfilePhoto"
                 app:layout_constraintCircleAngle="140"
                 app:layout_constraintCircleRadius="48dp" />
@@ -82,8 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="textPersonName"
-                    android:text="@={viewModel.name}" />
+                    android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,8 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:imeOptions="actionNext"
-                    android:text="@={viewModel.lastName}"/>
+                    android:imeOptions="actionNext"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,8 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:imeOptions="actionNext"
-                    android:text="@={viewModel.email}"/>
+                    android:imeOptions="actionNext"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,7 +151,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:text="@={viewModel.password}"
                     android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -189,8 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"
-                    android:imeOptions="actionNext"
-                    android:text="@={viewModel.birthday}"/>
+                    android:imeOptions="actionNext"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -215,8 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
-                    android:imeOptions="actionDone"
-                    android:text="@={viewModel.phoneNumber}"/>
+                    android:imeOptions="actionDone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -228,7 +215,6 @@
                 android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginBottom="@dimen/space_2x"
                 android:text="@string/sign_me_up"
-                android:onClick="@{ () -> viewModel.onSignUp() }"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintTop_toBottomOf="@+id/inputPhoneNumber"
                 app:layout_constraintEnd_toEndOf="parent"

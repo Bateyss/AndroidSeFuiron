@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.restaurantmenu.RestaurantMenuViewModel" />
-    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +15,6 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/space_2x"
-            app:srcCompat="@drawable/ic_left_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/flProfilePhoto"
             app:layout_constraintBottom_toBottomOf="@+id/flProfilePhoto"/>
@@ -43,8 +38,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivRestaurantLogo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_empty_profile_photo" />
+                android:layout_height="match_parent"/>
 
         </FrameLayout>
 
@@ -54,7 +48,6 @@
             android:id="@+id/tvRestaurantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.restaurant.name}"
             tools:text="Que brava!"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack"

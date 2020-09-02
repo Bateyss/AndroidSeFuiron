@@ -3,20 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.options.OptionsViewModel" />
-        <variable
-            name="option"
-            type="com.fuimonos.app.models.Option" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/SelectableStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{ () -> viewModel.onSelectOption(option) }">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivOptionIcon"

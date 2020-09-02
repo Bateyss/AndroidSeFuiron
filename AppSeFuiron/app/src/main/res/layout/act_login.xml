@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.login.LoginViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -61,8 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:imeOptions="actionNext"
-                android:text="@={viewModel.email}"/>
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,8 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:imeOptions="actionNext"
-                android:text="@={viewModel.password}"/>
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +97,6 @@
             android:paddingTop="@dimen/space_default"
             android:paddingBottom="@dimen/space_default"
             android:textColor="@color/purple"
-            android:onClick="@{ () -> viewModel.onForgotPassword() }"
             app:layout_constraintTop_toBottomOf="@+id/inputPassword"
             app:layout_constraintEnd_toEndOf="@+id/inputPassword"
             app:layout_constraintBottom_toTopOf="@+id/btnLogin"/>
@@ -119,7 +110,6 @@
             android:layout_marginStart="@dimen/space_4x"
             android:layout_marginEnd="@dimen/space_4x"
             android:text="@string/login"
-            android:onClick="@{ () -> viewModel.onLogin() }"
             app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword"
             app:layout_constraintStart_toStartOf="@+id/inputPassword"
             app:layout_constraintEnd_toEndOf="@+id/inputPassword"
@@ -156,8 +146,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            app:srcCompat="@drawable/ic_app_logo"
-            android:onClick="@{ () -> viewModel.onSignUp() }"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvRegisterNewAccount"
             app:layout_constraintEnd_toEndOf="parent"

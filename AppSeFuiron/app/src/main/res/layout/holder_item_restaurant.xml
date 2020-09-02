@@ -3,14 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.restaurants.RestaurantsViewModel" />
-        <variable
-            name="restaurant"
-            type="com.fuimonos.app.models.Restaurant" />
-    </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -21,8 +13,7 @@
         android:layout_marginEnd="@dimen/space_4x"
         android:layout_marginBottom="@dimen/space_2x"
         app:cardCornerRadius="8dp"
-        app:cardElevation="16dp"
-        android:onClick="@{ () -> viewModel.onSelectRestaurant(restaurant) }">
+        app:cardElevation="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,8 +49,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRestaurantLogo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_empty_profile_photo" />
+                    android:layout_height="match_parent"/>
 
             </FrameLayout>
 
@@ -72,7 +62,6 @@
                 android:layout_marginStart="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_2x"
                 android:maxLines="2"
-                android:text="@{restaurant.name}"
                 app:layout_constraintStart_toEndOf="@+id/flRestaurantLogo"
                 app:layout_constraintTop_toTopOf="@+id/flRestaurantLogo"
                 app:layout_constraintEnd_toStartOf="@+id/tvLabelMinimalMount"
@@ -84,7 +73,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="@{restaurant.minimumMount}"
                 tools:text="$8.50"
                 app:layout_constraintStart_toStartOf="@+id/tvLabelMinimalMount"
                 app:layout_constraintTop_toTopOf="@+id/tvRestaurantName"

@@ -7,7 +7,6 @@
 
     <fragment
         android:id="@+id/options"
-        android:name="com.fuimonos.app.options.OptionsFragment"
         android:label="Carrito de compra"
         tools:layout="@layout/frg_options" >
     </fragment>

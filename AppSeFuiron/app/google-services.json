@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "919048348420",
+    "firebase_url": "https://prueba-dv-android.firebaseio.com",
+    "project_id": "prueba-dv-android",
+    "storage_bucket": "prueba-dv-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919048348420:android:cc0fc217d8c7891586e651",
+        "android_client_info": {
+          "package_name": "com.fm.modules"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919048348420-kb5p4pnqshvns40uv1j1r0qhea3ar29s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fm.modules",
+            "certificate_hash": "4426343983ec17f55a58c01c521840c8950bae63"
+          }
+        },
+        {
+          "client_id": "919048348420-5q9riubh5peq6nmno7qahcmnduk9dfki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0hArlCWrzsdW4RjckiAotFdW8MU6MNyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919048348420-5q9riubh5peq6nmno7qahcmnduk9dfki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
