@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Restaurante {
 
     private Long restauranteId;
+    private String nombreRestaurante;
     private Departamento departamento;
     private String username;
     private String password;
@@ -24,11 +25,12 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long restauranteId, Departamento departamento, String username, String password,
+    public Restaurante(Long restauranteId,String nombreRestaurante, Departamento departamento, String username, String password,
                        String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento,
                        String representante, String numeroDeContacto, double comision, Integer cargosExtra, Byte[] imagenDePortada,
                        Byte[] logoDeRestaurante, String nit, String correo) {
         this.restauranteId = restauranteId;
+        this.nombreRestaurante = nombreRestaurante;
         this.departamento = departamento;
         this.username = username;
         this.password = password;
@@ -52,6 +54,14 @@ public class Restaurante {
 
     public void setRestautanteId(Long restauranteId) {
         this.restauranteId = restauranteId;
+    }
+
+    public String getNombreRestaurante() {
+        return nombreRestaurante;
+    }
+
+    public void setNombreRestaurante(String nombreRestaurante) {
+        this.nombreRestaurante = nombreRestaurante;
     }
 
     public Departamento getDepartamento() {
@@ -179,6 +189,8 @@ public class Restaurante {
         StringBuilder builder = new StringBuilder();
         builder.append("{restautanteId:'");
         builder.append(restauranteId);
+        builder.append("',nombreRestaurante");
+        builder.append(nombreRestaurante);
         builder.append("',departamentos:'");
         builder.append(departamento);
         builder.append("',username:'");
