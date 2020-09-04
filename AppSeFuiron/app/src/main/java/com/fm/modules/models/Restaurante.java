@@ -1,5 +1,9 @@
 package com.fm.modules.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import java.util.Arrays;
 
 public class Restaurante {
@@ -17,18 +21,21 @@ public class Restaurante {
     private String numeroDeContacto;
     private double comision;
     private Integer cargosExtra;
-    private Byte[] imagenDePortada;
-    private Byte[] logoDeRestaurante;
+    private String imagenDePortada;
+    private String logoDeRestaurante;
     private String nit;
     private String correo;
+    private Bitmap imagenP;
+    private Bitmap imagenLogo;
+
 
     public Restaurante() {
     }
 
     public Restaurante(Long restauranteId,String nombreRestaurante, Departamento departamento, String username, String password,
                        String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento,
-                       String representante, String numeroDeContacto, double comision, Integer cargosExtra, Byte[] imagenDePortada,
-                       Byte[] logoDeRestaurante, String nit, String correo) {
+                       String representante, String numeroDeContacto, double comision, Integer cargosExtra, String imagenDePortada,
+                       String logoDeRestaurante, String nit, String correo) {
         this.restauranteId = restauranteId;
         this.nombreRestaurante = nombreRestaurante;
         this.departamento = departamento;
@@ -152,19 +159,25 @@ public class Restaurante {
         this.cargosExtra = cargosExtra;
     }
 
-    public Byte[] getImagenDePortada() {
+    public String getImagenDePortada() {
         return imagenDePortada;
     }
 
-    public void setImagenDePortada(Byte[] imagenDePortada) {
+    public void setImagenDePortada(String imagenDePortada) {
         this.imagenDePortada = imagenDePortada;
+        try {
+            byte[] byteCode = Base64.decode(imagenDePortada, Base64.DEFAULT);
+            this.imagenP = BitmapFactory.decodeByteArray(byteCode, 0, byteCode.length);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public Byte[] getLogoDeRestaurante() {
+    public String getLogoDeRestaurante() {
         return logoDeRestaurante;
     }
 
-    public void setLogoDeRestaurante(Byte[] logoDeRestaurante) {
+    public void setLogoDeRestaurante(String logoDeRestaurante) {
         this.logoDeRestaurante = logoDeRestaurante;
     }
 
@@ -182,6 +195,22 @@ public class Restaurante {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public Bitmap getImagenP() {
+        return imagenP;
+    }
+
+    public void setImagenP(Bitmap imagenP) {
+        this.imagenP = imagenP;
+    }
+
+    public Bitmap getImagenLogo() {
+        return imagenLogo;
+    }
+
+    public void setImagenLogo(Bitmap imagenLogo) {
+        this.imagenLogo = imagenLogo;
     }
 
     @Override
@@ -214,9 +243,9 @@ public class Restaurante {
         builder.append("',cargosExtra:'");
         builder.append(cargosExtra);
         builder.append("',imagenDePortada:'");
-        builder.append(Arrays.toString(imagenDePortada));
+        builder.append(imagenDePortada);
         builder.append("',logoDeRestaurante:'");
-        builder.append(Arrays.toString(logoDeRestaurante));
+        builder.append(logoDeRestaurante);
         builder.append("',nit:'");
         builder.append(nit);
         builder.append("',correo:'");

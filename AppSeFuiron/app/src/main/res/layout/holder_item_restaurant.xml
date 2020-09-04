@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".app.restaurantes.RestaurantesActivity">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -13,7 +17,8 @@
         android:layout_marginEnd="@dimen/space_4x"
         android:layout_marginBottom="@dimen/space_2x"
         app:cardCornerRadius="8dp"
-        app:cardElevation="16dp">
+        app:cardElevation="16dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,7 +54,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivRestaurantLogo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    />
 
             </FrameLayout>
 
@@ -62,6 +68,7 @@
                 android:layout_marginStart="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_2x"
                 android:maxLines="2"
+                android:text="@{restaurant.name}"
                 app:layout_constraintStart_toEndOf="@+id/flRestaurantLogo"
                 app:layout_constraintTop_toTopOf="@+id/flRestaurantLogo"
                 app:layout_constraintEnd_toStartOf="@+id/tvLabelMinimalMount"
@@ -73,6 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:text="@{restaurant.minimumMount}"
                 tools:text="$8.50"
                 app:layout_constraintStart_toStartOf="@+id/tvLabelMinimalMount"
                 app:layout_constraintTop_toTopOf="@+id/tvRestaurantName"
@@ -93,4 +101,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-</layout>
+</LinearLayout>
