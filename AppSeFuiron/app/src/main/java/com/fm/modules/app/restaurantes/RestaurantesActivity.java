@@ -16,12 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.PedidosActivity;
 import com.fm.modules.R;
+import com.fm.modules.adapters.RecyclerPlatillosFavoritosAdapter;
+import com.fm.modules.adapters.RecyclerPlatillosPorMenuAdapter;
 import com.fm.modules.adapters.RestauranteItemViewAdapter;
+import com.fm.modules.models.PlatilloFavorito;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.Usuario;
+import com.fm.modules.service.PlatilloFavoritoService;
 import com.fm.modules.service.RestauranteService;
 
 import java.util.ArrayList;
@@ -30,24 +36,30 @@ import java.util.List;
 public class RestaurantesActivity extends AppCompatActivity {
 
     UnderThreads underThreads = new UnderThreads();
+    UnderThreadsTwo underThreadsTwo = new UnderThreadsTwo();
     //Conexion conexion = new RestaurantesActivity.Conexion();
     private boolean conected;
     private final String dominio = "http://192.168.1.2:8181";
     private ListView listView;
+    private RecyclerView rvPlatillosFavoritos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_restaurants);
+        getSupportActionBar().hide();
 
         listView = (ListView) findViewById(R.id.rvRestaurants);
+        rvPlatillosFavoritos = findViewById(R.id.rvPlatillosFavoritos);
         conected = isNetActive();
+
 
 
         if(conected){
             //conexion.execute();
             System.out.println("hola Aqui");
             underThreads.execute();
+            underThreadsTwo.execute();
         }else{
             Toast.makeText(RestaurantesActivity.this, "No hay conexion", Toast.LENGTH_LONG);
             Log.e("error", "" + "no hay conexion");
@@ -140,6 +152,7 @@ public class RestaurantesActivity extends AppCompatActivity {
             try {
                 RestauranteService restauranteService = new RestauranteService();
                 restauranteList = restauranteService.obtenerRestaurantes();
+
             }catch (Exception e){
                 System.out.println("Error en UnderThreash:" +e.getMessage() +" " +e.getClass());
             }
@@ -163,6 +176,52 @@ public class RestaurantesActivity extends AppCompatActivity {
                    Toast.makeText(RestaurantesActivity.this, "Restaurantes No Cargados" +restaurantes.size(), Toast.LENGTH_SHORT).show();
                    reiniciarAsynkProcess();
                }
+            }catch (Throwable throwable){
+                System.out.println("Error Activity: " +throwable.getMessage());
+                throwable.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+
+    public class UnderThreadsTwo extends AsyncTask<String, String , List<PlatilloFavorito>>{
+
+        @Override
+        protected List<PlatilloFavorito> doInBackground(String... strings) {
+            List<PlatilloFavorito> platilloFavoritoList = new ArrayList<>();
+            try {
+                PlatilloFavoritoService platilloFavoritoService = new PlatilloFavoritoService();
+                platilloFavoritoList = platilloFavoritoService.obtenerPlatilloFavoritos();
+            }catch (Exception e){
+                System.out.println("Error en UnderThreash:" +e.getMessage() +" " +e.getClass());
+            }
+            return platilloFavoritoList;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<PlatilloFavorito> platilloFavorito) {
+            super.onPostExecute(platilloFavorito);
+            try {
+                if (!platilloFavorito.isEmpty()){
+                    RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(platilloFavorito, RestaurantesActivity.this);
+                    rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(RestaurantesActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    rvPlatillosFavoritos.setAdapter(rvAdapter);
+
+                    Toast.makeText(RestaurantesActivity.this, "Plativos Favoritos Cargados" +platilloFavorito.size(), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RestaurantesActivity.this, "Plativos Favoritos Cargados" +platilloFavorito.size(), Toast.LENGTH_SHORT).show();
+                    reiniciarAsynkProcess();
+                }
             }catch (Throwable throwable){
                 System.out.println("Error Activity: " +throwable.getMessage());
                 throwable.printStackTrace();

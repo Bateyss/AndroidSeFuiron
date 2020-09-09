@@ -1,8 +1,15 @@
 package com.fm.modules.service;
 
+import com.fm.modules.entities.RespuestaMenuPorRestaurantes;
+import com.fm.modules.entities.RespuestaSubMenuPorPlatillo;
 import com.fm.modules.models.SubMenu;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SubMenuService extends RestTemplateEntity<SubMenu> implements Serializable {
@@ -41,6 +48,21 @@ public class SubMenuService extends RestTemplateEntity<SubMenu> implements Seria
 
     public void eliminarSubMenuPorId(Long id) {
         deleteURL(url, id);
+    }
+
+    public List<SubMenu> obtenerSubMenusPorPlatillo(String idPlatillo) {
+        List<SubMenu> list = new LinkedList<>();
+        System.out.println("URL: " +url.concat("/").concat(idPlatillo.toString()));
+        try {
+            RestTemplate restTemplat = new RestTemplate();
+            ResponseEntity<SubMenu[]> response = restTemplat.getForEntity(Constantes.DOMINIO.concat("/").concat("submenuPorPlatillo/").concat(idPlatillo), SubMenu[].class);
+            list = Arrays.asList(response.getBody());
+            System.out.println("Contenido Lista: " +list.size());
+            System.out.println("Lista: " +list.get(0).toString());
+        } catch (Exception e) {
+            System.out.println("error absRest getListURL: " + e.getMessage() +" " +e.getClass());
+        }
+        return list;
     }
 
 }

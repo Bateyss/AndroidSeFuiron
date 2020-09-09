@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivBack"
         style="@style/SelectableBorderlesStyle"
         android:layout_width="36dp"
         android:layout_height="21dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
         android:src="@drawable/ic_left_arrow"
         app:layout_constraintBottom_toBottomOf="@+id/flProfilePhoto"
         app:layout_constraintEnd_toStartOf="@+id/flRestaurantLogo"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/lvMenus"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43" />
 
     <FrameLayout
             android:id="@+id/flRestaurantLogo"
@@ -32,12 +33,13 @@
             app:layout_constraintEnd_toStartOf="@+id/tvRestaurantName"
             app:layout_constraintBottom_toBottomOf="@+id/tvRestaurantName">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivRestaurantLogo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRestaurantLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
 
-    </FrameLayout>
+        </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TextViewTitleStyle"
@@ -45,8 +47,8 @@
             android:id="@+id/tvRestaurantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MENU"
-            tools:text="MENU"
+            android:text="PLATILLOS"
+            tools:text="PLATILLOS"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -57,15 +59,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_default"
             android:background="@color/opaquePurple"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flRestaurantLogo"
-            app:tabIndicator="@drawable/tab_indicator"
+            app:tabMode="scrollable"
             app:tabIndicatorColor="@color/orange"
             app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flRestaurantLogo"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <View
             android:id="@+id/separator"
@@ -79,15 +80,17 @@
             app:layout_constraintTop_toBottomOf="@+id/menuTab"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <ListView
-            android:id="@+id/lvMenus"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlatillos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separator" />
+            app:layout_constraintTop_toBottomOf="@+id/separator"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -101,4 +104,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+

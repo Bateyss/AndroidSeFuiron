@@ -50,18 +50,48 @@
 
             -->
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleFav"
+        style="@style/TextViewTitleStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="@dimen/space_2x"
+        android:includeFontPadding="false"
+        android:text="@string/favorites_option"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toStartOf="@+id/flProfilePhoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/rvRestaurants"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearch"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPlatillosFavoritos"
+        android:layout_width="409dp"
+        android:layout_height="150dp"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp"
+        android:paddingEnd="10sp"
+        android:paddingRight="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/rvRestaurants"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSearch"
+        app:layout_constraintVertical_bias="1.0" />
 
     <!--<ProgressBar
             android:id="@+id/progressBar"

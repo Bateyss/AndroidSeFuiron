@@ -2,9 +2,16 @@ package com.fm.modules.service;
 
 
 
+import com.fm.modules.entities.RespuestaOpcionSubMenuPorPlatillo;
+import com.fm.modules.entities.RespuestaPlatilloPorMenu;
 import com.fm.modules.models.OpcionesDeSubMenu;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class OpcionSubMenuService extends RestTemplateEntity<OpcionesDeSubMenu> implements Serializable {
@@ -46,4 +53,16 @@ public class OpcionSubMenuService extends RestTemplateEntity<OpcionesDeSubMenu> 
         deleteURL(url, id);
     }
 
+    public List<RespuestaOpcionSubMenuPorPlatillo> opcionesSubMenuPorPlatillo(String idPlatillo){
+        List<RespuestaOpcionSubMenuPorPlatillo> list = new LinkedList<>();
+        //System.out.println("URL: " +url.concat("/").concat(idPlatillo.toString()));
+        try {
+            RestTemplate restTemplat = new RestTemplate();
+            ResponseEntity<RespuestaOpcionSubMenuPorPlatillo[]> response = restTemplat.getForEntity(Constantes.DOMINIO.concat("/").concat("opcionesSubPlatillo/").concat(idPlatillo), RespuestaOpcionSubMenuPorPlatillo[].class);
+            list = Arrays.asList(response.getBody());
+        } catch (Exception e) {
+            System.out.println("error absRest getListURL1: " + e.getMessage() +" " +e.getClass());
+        }
+        return list;
+    }
 }

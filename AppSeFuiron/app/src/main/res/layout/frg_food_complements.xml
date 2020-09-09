@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.fuimonos.app.foodcomplements.FoodComplementsViewModel" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,7 +14,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginTop="@dimen/space_3x"
-            app:srcCompat="@drawable/ic_left_arrow"
+            android:src="@drawable/ic_left_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -106,6 +100,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFoodName"
                     app:layout_constraintBottom_toBottomOf="@+id/npFoodQuantity" />
 
+                <com.travijuu.numberpicker.library.NumberPicker
+                    android:id="@+id/npFoodQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_2x"
+                    android:layout_marginTop="@dimen/space_default"
+                    android:layout_marginBottom="@dimen/space_default"
+                    app:max="99"
+                    app:min="1"
+                    app:custom_layout="@layout/custom_number_picker_layout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,8 +130,8 @@
             app:layout_constraintTop_toBottomOf="@+id/cardFoodQuantity"
             app:layout_constraintEnd_toEndOf="@+id/cardFoodQuantity"/>
 
-        <ScrollView
-            android:id="@+id/svComplementsArea"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComplementsArea"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@+id/separator2"
@@ -159,7 +166,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ProgressBar
+        <!--<ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -169,8 +176,6 @@
             app:layout_constraintStart_toStartOf="@+id/svComplementsArea"
             app:layout_constraintTop_toTopOf="@+id/svComplementsArea"
             app:layout_constraintEnd_toEndOf="@+id/svComplementsArea"
-            app:layout_constraintBottom_toBottomOf="@+id/svComplementsArea" />
+            app:layout_constraintBottom_toBottomOf="@+id/svComplementsArea" /> -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
