@@ -4,18 +4,18 @@ import java.util.Arrays;
 
 public class Platillo {
 
-    private long platilloId;
+    private Long platilloId;
     private Menu menu;
     private String nombre;
     private double precioBase;
-    private byte[] imagen;
+    private Long imagen;
     private String descripcion;
     private int orden;
 
     public Platillo() {
     }
 
-    public Platillo(long platilloId, Menu menu, String nombre, double precioBase, byte[] imagen, String descripcion,
+    public Platillo(Long platilloId, Menu menu, String nombre, double precioBase, Long imagen, String descripcion,
                     int orden) {
         this.platilloId = platilloId;
         this.menu = menu;
@@ -26,11 +26,11 @@ public class Platillo {
         this.orden = orden;
     }
 
-    public long getPlatilloId() {
+    public Long getPlatilloId() {
         return platilloId;
     }
 
-    public void setPlatilloId(long platilloId) {
+    public void setPlatilloId(Long platilloId) {
         this.platilloId = platilloId;
     }
 
@@ -58,11 +58,11 @@ public class Platillo {
         this.precioBase = precioBase;
     }
 
-    public byte[] getImagen() {
+    public Long getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(Long imagen) {
         this.imagen = imagen;
     }
 
@@ -94,7 +94,7 @@ public class Platillo {
         builder.append("',precioBase:'");
         builder.append(precioBase);
         builder.append("',imagen:'");
-        builder.append(Arrays.toString(imagen));
+        builder.append(imagen);
         builder.append("',descripcion:'");
         builder.append(descripcion);
         builder.append("',orden:'");

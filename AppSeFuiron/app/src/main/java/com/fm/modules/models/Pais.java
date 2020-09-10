@@ -2,22 +2,22 @@ package com.fm.modules.models;
 
 public class Pais {
 
-    private long paisId;
+    private Long paisId;
 	private String nombrePais;
 
 	public Pais() {
 	}
 
-	public Pais(long paisId, String nombrePais) {
+	public Pais(Long paisId, String nombrePais) {
 		this.paisId = paisId;
 		this.nombrePais = nombrePais;
 	}
 
-    public long getPaisId() {
+    public Long getPaisId() {
         return paisId;
     }
 
-    public void setPaisId(long paisId) {
+    public void setPaisId(Long paisId) {
         this.paisId = paisId;
     }
 

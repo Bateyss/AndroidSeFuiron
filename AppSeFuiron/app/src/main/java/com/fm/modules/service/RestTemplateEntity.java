@@ -63,6 +63,7 @@ public abstract class RestTemplateEntity<Entity> {
             entity = response.getBody();
         } catch (Exception e) {
             System.out.println("error absRest getListURL: " + e);
+            entity = null;
         }
         return entity;
     }
@@ -81,6 +82,7 @@ public abstract class RestTemplateEntity<Entity> {
             etity = response.getBody();
         } catch (Exception e) {
             System.out.println("error absRest getListURL: " + e);
+            etity = null;
         }
         return etity;
     }
@@ -99,6 +101,7 @@ public abstract class RestTemplateEntity<Entity> {
             etity = response.getBody();
         } catch (Exception e) {
             System.out.println("error absRest getListURL: " + e);
+            etity = null;
         }
         return etity;
     }
@@ -123,12 +126,14 @@ public abstract class RestTemplateEntity<Entity> {
              * Entity es la declaracion de una entity
              * classEntity es la declaracion del entity como class (Entity.class)
              */
+
             restTemplate = new RestTemplate();
             HttpEntity<Entity> request = new HttpEntity<>(entity);
             ResponseEntity<Entity> response = restTemplate.getForEntity(url, classEntity, request);
             etity = response.getBody();
         } catch (Exception e) {
             System.out.println("error absRest getListURL: " + e);
+            etity = null;
         }
         return etity;
     }

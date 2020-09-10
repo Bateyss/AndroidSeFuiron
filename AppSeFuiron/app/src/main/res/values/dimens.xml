@@ -5,6 +5,7 @@
     <dimen name="space_6x">48dp</dimen>
     <dimen name="space_5x">40dp</dimen>
     <dimen name="space_default">8dp</dimen>
+    <dimen name="space_1x">1px</dimen>
     <dimen name="space_2x">16dp</dimen>
     <dimen name="space_4n">4dp</dimen>
     <dimen name="space_3x">24dp</dimen>

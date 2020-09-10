@@ -2,8 +2,8 @@ package com.fm.modules.models;
 
 public class PlatilloSeleccionado {
 
-    private long platilloSeleccionadoId;
-    private Platillo platillos;
+    private Long platilloSeleccionadoId;
+    private Platillo platillo;
     private Pedido pedido;
     private String nombre;
     private double precio;
@@ -11,29 +11,29 @@ public class PlatilloSeleccionado {
     public PlatilloSeleccionado() {
     }
 
-    public PlatilloSeleccionado(long platilloSeleccionadoId, Platillo platillos, Pedido pedido, String nombre,
+    public PlatilloSeleccionado(Long platilloSeleccionadoId, Platillo platillo, Pedido pedido, String nombre,
                                 double precio) {
         this.platilloSeleccionadoId = platilloSeleccionadoId;
-        this.platillos = platillos;
+        this.platillo = platillo;
         this.pedido = pedido;
         this.nombre = nombre;
         this.precio = precio;
     }
 
-    public long getPlatilloSeleccionadoId() {
+    public Long getPlatilloSeleccionadoId() {
         return platilloSeleccionadoId;
     }
 
-    public void setPlatilloSeleccionadoId(long platilloSeleccionadoId) {
+    public void setPlatilloSeleccionadoId(Long platilloSeleccionadoId) {
         this.platilloSeleccionadoId = platilloSeleccionadoId;
     }
 
-    public Platillo getPlatillos() {
-        return platillos;
+    public Platillo getPlatillo() {
+        return platillo;
     }
 
-    public void setPlatillos(Platillo platillos) {
-        this.platillos = platillos;
+    public void setPlatillo(Platillo platillo) {
+        this.platillo = platillo;
     }
 
     public Pedido getPedido() {
@@ -66,7 +66,7 @@ public class PlatilloSeleccionado {
         builder.append("{platilloSeleccionadoId:'");
         builder.append(platilloSeleccionadoId);
         builder.append("',platillos:'");
-        builder.append(platillos);
+        builder.append(platillo);
         builder.append("',pedidos:'");
         builder.append(pedido);
         builder.append("',nombre:'");

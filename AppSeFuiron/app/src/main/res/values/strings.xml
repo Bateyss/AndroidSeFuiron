@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Fuimonos</string>
-    <string name="dominio">http://192.168.1.20:9090</string>
     <string name="log_in">Iniciá\nSesión</string>
     <string name="email">Correo electrónico</string>
     <string name="password">Contraseña</string>
@@ -13,6 +12,7 @@
     <string name="welcome">¡Bienvenido!</string>
     <string name="name_required">Nombre*</string>
     <string name="email_required">Correo electrónico*</string>
+    <string name="username_required">Usuario*</string>
     <string name="password_required">Contraseña*</string>
     <string name="birthday">Fecha de nacimiento</string>
     <string name="phonenumber_required">Número de celular*</string>
@@ -62,7 +62,15 @@
     <string name="track_your_order_option">Seguí tu pedido</string>
     <string name="log_out_option">Cerrar sesión</string>
     <string name="change_password">Cambiar contraseña</string>
+    <string name="bad_pasword">Contraseña incorrecta</string>
+    <string name="bad_username">Este correo es incorrecto o no esta registrado</string>
+    <string name="bad_signin">El nombre de usaurio/correo ya esta registrado, intentalo de nuevo</string>
     <string name="hello_x">Hola %s!</string>
+    <string name="huy_x">¡Huy!</string>
+    <string name="uhh_x">Uhhh...</string>
+    <string name="Registered_title">!Yeih¡</string>
+    <string name="oh_no_x">Oh no!</string>
+    <string name="Registered_summary">Bienvenido a Fuimonos</string>
     <string name="current_password_required">Contraseña actual*</string>
     <string name="new_password_required">Nueva contraseña*</string>
     <string name="confirm_password_required">Confirmar contraseña*</string>
@@ -70,4 +78,10 @@
     <string name="val_empty_new_pass">Necesitamos tu nueva contraseña</string>
     <string name="val_empty_confirm_pass">Necesitamos que confirmes tu contraseña nueva</string>
     <string name="val_pass_not_equals">Las contraseñas no coinciden</string>
+    <string name="next">Continuar</string>
+    <string name="dominino">http://18.208.181.148:9090</string>
+    <string name="facebook_app_id">349272656116139</string>
+    <string name="fb_login_protocol_scheme">fb349272656116139</string>
+    <string name="title_activity_location">Map</string>
+
 </resources>

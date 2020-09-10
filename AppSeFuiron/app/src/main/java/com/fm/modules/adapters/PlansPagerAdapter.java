@@ -63,7 +63,7 @@ public class PlansPagerAdapter extends FragmentPagerAdapter {
 
             view = inflater.inflate(R.layout.holder_vertical_recycler_view, container, false);
             val = getArguments().getInt("someInt", 0);
-            lvPlatillos = view.findViewById(R.id.lvPlatillos);
+            lvPlatillos = view.findViewById(R.id.innerRecyclerView);
             PlatillosItemViewAdapter adapter = new PlatillosItemViewAdapter(lista, getContext(), R.layout.frg_restaurant_menu);
             lvPlatillos.setAdapter(adapter);
             //c = view.findViewById(R.id.tvFoodName);

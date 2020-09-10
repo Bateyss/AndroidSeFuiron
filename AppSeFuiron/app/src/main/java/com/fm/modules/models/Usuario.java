@@ -1,31 +1,36 @@
 package com.fm.modules.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Arrays;
 import java.util.Date;
 
 public class Usuario {
 
-    private long usuarioId;
+    private Long usuarioId;
     private String username;
     private String password;
     private boolean habilitado;
     private String regPago;
     private String direccion;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date ultimoInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date fechaCreacion;
     private String nombre;
     private String apellido;
     private String correoElectronico;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date fechaDeMacimiento;
     private String celular;
-    private byte[] imagenDePerfil;
+    private Long imagenDePerfil;
 
     public Usuario() {
     }
 
-    public Usuario(long usuarioId, String username, String password, boolean habilitado, String regPago, String direccion,
+    public Usuario(Long usuarioId, String username, String password, boolean habilitado, String regPago, String direccion,
                    Date ultimoInicio, Date fechaCreacion, String nombre, String apellido, String correoElectronico,
-                   Date fechaDeMacimiento, String celular, byte[] imagenDePerfil) {
+                   Date fechaDeMacimiento, String celular, Long imagenDePerfil) {
         this.usuarioId = usuarioId;
         this.username = username;
         this.password = password;
@@ -42,11 +47,11 @@ public class Usuario {
         this.imagenDePerfil = imagenDePerfil;
     }
 
-    public long getUsuarioId() {
+    public Long getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(long usuarioId) {
+    public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -146,11 +151,11 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public byte[] getImagenDePerfil() {
+    public Long getImagenDePerfil() {
         return imagenDePerfil;
     }
 
-    public void setImagenDePerfil(byte[] imagenDePerfil) {
+    public void setImagenDePerfil(Long imagenDePerfil) {
         this.imagenDePerfil = imagenDePerfil;
     }
 
@@ -184,7 +189,7 @@ public class Usuario {
         builder.append("',celular:'");
         builder.append(celular);
         builder.append("',imagenDePerfil:'");
-        builder.append(Arrays.toString(imagenDePerfil));
+        builder.append(imagenDePerfil);
         builder.append("'}");
         return builder.toString();
     }

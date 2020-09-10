@@ -3,19 +3,19 @@ package com.fm.modules.models;
 public class RestauranteDestacado {
 
 
-    private long restauranteDestacadoId;
+    private Long restauranteDestacadoId;
     private Restaurante restaurante;
     private String nombre;
-    private byte[] imagen;
+    private Long imagen;
     private double montoMinimo;
-    private byte[] logo;
+    private Long logo;
     private int orden;
 
     public RestauranteDestacado() {
     }
 
-    public RestauranteDestacado(long restauranteDestacadoId, Restaurante restaurante, String nombre, byte[] imagen,
-                                double montoMinimo, byte[] logo, int orden) {
+    public RestauranteDestacado(Long restauranteDestacadoId, Restaurante restaurante, String nombre, Long imagen,
+                                double montoMinimo, Long logo, int orden) {
         this.restauranteDestacadoId = restauranteDestacadoId;
         this.restaurante = restaurante;
         this.nombre = nombre;
@@ -25,11 +25,11 @@ public class RestauranteDestacado {
         this.orden = orden;
     }
 
-    public long getRestauranteDestacadoId() {
+    public Long getRestauranteDestacadoId() {
         return restauranteDestacadoId;
     }
 
-    public void setRestauranteDestacadoId(long restauranteDestacadoId) {
+    public void setRestauranteDestacadoId(Long restauranteDestacadoId) {
         this.restauranteDestacadoId = restauranteDestacadoId;
     }
 
@@ -49,11 +49,11 @@ public class RestauranteDestacado {
         this.nombre = nombre;
     }
 
-    public byte[] getImagen() {
+    public Long getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(Long imagen) {
         this.imagen = imagen;
     }
 
@@ -65,11 +65,11 @@ public class RestauranteDestacado {
         this.montoMinimo = montoMinimo;
     }
 
-    public byte[] getLogo() {
+    public Long getLogo() {
         return logo;
     }
 
-    public void setLogo(byte[] logo) {
+    public void setLogo(Long logo) {
         this.logo = logo;
     }
 

@@ -39,7 +39,7 @@ public class RestauranteService extends RestTemplateEntity<Restaurante> implemen
     }
 
     public Restaurante actualizarRestaurantePorId(Restaurante objeto) {
-        Restaurante enti = updateURL(url, objeto.getRestautanteId(), objeto);
+        Restaurante enti = updateURL(url, objeto.getRestauranteId(), objeto);
         return enti;
     }
 

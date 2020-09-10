@@ -2,24 +2,24 @@ package com.fm.modules.models;
 
 public class Departamento {
 
-    private long departamentoId;
+    private Long departamentoId;
     private Pais pais;
     private String nombreDepartamento;
 
     public Departamento() {
     }
 
-    public Departamento(long departamentoId, Pais pais, String nombreDepartamento) {
+    public Departamento(Long departamentoId, Pais pais, String nombreDepartamento) {
         this.departamentoId = departamentoId;
         this.pais = pais;
         this.nombreDepartamento = nombreDepartamento;
     }
 
-    public long getDepartamentoId() {
+    public Long getDepartamentoId() {
         return departamentoId;
     }
 
-    public void setDepartamentoId(long departamentoId) {
+    public void setDepartamentoId(Long departamentoId) {
         this.departamentoId = departamentoId;
     }
 

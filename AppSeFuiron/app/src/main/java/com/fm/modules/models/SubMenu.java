@@ -1,10 +1,8 @@
 package com.fm.modules.models;
 
 public class SubMenu {
-
-
-    private static final long serialVersionUID = 1L;
-    private long subMenuId;
+    
+    private Long subMenuId;
     private Platillo platillo;
     private String titulo;
     private boolean menuCobrado;
@@ -15,7 +13,7 @@ public class SubMenu {
     public SubMenu() {
     }
 
-    public SubMenu(long subMenuId, Platillo platillo, String titulo, boolean menuCobrado, int cobrarAPartirDe,
+    public SubMenu(Long subMenuId, Platillo platillo, String titulo, boolean menuCobrado, int cobrarAPartirDe,
                    int maximoOpcionesAEscoger, int minimoOpcionesAEscoger) {
         this.subMenuId = subMenuId;
         this.platillo = platillo;
@@ -26,11 +24,11 @@ public class SubMenu {
         this.minimoOpcionesAEscoger = minimoOpcionesAEscoger;
     }
 
-    public long getSubMenuId() {
+    public Long getSubMenuId() {
         return subMenuId;
     }
 
-    public void setSubMenuId(long subMenuId) {
+    public void setSubMenuId(Long subMenuId) {
         this.subMenuId = subMenuId;
     }
 

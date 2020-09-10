@@ -3,41 +3,41 @@ package com.fm.modules.models;
 public class PlatilloFavorito {
 
 
-    private long platilloFavoritoId;
-    private Platillo platillos;
-    private Usuario usuario;
+    private Long platilloFavoritoId;
+    private Platillo platillo;
+    private Usuario usuarios;
 
     public PlatilloFavorito() {
     }
 
-    public PlatilloFavorito(long platilloFavoritoId, Platillo platillos, Usuario usuario) {
+    public PlatilloFavorito(Long platilloFavoritoId, Platillo platillos, Usuario usuario) {
         this.platilloFavoritoId = platilloFavoritoId;
-        this.platillos = platillos;
-        this.usuario = usuario;
+        this.platillo = platillos;
+        this.usuarios = usuario;
     }
 
-    public long getPlatilloFavoritoId() {
+    public Long getPlatilloFavoritoId() {
         return platilloFavoritoId;
     }
 
-    public void setPlatilloFavoritoId(long platilloFavoritoId) {
+    public void setPlatilloFavoritoId(Long platilloFavoritoId) {
         this.platilloFavoritoId = platilloFavoritoId;
     }
 
-    public Platillo getPlatillos() {
-        return platillos;
+    public Platillo getPlatillo() {
+        return platillo;
     }
 
-    public void setPlatillos(Platillo platillos) {
-        this.platillos = platillos;
+    public void setPlatillo(Platillo platillos) {
+        this.platillo = platillos;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarios() {
+        return usuarios;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarios(Usuario usuario) {
+        this.usuarios = usuario;
     }
 
     @Override
@@ -46,9 +46,9 @@ public class PlatilloFavorito {
         builder.append("{platilloFavoritoId:'");
         builder.append(platilloFavoritoId);
         builder.append("',platillos:'");
-        builder.append(platillos);
+        builder.append(platillo);
         builder.append("',usuarios:'");
-        builder.append(usuario);
+        builder.append(usuarios);
         builder.append("'}");
         return builder.toString();
     }

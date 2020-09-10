@@ -2,22 +2,22 @@ package com.fm.modules.models;
 
 public class Categoria {
 
-    private long categoriaId;
+    private Long categoriaId;
     private String nombreCategoria;
 
     public Categoria() {
     }
 
-    public Categoria(long categoriaId, String nombreCategoria) {
+    public Categoria(Long categoriaId, String nombreCategoria) {
         this.categoriaId = categoriaId;
         this.nombreCategoria = nombreCategoria;
     }
 
-    public long getCategoriaId() {
+    public Long getCategoriaId() {
         return categoriaId;
     }
 
-    public void setCategoriaId(long categoriaId) {
+    public void setCategoriaId(Long categoriaId) {
         this.categoriaId = categoriaId;
     }
 

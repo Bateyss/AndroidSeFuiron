@@ -2,7 +2,7 @@ package com.fm.modules.models;
 
 public class Menu {
 
-    private long menuId;
+    private Long menuId;
     private Restaurante restaurante;
     private String nombreMenu;
     private int orden;
@@ -10,18 +10,18 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(long menuId, Restaurante restaurante, String nombreMenu, int orden) {
+    public Menu(Long menuId, Restaurante restaurante, String nombreMenu, int orden) {
         this.menuId = menuId;
         this.restaurante = restaurante;
         this.nombreMenu = nombreMenu;
         this.orden = orden;
     }
 
-    public long getMenuId() {
+    public Long getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(long menuId) {
+    public void setMenuId(Long menuId) {
         this.menuId = menuId;
     }
 

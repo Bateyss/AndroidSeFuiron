@@ -2,11 +2,11 @@ package com.fm.modules.models;
 
 public class MenxCategoria {
 
-    private long menuxcategoria_id;
+    private Long menuxcategoria_id;
     private Menu menu;
     private Categoria categoria;
 
-    public MenxCategoria(long menuxcategoria_id, Menu menu, Categoria categoria) {
+    public MenxCategoria(Long menuxcategoria_id, Menu menu, Categoria categoria) {
         this.menuxcategoria_id = menuxcategoria_id;
         this.menu = menu;
         this.categoria = categoria;
@@ -15,11 +15,11 @@ public class MenxCategoria {
     public MenxCategoria() {
     }
 
-    public long getMenuxcategoria_id() {
+    public Long getMenuxcategoria_id() {
         return menuxcategoria_id;
     }
 
-    public void setMenuxcategoria_id(long menuxcategoria_id) {
+    public void setMenuxcategoria_id(Long menuxcategoria_id) {
         this.menuxcategoria_id = menuxcategoria_id;
     }
 

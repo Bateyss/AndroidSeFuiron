@@ -15,7 +15,7 @@ public class CategoriaService extends RestTemplateEntity<Categoria> implements S
     private static final long serialVersionUID = 1L;
 
 
-    private final String url = Constantes.URL_PEDIDO;
+    private final String url = Constantes.URL_CATEGORIA;
 
     public List<Categoria> obtenerCategorias() {
         List<Categoria> lista = getListURL(url);

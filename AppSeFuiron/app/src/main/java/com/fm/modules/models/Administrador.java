@@ -1,21 +1,25 @@
 package com.fm.modules.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
 public class Administrador {
 
-    private long administradorId;
+    private Long administradorId;
     private String username;
     private String password;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date ultimoInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date fechaCreacion;
 
     public Administrador() {
     }
 
-    public Administrador(long administradorId, String username, String password, Date ultimoInicio,
+    public Administrador(Long administradorId, String username, String password, Date ultimoInicio,
                          Date fechaCreacion) {
         this.administradorId = administradorId;
         this.username = username;
@@ -24,11 +28,11 @@ public class Administrador {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public long getAdministradorId() {
+    public Long getAdministradorId() {
         return administradorId;
     }
 
-    public void setAdministradorId(long administradorId) {
+    public void setAdministradorId(Long administradorId) {
         this.administradorId = administradorId;
     }
 

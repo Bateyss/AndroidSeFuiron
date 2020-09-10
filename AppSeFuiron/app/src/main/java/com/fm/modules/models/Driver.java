@@ -1,23 +1,27 @@
 package com.fm.modules.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Driver {
 
 
-    private long driverId;
+    private Long driverId;
     private String username;
     private String password;
     private String nombreDriver;
     private boolean habilitado;
     private String horaDeEntrada;
     private String horaDeSalida;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Guatemala")
     private Date fechaCreado;
 
     public Driver() {
     }
 
-    public Driver(long driverId, String username, String password, String nombreDriver, boolean habilitado,
+    public Driver(Long driverId, String username, String password, String nombreDriver, boolean habilitado,
                   String horaDeEntrada, String horaDeSalida, Date fechaCreado) {
         this.driverId = driverId;
         this.username = username;
@@ -29,11 +33,11 @@ public class Driver {
         this.fechaCreado = fechaCreado;
     }
 
-    public long getDriverId() {
+    public Long getDriverId() {
         return driverId;
     }
 
-    public void setDriverId(long driverId) {
+    public void setDriverId(Long driverId) {
         this.driverId = driverId;
     }
 

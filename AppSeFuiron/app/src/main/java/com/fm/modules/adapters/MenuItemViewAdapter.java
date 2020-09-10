@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.fm.modules.R;
 import com.fm.modules.app.restaurantes.PlatillosActivity;
 import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
@@ -25,14 +23,12 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu>{
     private LayoutInflater layoutInflater;
     private Context context;
 
-    private RequestQueue queue;
 
     public MenuItemViewAdapter(List<Menu> lista, Context context, int resource) {
         super(lista);
         this.context = context;
         this.resource = resource;
 
-        queue = Volley.newRequestQueue(context);
     }
 
     @Override

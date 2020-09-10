@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -117,8 +118,19 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
         public TextView tvMenuName;
 
         public HolderMenu(View view) {
-            cvMenuName = view.findViewById(R.id.cvMenuName);
-            tvMenuName = view.findViewById(R.id.tvMenuName);
+            //cvMenuName = view.findViewById(R.id.cvMenuName);
+            //tvMenuName = view.findViewById(R.id.tvMenuName);
+        }
+    }
+    public class HolderItemCategorias {
+        AppCompatImageView catImage;
+        AppCompatTextView catName;
+        AppCompatTextView catCountRestaurants;
+
+        public HolderItemCategorias(View view) {
+            catImage = view.findViewById(R.id.ivCategoryIcon1);
+            catName = view.findViewById(R.id.tvCategoryName1);
+            catCountRestaurants = view.findViewById(R.id.tvRestaurantsCount1);
         }
     }
 

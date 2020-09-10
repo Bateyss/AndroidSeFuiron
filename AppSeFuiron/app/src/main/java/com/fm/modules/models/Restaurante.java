@@ -1,10 +1,6 @@
 package com.fm.modules.models;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
-import java.util.Arrays;
+import java.util.Objects;
 
 public class Restaurante {
 
@@ -21,21 +17,18 @@ public class Restaurante {
     private String numeroDeContacto;
     private double comision;
     private Integer cargosExtra;
-    private String imagenDePortada;
-    private String logoDeRestaurante;
+    private Long imagenDePortada;
+    private Long logoDeRestaurante;
     private String nit;
     private String correo;
-    private Bitmap imagenP;
-    private Bitmap imagenLogo;
+    private String destacado;
+    private String orden;
 
 
     public Restaurante() {
     }
 
-    public Restaurante(Long restauranteId,String nombreRestaurante, Departamento departamento, String username, String password,
-                       String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento,
-                       String representante, String numeroDeContacto, double comision, Integer cargosExtra, String imagenDePortada,
-                       String logoDeRestaurante, String nit, String correo) {
+    public Restaurante(Long restauranteId, String nombreRestaurante, Departamento departamento, String username, String password, String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento, String representante, String numeroDeContacto, double comision, Integer cargosExtra, Long imagenDePortada, Long logoDeRestaurante, String nit, String correo, String destacado, String orden) {
         this.restauranteId = restauranteId;
         this.nombreRestaurante = nombreRestaurante;
         this.departamento = departamento;
@@ -53,13 +46,15 @@ public class Restaurante {
         this.logoDeRestaurante = logoDeRestaurante;
         this.nit = nit;
         this.correo = correo;
+        this.destacado = destacado;
+        this.orden = orden;
     }
 
-    public Long getRestautanteId() {
+    public Long getRestauranteId() {
         return restauranteId;
     }
 
-    public void setRestautanteId(Long restauranteId) {
+    public void setRestauranteId(Long restauranteId) {
         this.restauranteId = restauranteId;
     }
 
@@ -151,7 +146,7 @@ public class Restaurante {
         this.comision = comision;
     }
 
-    public int getCargosExtra() {
+    public Integer getCargosExtra() {
         return cargosExtra;
     }
 
@@ -159,25 +154,19 @@ public class Restaurante {
         this.cargosExtra = cargosExtra;
     }
 
-    public String getImagenDePortada() {
+    public Long getImagenDePortada() {
         return imagenDePortada;
     }
 
-    public void setImagenDePortada(String imagenDePortada) {
+    public void setImagenDePortada(Long imagenDePortada) {
         this.imagenDePortada = imagenDePortada;
-        try {
-            byte[] byteCode = Base64.decode(imagenDePortada, Base64.DEFAULT);
-            this.imagenP = BitmapFactory.decodeByteArray(byteCode, 0, byteCode.length);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
-    public String getLogoDeRestaurante() {
+    public Long getLogoDeRestaurante() {
         return logoDeRestaurante;
     }
 
-    public void setLogoDeRestaurante(String logoDeRestaurante) {
+    public void setLogoDeRestaurante(Long logoDeRestaurante) {
         this.logoDeRestaurante = logoDeRestaurante;
     }
 
@@ -197,26 +186,26 @@ public class Restaurante {
         this.correo = correo;
     }
 
-    public Bitmap getImagenP() {
-        return imagenP;
+    public String getDestacado() {
+        return destacado;
     }
 
-    public void setImagenP(Bitmap imagenP) {
-        this.imagenP = imagenP;
+    public void setDestacado(String destacado) {
+        this.destacado = destacado;
     }
 
-    public Bitmap getImagenLogo() {
-        return imagenLogo;
+    public String getOrden() {
+        return orden;
     }
 
-    public void setImagenLogo(Bitmap imagenLogo) {
-        this.imagenLogo = imagenLogo;
+    public void setOrden(String orden) {
+        this.orden = orden;
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("{restautanteId:'");
+        builder.append("{restauranteId:'");
         builder.append(restauranteId);
         builder.append("',nombreRestaurante");
         builder.append(nombreRestaurante);
@@ -254,4 +243,16 @@ public class Restaurante {
         return builder.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurante that = (Restaurante) o;
+        return restauranteId.equals(that.restauranteId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(restauranteId);
+    }
 }

@@ -1,13 +1,15 @@
 package com.fm.modules.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Pedido {
 
-    private long pedidoId;
+    private Long pedidoId;
     private Restaurante restaurante;
     private Usuario usuario;
-    private Driver driver;
+    private Driver drivers;
     private int status;
     private String formaDePago;
     private double totalDePedido;
@@ -15,6 +17,7 @@ public class Pedido {
     private double totalDeCargosExtra;
     private double totalEnRestautanteSinComision;
     private boolean pedidoPagado;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
     private Date fechaOrdenado;
     private String tiempoPromedioEntrega;
     private boolean pedidoEntregado;
@@ -25,14 +28,14 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(long pedidoId, Restaurante restaurante, Usuario usuario, Driver driver, int status,
+    public Pedido(Long pedidoId, Restaurante restaurante, Usuario usuario, Driver driver, int status,
                   String formaDePago, double totalDePedido, double totalEnRestautante, double totalDeCargosExtra,
                   double totalEnRestautanteSinComision, boolean pedidoPagado, Date fechaOrdenado, String tiempoPromedioEntrega,
                   boolean pedidoEntregado, String notas, String tiempoAdicional, String direccion) {
         this.pedidoId = pedidoId;
         this.restaurante = restaurante;
         this.usuario = usuario;
-        this.driver = driver;
+        this.drivers = driver;
         this.status = status;
         this.formaDePago = formaDePago;
         this.totalDePedido = totalDePedido;
@@ -48,11 +51,11 @@ public class Pedido {
         this.direccion = direccion;
     }
 
-    public long getPedidoId() {
+    public Long getPedidoId() {
         return pedidoId;
     }
 
-    public void setPedidoId(long pedidoId) {
+    public void setPedidoId(Long pedidoId) {
         this.pedidoId = pedidoId;
     }
 
@@ -60,7 +63,7 @@ public class Pedido {
         return restaurante;
     }
 
-    public void setRestaurantes(Restaurante restaurante) {
+    public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
@@ -72,12 +75,12 @@ public class Pedido {
         this.usuario = usuario;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public Driver getDrivers() {
+        return drivers;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setDrivers(Driver driver) {
+        this.drivers = driver;
     }
 
     public int getStatus() {
@@ -194,7 +197,7 @@ public class Pedido {
         builder.append("',usuarios:'");
         builder.append(usuario);
         builder.append("',drivers:'");
-        builder.append(driver);
+        builder.append(drivers);
         builder.append("',status:'");
         builder.append(status);
         builder.append("',formaDePago:'");

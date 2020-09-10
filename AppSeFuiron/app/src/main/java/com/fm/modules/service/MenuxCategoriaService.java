@@ -47,4 +47,8 @@ public class MenuxCategoriaService extends RestTemplateEntity<MenxCategoria> imp
         deleteURL(url, id);
     }
 
+    public List<MenxCategoria> obtenerRestaurantesxCateg() {
+        List<MenxCategoria> lista = getListURL(url.concat("/categoria"));
+        return lista;
+    }
 }

@@ -2,7 +2,7 @@ package com.fm.modules.models;
 
 public class OpcionesDeSubMenu {
 
-    private long opcionesDeSubmenuId;
+    private Long opcionesDeSubmenuId;
     private SubMenu subMenu;
     private String nombre;
     private double precio;
@@ -12,7 +12,7 @@ public class OpcionesDeSubMenu {
     public OpcionesDeSubMenu() {
     }
 
-    public OpcionesDeSubMenu(long opcionesDeSubmenuId, SubMenu subMenu, String nombre, double precio, int orden,
+    public OpcionesDeSubMenu(Long opcionesDeSubmenuId, SubMenu subMenu, String nombre, double precio, int orden,
                              boolean seleccionadoPorDefecto) {
         this.opcionesDeSubmenuId = opcionesDeSubmenuId;
         this.subMenu = subMenu;
@@ -22,11 +22,11 @@ public class OpcionesDeSubMenu {
         this.seleccionadoPorDefecto = seleccionadoPorDefecto;
     }
 
-    public long getOpcionesDeSubmenuId() {
+    public Long getOpcionesDeSubmenuId() {
         return opcionesDeSubmenuId;
     }
 
-    public void setOpcionesDeSubmenuId(long opcionesDeSubmenuId) {
+    public void setOpcionesDeSubmenuId(Long opcionesDeSubmenuId) {
         this.opcionesDeSubmenuId = opcionesDeSubmenuId;
     }
 
