@@ -1,269 +1,262 @@
 package com.fm.modules.app.carrito;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
-import com.fm.modules.adapters.RecyclerPlatillosPorMenuAdapter;
-import com.fm.modules.adapters.RecyclerSubMenuAdapter;
 import com.fm.modules.adapters.RecyclerSubMenuAdapter2;
+import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
-import com.fm.modules.app.restaurantes.PlatillosActivity;
-import com.fm.modules.entities.RespuestaOpcionSubMenuPorPlatillo;
-import com.fm.modules.entities.RespuestaPlatilloPorMenu;
-import com.fm.modules.entities.RespuestaSubMenuPorPlatillo;
+import com.fm.modules.models.Driver;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
+import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Platillo;
+import com.fm.modules.models.PlatilloSeleccionado;
 import com.fm.modules.models.SubMenu;
-import com.fm.modules.service.OpcionSubMenuService;
-import com.fm.modules.service.PlatilloService;
-import com.fm.modules.service.SubMenuService;
+import com.fm.modules.sqlite.models.OpcionesDeSubMenuSeleccionadoSQLite;
+import com.fm.modules.sqlite.models.PedidoSQLite;
+import com.fm.modules.sqlite.models.PlatillosSeleccionadoSQLite;
+import com.google.android.material.button.MaterialButton;
 import com.travijuu.numberpicker.library.Enums.ActionEnum;
 import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class SeleccionarComplementos extends AppCompatActivity {
 
-    UnderThreads underThreads = new UnderThreads();
-    UnderThreads2 underThreads2 = new UnderThreads2();
     RecyclerView rvComplementsArea;
 
-    String idPlatillo;
-    String nombre, descripcion, precio;
+    int idPlatillo;
     NumberPicker numberPicker;
-    AppCompatTextView tvFoodName, tvFoodDescripcion, tvFoodPrice;
+    AppCompatTextView tvFoodName, tvFoodPrice;
+    AppCompatImageView appCompatImageView;
 
     List<OpcionesDeSubMenu> opcionesDeSubMenusGlobal;
     List<SubMenu> subMenusGlobal;
     List<Platillo> platillosGlobal;
+    MaterialButton btnAddCarrito;
+    Platillo platilloActual;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_food_complements);
-
-        rvComplementsArea = findViewById(R.id.rvComplementsArea);
-
-        numberPicker = findViewById(R.id.npFoodQuantity);
-        tvFoodName = findViewById(R.id.tvFoodName);
-        tvFoodDescripcion = findViewById(R.id.tvFoodName);
-        tvFoodPrice = findViewById(R.id.tvFoodPrice);
-
+        rvComplementsArea = (RecyclerView) findViewById(R.id.rvComplementsArea);
+        numberPicker = (NumberPicker) findViewById(R.id.npFoodQuantity);
+        tvFoodName = (AppCompatTextView) findViewById(R.id.tvFoodName);
+        tvFoodPrice = (AppCompatTextView) findViewById(R.id.tvFoodPrice);
+        appCompatImageView = (AppCompatImageView) findViewById(R.id.ivFoodImage);
+        btnAddCarrito = (MaterialButton) findViewById(R.id.btnAddToShoppingCart);
         opcionesDeSubMenusGlobal = new ArrayList<>();
         subMenusGlobal = new ArrayList<>();
         platillosGlobal = new ArrayList<>();
+        idPlatillo = getIntent().getIntExtra("idPlatillo", 0);
+        mostrarPlatillo(idPlatillo);
+        mostrarComplementos(idPlatillo);
+        agregarAlCarritoListener();
+    }
 
-        /*idPlatillo = getIntent().getStringExtra("idPlatillo");
-        nombre = getIntent().getStringExtra("nombre");
-        descripcion = getIntent().getStringExtra("descripcion");
-        precio = getIntent().getStringExtra("precio");*/
-
-        tvFoodName.setText(GlobalRestaurantes.platillo.getNombre());
-        tvFoodDescripcion.setText(GlobalRestaurantes.platillo.getDescripcion());
-        tvFoodPrice.setText(String.valueOf(GlobalRestaurantes.platillo.getPrecioBase()));
-        // FALTA IMG
-        Toast.makeText(getApplicationContext(), "Platillo ID: " +idPlatillo, Toast.LENGTH_SHORT).show();
-
-        underThreads.execute();
-        //underThreads2.execute();
-
-        numberPicker.setValueChangedListener(new ValueChangedListener() {
+    private void agregarAlCarritoListener() {
+        btnAddCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void valueChanged(int value, ActionEnum action) {
-                double total;
-                total = Double.parseDouble(String.valueOf(GlobalRestaurantes.platillo.getPrecioBase() * value));
-                tvFoodPrice.setText(String.valueOf(total));
-                Toast.makeText(getApplicationContext(), "Numero: " +value +" " +action.toString() +" \nPrecio: " +total, Toast.LENGTH_SHORT).show();
-
+            public void onClick(View v) {
+                v.setEnabled(false);
+                PlatilloSeleccionado plas = registrarPlatillo();
+                if (plas != null) {
+                    Intent i = new Intent(SeleccionarComplementos.this, CarritoActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(SeleccionarComplementos.this, "No Pudo :(", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    public class UnderThreads extends AsyncTask<String, String , List<OpcionesDeSubMenu>> {
+    public PlatilloSeleccionado registrarPlatillo() {
+        /*
+         * en caso se agregue cantidad a la tabla platillo seleccionado
+         * se usara el codigo que esta como comentario en este metodo
+         * */
+        // final int cantidad = numberPicker.getValue();
+        Pedido pedido = registrarPedido();
+        System.out.println("*********************************************************************");
+        System.out.println("pedido registrado :D");
+        System.out.println("*********************************************************************");
+        PlatilloSeleccionado platilloSeleccionado = new PlatilloSeleccionado();
+        platilloSeleccionado.setPlatilloSeleccionadoId(platilloActual.getPlatilloId());
+        System.out.println("platillo actual en platillo seleccionado");
+        platilloSeleccionado.setPlatillo(platilloActual);
+        platilloSeleccionado.setPedido(pedido);
+        platilloSeleccionado.setNombre(platilloActual.getNombre());
+        //platilloSeleccionado.setPrecio(platilloActual.getPrecioBase() * cantidad);
+        platilloSeleccionado.setPrecio(platilloActual.getPrecioBase());
+        PlatillosSeleccionadoSQLite platillosSeleccionadoSQLite = new PlatillosSeleccionadoSQLite(SeleccionarComplementos.this);
+        Long idd = platillosSeleccionadoSQLite.create(platilloSeleccionado);
+        platilloSeleccionado.setPlatilloSeleccionadoId(idd);
+        List<PlatilloSeleccionado> list = Logued.platillosSeleccionadosActuales;
+        if (list == null) {
+            list = new LinkedList<>();
+        }
+        if (!GlobalRestaurantes.opcionesDeSubMenusSeleccionados.isEmpty()) {
+            platilloSeleccionado = registrarOpcionesSeleccionadas(platilloSeleccionado);
+        }
+        list.add(platilloSeleccionado);
+        Logued.platillosSeleccionadosActuales = list;
+        System.out.println("*********************************************************************");
+        System.out.println("platillo seleccionado registrado :D");
+        System.out.println("*********************************************************************");
+        return platilloSeleccionado;
+    }
+
+    public PlatilloSeleccionado registrarOpcionesSeleccionadas(PlatilloSeleccionado platilloSeleccionado) {
+        final List<OpcionesDeSubMenu> listOpcionesExtra = GlobalRestaurantes.opcionesDeSubMenusSeleccionados;
+        List<OpcionesDeSubMenuSeleccionado> opcionesSeleccionadas = Logued.opcionesDeSubMenusEnPlatillosSeleccionados;
+        if (opcionesSeleccionadas == null) {
+            opcionesSeleccionadas = new ArrayList<>();
+        }
+        /*
+         * en caso se agregue cantidad a la tabla platillo seleccionado
+         * se usara el codigo que esta como comentario en este metodo
+         * */
+        // final int cantidad = numberPicker.getValue();
+        double adicional = 0;
+        for (OpcionesDeSubMenu opcione : listOpcionesExtra) {
+            OpcionesDeSubMenuSeleccionado op = new OpcionesDeSubMenuSeleccionado();
+            op.setOpcionesDeSubMenuSeleccionadoId(opcione.getOpcionesDeSubmenuId());
+            op.setOpcionesDeSubMenu(opcione);
+            op.setPlatilloSeleccionado(platilloSeleccionado);
+            op.setNombre(opcione.getNombre());
+            OpcionesDeSubMenuSeleccionadoSQLite opcionesDeSubMenuSeleccionadoSQLite = new OpcionesDeSubMenuSeleccionadoSQLite(SeleccionarComplementos.this);
+            Long opid = opcionesDeSubMenuSeleccionadoSQLite.create(op);
+            op.setOpcionesDeSubMenuSeleccionadoId(opid);
+            opcionesSeleccionadas.add(op);
+            // adicional = adicional + (opcione.getPrecio() * cantidad);
+            adicional = adicional + (opcione.getPrecio());
+            System.out.println("*********************************************************************");
+            System.out.println("opcion de sub menu seleccioado registrado :D");
+            System.out.println("*********************************************************************");
+        }
+        Logued.opcionesDeSubMenusEnPlatillosSeleccionados = opcionesSeleccionadas;
+        double precioActual = platilloSeleccionado.getPrecio();
+        platilloSeleccionado.setPrecio(precioActual + adicional);
+        return platilloSeleccionado;
+    }
+
+    public Pedido registrarPedido() {
+        List<Pedido> pedidos = Logued.pedidosActuales;
+        if (pedidos == null){
+            pedidos = new ArrayList<>();
+        }
+        Pedido ped = null;
+        for (Pedido pe : pedidos ){
+            if (pe.getPedidoId().intValue() ==platilloActual.getMenu().getRestaurante().getRestauranteId()){
+                ped = pe;
+            }
+        }
+        PedidoSQLite pedidoSQLite = new PedidoSQLite(SeleccionarComplementos.this);
+        if (ped == null) {
+            ped = new Pedido();
+            ped.setPedidoId(platilloActual.getMenu().getRestaurante().getRestauranteId());
+            ped.setRestaurante(platilloActual.getMenu().getRestaurante());
+            ped.setUsuario(Logued.usuarioLogued);
+            Driver driver = new Driver();
+            driver.setDriverId(0L);
+            ped.setDrivers(driver);
+            ped.setStatus(1);
+            ped.setFormaDePago("Efectivo");
+            ped.setTotalDePedido(0);
+            ped.setTotalEnRestautante(0);
+            ped.setTotalDeCargosExtra(0);
+            ped.setTotalEnRestautanteSinComision(0);
+            ped.setPedidoPagado(false);
+            ped.setFechaOrdenado(new Date());
+            ped.setTiempoPromedioEntrega(platilloActual.getMenu().getRestaurante().getTiempoEstimadoDeEntrega());
+            ped.setPedidoEntregado(false);
+            ped.setNotas("no confirmado");
+            ped.setTiempoAdicional("00:00:00");
+            ped.setDireccion("no direction");
+            pedidos.add(ped);
+            Logued.pedidosActuales = pedidos;
+        }
+        return ped;
+    }
+
+    public Date getHour(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        int hour = calendar.get(Calendar.HOUR);
+        calendar.set(year, month, day, hour, 0, 0);
+        return calendar.getTime();
+    }
+
+    private void mostrarPlatillo(int idPlatillo) {
+        if (!GlobalRestaurantes.platilloList.isEmpty()) {
+            Platillo platillo = null;
+            for (Platillo pl : GlobalRestaurantes.platilloList) {
+                if (pl.getPlatilloId().intValue() == idPlatillo) {
+                    platillo = pl;
+                }
+            }
+            if (platillo != null) {
+                final Platillo finalPlatillo = platillo;
+                tvFoodName.setText(finalPlatillo.getNombre());
+                tvFoodPrice.setText(String.valueOf(finalPlatillo.getPrecioBase()));
+                numberPicker.setValueChangedListener(new ValueChangedListener() {
+                    @Override
+                    public void valueChanged(int value, ActionEnum action) {
+                        double total;
+                        total = Double.parseDouble(String.valueOf(finalPlatillo.getPrecioBase() * value));
+                        tvFoodPrice.setText(String.valueOf(total));
+                    }
+                });
+            }
+        }
+    }
 
 
-        @Override
-        protected List<OpcionesDeSubMenu> doInBackground(String... strings) {
+    private void mostrarComplementos(int idPlatillo) {
+        if (!GlobalRestaurantes.opcionesDeSubMenuList.isEmpty()) {
             List<OpcionesDeSubMenu> opcionesDeSubMenus = new ArrayList<>();
-            ///List<SubMenu> subMenuList = new ArrayList<>();
-
-            try {
-                //SubMenuService subMenuService = new SubMenuService();
-                //subMenuList = subMenuService.obtenerSubMenusPorPlatillo(idPlatillo);
-                OpcionSubMenuService opcionSubMenuService = new OpcionSubMenuService();
-                opcionesDeSubMenus = opcionSubMenuService.obtenerOpcionSubMenus();
-
-            }catch (Exception e){
-                System.out.println("Error en UnderThreash:" +e.getMessage() +" " +e.getClass());
-            }
-            return opcionesDeSubMenus;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(List<OpcionesDeSubMenu> opcionesDeSubMenus) {
-            super.onPostExecute(opcionesDeSubMenus);
-            try {
-                if (!opcionesDeSubMenus.isEmpty()){
-                    //MenuItemViewAdapter adapter = new MenuItemViewAdapter(menu, RestauranteMenuActivity.this, R.layout.frg_restaurants);
-                    //OpcionSubMenuService opcionSubMenuService = new OpcionSubMenuService();
-                    //List<OpcionesDeSubMenu> opcionesDeSubMenuList = opcionSubMenuService.opcionesSubMenuPorPlatillo(idPlatillo);
-
-                    opcionesDeSubMenusGlobal = opcionesDeSubMenus;
-
-                    for(OpcionesDeSubMenu opciones: opcionesDeSubMenus){
-                        if(!subMenusGlobal.contains(opciones.getSubMenu())){
-                            subMenusGlobal.add(opciones.getSubMenu());
-                        }
-                    }
-
-                    if(!subMenusGlobal.isEmpty()){
-                        for(SubMenu subMenu: subMenusGlobal){
-                            //if(!platillosGlobal.contains(subMenu.getPlatillo())){
-                                platillosGlobal.add(subMenu.getPlatillo());
-                            //}
-
-                        }
-                    }
-
-                    for(Platillo platillo: platillosGlobal){
-                        if(GlobalRestaurantes.platillo.getPlatilloId() == platillo.getPlatilloId()){
-                            GlobalRestaurantes.platillo = platillo;
-                        }
-                    }
-
-
-                    List<OpcionesDeSubMenu> opcionesSeleccionado = new ArrayList<>();
-                    for(OpcionesDeSubMenu opcionesSubMenu: opcionesDeSubMenusGlobal){
-                        if(opcionesSubMenu.getSubMenu().getPlatillo().getPlatilloId() == GlobalRestaurantes.platillo.getPlatilloId()){
-                            opcionesSeleccionado.add(opcionesSubMenu);
-                        }
-                    }
-
-
-                    System.out.println("Cantidad opcionesSelec: " +opcionesSeleccionado.size());
-
-                    List<SubMenu> subMenusSeleccionado = new ArrayList<>();
-                    for(OpcionesDeSubMenu opcionesSelec: opcionesSeleccionado){
-                        //SubMenu suM = opcionesSelec.getSubMenu();
-                        if(!subMenusSeleccionado.contains(opcionesSelec.getSubMenu())) {
-
-                            if(!subMenusSeleccionado.equals(opcionesSelec.getSubMenu())){
-                                subMenusSeleccionado.add(opcionesSelec.getSubMenu());
-                            }
-
-                        }
-                        System.out.println(opcionesSelec);
-                    }
-
-                    List<SubMenu> noDuplicados = new ArrayList<>();
-                    if(noDuplicados.isEmpty()){
-                        for(int i=0; i < opcionesSeleccionado.size(); i++){
-                            if(subMenusSeleccionado.get(i).getSubMenuId() != opcionesSeleccionado.get(i).getSubMenu().getSubMenuId()){
-                                noDuplicados.add(opcionesSeleccionado.get(i).getSubMenu());
-                            }
-                        }
-                    }
-
-
-
-
-                    System.out.println("Cantidad SubMenuSelecionado: " +subMenusSeleccionado.size());
-                    System.out.println("Cantidad SubMenuSelecionado2: " +noDuplicados.size());
-
-
-                    RecyclerSubMenuAdapter2 adapter = new RecyclerSubMenuAdapter2(subMenusSeleccionado, opcionesSeleccionado, SeleccionarComplementos.this);
-                    rvComplementsArea.setLayoutManager(new LinearLayoutManager(SeleccionarComplementos.this, LinearLayoutManager.VERTICAL, false));
-                    rvComplementsArea.setAdapter(adapter);
-                    Toast.makeText(SeleccionarComplementos.this, "SubMenus Cargados" +opcionesDeSubMenus.size(), Toast.LENGTH_SHORT).show();
-                }else{
-                    //Toast.makeText(RestaurantesActivity.this, "Restaurantes No Cargados" +restaurantes.size(), Toast.LENGTH_SHORT).show();
-                    //reiniciarAsynkProcess();
+            List<SubMenu> subMenus = new ArrayList<>();
+            for (OpcionesDeSubMenu op : GlobalRestaurantes.opcionesDeSubMenuList) {
+                if (op.getSubMenu().getPlatillo().getPlatilloId().intValue() == idPlatillo) {
+                    opcionesDeSubMenus.add(op);
                 }
-            }catch (Throwable throwable){
-                System.out.println("Error Activity: " +throwable.getMessage());
-                throwable.printStackTrace();
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
+            List<Integer> integers = new ArrayList<>();
+            for (OpcionesDeSubMenu op : opcionesDeSubMenus) {
+                if (!integers.contains(op.getSubMenu().getSubMenuId().intValue())) {
+                    subMenus.add(op.getSubMenu());
+                    integers.add(op.getSubMenu().getSubMenuId().intValue());
+                }
+            }
+            if (!opcionesDeSubMenus.isEmpty()) {
+                platilloActual = opcionesDeSubMenus.get(0).getSubMenu().getPlatillo();
+                GlobalRestaurantes.opcionesDeSubMenusSeleccionados = new ArrayList<>();
+            }
+            RecyclerSubMenuAdapter2 recyclerSubMenuAdapter = new RecyclerSubMenuAdapter2(subMenus, opcionesDeSubMenus, SeleccionarComplementos.this);
+            rvComplementsArea.setLayoutManager(new LinearLayoutManager(SeleccionarComplementos.this, LinearLayoutManager.VERTICAL, false));
+            rvComplementsArea.setAdapter(recyclerSubMenuAdapter);
         }
     }
 
-    public class UnderThreads2 extends AsyncTask<String, String , List<RespuestaOpcionSubMenuPorPlatillo>> {
-
-
-        @Override
-        protected List<RespuestaOpcionSubMenuPorPlatillo> doInBackground(String... strings) {
-            List<RespuestaOpcionSubMenuPorPlatillo> opcionesDeSubMenus = new ArrayList<>();
-            //List<RespuestaOpcionSubMenuPorPlatillo> subMenuList = new ArrayList<>();
-
-            try {
-                //SubMenuService subMenuService = new SubMenuService();
-                //subMenuList = subMenuService.obtenerSubMenusPorPlatillo(idPlatillo);
-                OpcionSubMenuService opcionSubMenuService = new OpcionSubMenuService();
-                opcionesDeSubMenus = opcionSubMenuService.opcionesSubMenuPorPlatillo(String.valueOf(GlobalRestaurantes.platillo.getPlatilloId()));
-
-            }catch (Exception e){
-                System.out.println("Error en UnderThreash:" +e.getMessage() +" " +e.getClass());
-            }
-            return opcionesDeSubMenus;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(List<RespuestaOpcionSubMenuPorPlatillo> opcionesDeSubMenus) {
-            super.onPostExecute(opcionesDeSubMenus);
-            try {
-                if (!opcionesDeSubMenus.isEmpty()){
-                    //MenuItemViewAdapter adapter = new MenuItemViewAdapter(menu, RestauranteMenuActivity.this, R.layout.frg_restaurants);
-                    //OpcionSubMenuService opcionSubMenuService = new OpcionSubMenuService();
-                    //List<OpcionesDeSubMenu> opcionesDeSubMenuList = opcionSubMenuService.opcionesSubMenuPorPlatillo(idPlatillo);
-
-
-                    RecyclerSubMenuAdapter adapter = new RecyclerSubMenuAdapter(opcionesDeSubMenus,SeleccionarComplementos.this);
-                    rvComplementsArea.setLayoutManager(new LinearLayoutManager(SeleccionarComplementos.this, LinearLayoutManager.VERTICAL, false));
-                    rvComplementsArea.setAdapter(adapter);
-                    Toast.makeText(SeleccionarComplementos.this, "SubMenus Cargados" +opcionesDeSubMenus.size(), Toast.LENGTH_SHORT).show();
-                }else{
-                    //Toast.makeText(RestaurantesActivity.this, "Restaurantes No Cargados" +restaurantes.size(), Toast.LENGTH_SHORT).show();
-                    //reiniciarAsynkProcess();
-                }
-            }catch (Throwable throwable){
-                System.out.println("Error Activity: " +throwable.getMessage());
-                throwable.printStackTrace();
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-        }
-    }
 
 }

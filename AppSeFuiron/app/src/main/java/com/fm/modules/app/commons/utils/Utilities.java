@@ -12,6 +12,10 @@ import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
+import com.fm.modules.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -118,11 +122,39 @@ public class Utilities {
         return bitmap;
     }
 
-    public static void pirntBase64FromByte(byte[] byteArray){
+    public static void pirntBase64FromByte(byte[] byteArray) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             String tt = java.util.Base64.getEncoder().encodeToString(byteArray);
             System.out.println(tt);
         }
+    }
+
+    public static void displayImageFromBytea(byte[] bytea, ImageView view) {
+        try {
+            if (bytea != null) {
+                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+                view.setImageBitmap(imag);
+            } else {
+                view.setImageResource(R.drawable.not_found);
+            }
+        } catch (Exception e) {
+            System.out.println("error display image from bytea: " + e);
+        }
+
+    }
+
+    public static void displayAppCompatImageFromBytea(byte[] bytea, AppCompatImageView view) {
+        try {
+            if (bytea != null) {
+                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+                view.setImageBitmap(imag);
+            } else {
+                view.setImageResource(R.drawable.not_found);
+            }
+        } catch (Exception e) {
+            System.out.println("error display image from bytea: " + e);
+        }
+
     }
 
 }

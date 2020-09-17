@@ -43,6 +43,7 @@
     <string name="x_restaurants">%d restaurantes</string>
     <string name="minimal_mount">Monto\nmínimo</string>
     <string name="add">Agregar</string>
+    <string name="delete">Eliminar</string>
     <string name="price_x">\u0024%.2f</string>
     <string name="select_complements">Seleccioná complementos</string>
     <string name="minus_sign">—</string>
@@ -79,9 +80,19 @@
     <string name="val_empty_confirm_pass">Necesitamos que confirmes tu contraseña nueva</string>
     <string name="val_pass_not_equals">Las contraseñas no coinciden</string>
     <string name="next">Continuar</string>
+    <string name="add_shop">Continuar Comprando</string>
+    <string name="terminate_shop">Enviar Pedido</string>
     <string name="dominino">http://18.208.181.148:9090</string>
     <string name="facebook_app_id">349272656116139</string>
     <string name="fb_login_protocol_scheme">fb349272656116139</string>
     <string name="title_activity_location">Map</string>
+    <string name="title_activity_login_facebook">LoginFacebook</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 
 </resources>

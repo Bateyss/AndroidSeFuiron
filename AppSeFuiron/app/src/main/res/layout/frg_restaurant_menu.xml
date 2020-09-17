@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvRestaurantName">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivRestaurantLogo"
+            android:id="@+id/ivRestaurantLogoMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -14,19 +14,22 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
 import com.fm.modules.adapters.CategoriasRecyclerViewAdapter;
+import com.fm.modules.adapters.RecyclerPlatillosFavoritosAdapter;
 import com.fm.modules.adapters.RestauranteItemViewAdapter;
 import com.fm.modules.app.commons.utils.RecyclerTouchListener;
+import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.Categoria;
 import com.fm.modules.models.MenxCategoria;
+import com.fm.modules.models.PlatilloFavorito;
 import com.fm.modules.models.Restaurante;
-import com.fm.modules.service.CategoriaService;
+import com.fm.modules.models.Usuario;
 import com.fm.modules.service.MenuxCategoriaService;
+import com.fm.modules.service.PlatilloFavoritoService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,14 +39,17 @@ import java.util.List;
 public class RestaurantePorCategoria extends AppCompatActivity {
 
     private CategoriasRestaurante categoriasRestaurante = new CategoriasRestaurante();
+    private Favoritos favoritos = new Favoritos();
     private ListView listViewRestaurantes;
     private RecyclerView listViewCategorias;
     private EditText textSearch;
     private List<Restaurante> restaurantesGlobal;
+    private List<Restaurante> restaurantesFiltered;
     private List<Categoria> categoriasFiltered;
     private List<Categoria> categoriasGlobal;
-    private List<String> stringsCategorias;
     private List<MenxCategoria> menxCategoriaGlobal;
+    private RecyclerView rvPlatillosFavoritos;
+    private List<Categoria> categoriasSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +57,16 @@ public class RestaurantePorCategoria extends AppCompatActivity {
         setContentView(R.layout.frg_restaurants_categoria);
         categoriasGlobal = new ArrayList<>();
         restaurantesGlobal = new ArrayList<>();
-        stringsCategorias = new ArrayList<>();
         categoriasFiltered = new ArrayList<>();
         menxCategoriaGlobal = new ArrayList<>();
+        categoriasSelected = new ArrayList<>();
+        restaurantesFiltered = new ArrayList<>();
         listViewCategorias = (RecyclerView) findViewById(R.id.rvCategorias_cat);
         listViewRestaurantes = (ListView) findViewById(R.id.rvRestaurants_res);
+        rvPlatillosFavoritos = findViewById(R.id.rvPlatillosFavoritos_cat);
         textSearch = (EditText) findViewById(R.id.etSearch_rest);
         if (isNetActive()) {
+            favoritos.execute();
             categoriasRestaurante.execute();
         }
         textChanged();
@@ -86,19 +95,22 @@ public class RestaurantePorCategoria extends AppCompatActivity {
         listViewCategorias.addOnItemTouchListener(new RecyclerTouchListener(RestaurantePorCategoria.this, listViewCategorias, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                stringsCategorias.add(categoriasFiltered.get(position).getNombreCategoria());
+                categoriasSelected.add(categoriasFiltered.get(position));
+                categoriasSelected = filtrarCategoriasPorNombre(categoriasFiltered);
+                List<String> strings = new ArrayList<>();
+                for (Categoria categoria : categoriasSelected) {
+                    strings.add(categoria.getNombreCategoria());
+                }
                 if (!menxCategoriaGlobal.isEmpty()) {
                     List<Restaurante> restauranteList = restaurantesGlobal;
-                    for (MenxCategoria menxCategoriax : menxCategoriaGlobal){
-                        String s = menxCategoriax.getCategoria().getNombreCategoria();
-                        if (stringsCategorias.contains(s)){
+                    for (MenxCategoria menxCategoriax : menxCategoriaGlobal) {
+                        if (strings.contains(menxCategoriax.getCategoria().getNombreCategoria())) {
                             restauranteList.add(menxCategoriax.getMenu().getRestaurante());
                         }
                     }
-                    if (!restauranteList.isEmpty()){
-                        restauranteList = filtrarRestaurantes(restauranteList);
-                        verRestaurantesAbiertos(restauranteList);
-                        Toast.makeText(RestaurantePorCategoria.this, "filtrado :)", Toast.LENGTH_SHORT).show();
+                    if (!restauranteList.isEmpty()) {
+                        restaurantesFiltered = filtrarRestaurantes(restauranteList);
+                        verRestaurantesAbiertos(restaurantesFiltered);
                     }
                 }
             }
@@ -120,9 +132,10 @@ public class RestaurantePorCategoria extends AppCompatActivity {
                 for (Restaurante re : lista) {
                     Date restaurantCloseHour = sp.parse(re.getHorarioDeCierre());
                     Date restaurantOpenHour = sp.parse(re.getHorarioDeApertura());
-                    System.out.println(" ac "+actualHuorString+" ci "+re.getHorarioDeCierre()+" op "+re.getHorarioDeApertura());
+                    System.out.println(" ac " + actualHuorString + " ci " + re.getHorarioDeCierre() + " op " + re.getHorarioDeApertura());
                     if (restaurantCloseHour.getTime() > actualHour.getTime() && actualHour.getTime() > restaurantOpenHour.getTime()) {
-                        listaFiltrada.add(re);}
+                        listaFiltrada.add(re);
+                    }
                 }
                 RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(listaFiltrada, RestaurantePorCategoria.this, R.layout.holder_item_restaurant);
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
@@ -164,6 +177,8 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     public void reiniciarAsynk() {
         categoriasRestaurante.cancel(true);
         categoriasRestaurante = new CategoriasRestaurante();
+        favoritos.cancel(true);
+        favoritos = new Favoritos();
     }
 
     public boolean isNetActive() {
@@ -185,28 +200,64 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     public List<Restaurante> filtrarRestaurantes(List<Restaurante> restauranteList) {
         List<Restaurante> list = new ArrayList<>();
         if (!restauranteList.isEmpty()) {
+            List<Integer> integers = new ArrayList<>();
             for (Restaurante restaurante : restauranteList) {
-                if (!list.contains(restaurante)) list.add(restaurante);
+                System.out.println("filtro restaurante: " + restaurante.getNombreRestaurante());
+                if (!integers.contains(restaurante.getRestauranteId().intValue())) {
+                    list.add(restaurante);
+                    integers.add(restaurante.getRestauranteId().intValue());
+                }
             }
         }
         return list;
     }
 
-    public List<Categoria> filtrarCategorias(List<Categoria> categoriaList) {
+    public List<Restaurante> filtrarRestaurantesDestacados(List<Restaurante> restauranteList) {
+        List<Restaurante> list = new ArrayList<>();
+        if (!restauranteList.isEmpty()) {
+            for (Restaurante restaurante : restauranteList) {
+                System.out.println("destav: " + restaurante.getDestacado());
+                if (restaurante.getDestacado()) {
+                    list.add(restaurante);
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<Categoria> filtrarCategoriasPorNombre(List<Categoria> categoriaList) {
         List<Categoria> categoriaList1 = new ArrayList<>();
         if (!categoriaList.isEmpty()) {
+            List<String> strings = new ArrayList<>();
             for (Categoria c : categoriaList) {
-                String s = c.getNombreCategoria();
-                if (!categoriaList1.contains(c)) categoriaList1.add(c);
+                if (!strings.contains(c.getNombreCategoria())) {
+                    categoriaList1.add(c);
+                    strings.add(c.getNombreCategoria());
+                }
             }
         }
         return categoriaList1;
     }
 
-    public class CategoriasRestaurante extends AsyncTask<List<Integer>, String, List<MenxCategoria>> {
+    public List<PlatilloFavorito> filtrarFavoritos(List<PlatilloFavorito> platilloFavoritoList) {
+        List<PlatilloFavorito> platillos = new ArrayList<>();
+        if (!platilloFavoritoList.isEmpty()) {
+            for (PlatilloFavorito f : platilloFavoritoList) {
+                Usuario user = Logued.usuarioLogued;
+                if (user != null) {
+                    if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
+                        platillos.add(f);
+                    }
+                }
+            }
+        }
+        return platillos;
+    }
+
+    public class CategoriasRestaurante extends AsyncTask<String, String, List<MenxCategoria>> {
 
         @Override
-        protected List<MenxCategoria> doInBackground(List<Integer>... integers) {
+        protected List<MenxCategoria> doInBackground(String... strings) {
             List<MenxCategoria> lista = new ArrayList<>();
             try {
                 List<MenxCategoria> listCateg = new ArrayList<>();
@@ -222,20 +273,70 @@ public class RestaurantePorCategoria extends AppCompatActivity {
             super.onPostExecute(menxCategorias);
             if (!menxCategorias.isEmpty()) {
                 menxCategoriaGlobal = menxCategorias;
+                List<Integer> integers = new ArrayList<>();
                 for (MenxCategoria menxCategoria : menxCategorias) {
-                    restaurantesGlobal.add(menxCategoria.getMenu().getRestaurante());
+                    if (!integers.contains(menxCategoria.getCategoria().getCategoriaId().intValue())) {
+                        categoriasGlobal.add(menxCategoria.getCategoria());
+                        integers.add(menxCategoria.getCategoria().getCategoriaId().intValue());
+                    }
                 }
+                List<Restaurante> restauranteList = new ArrayList<>();
                 for (MenxCategoria menxCategoria : menxCategorias) {
-                    categoriasGlobal.add(menxCategoria.getCategoria());
+                    restauranteList.add(menxCategoria.getMenu().getRestaurante());
                 }
-                categoriasFiltered = filtrarCategorias(categoriasGlobal);
-                List<Restaurante> restauranteList = filtrarRestaurantes(restaurantesGlobal);
-                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(restauranteList, RestaurantePorCategoria.this, R.layout.holder_item_restaurant);
+                restaurantesGlobal = filtrarRestaurantes(restauranteList);
+                GlobalRestaurantes.restaurantes = restaurantesGlobal;
+                restaurantesFiltered = filtrarRestaurantesDestacados(restaurantesGlobal);
+                categoriasFiltered = filtrarCategoriasPorNombre(categoriasGlobal);
+                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(restaurantesFiltered, RestaurantePorCategoria.this, R.layout.holder_item_restaurant);
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
                 CategoriasRecyclerViewAdapter categoriasRecyclerViewAdapter = new CategoriasRecyclerViewAdapter(categoriasFiltered, RestaurantePorCategoria.this);
                 listViewCategorias.setLayoutManager(new LinearLayoutManager(RestaurantePorCategoria.this, LinearLayoutManager.HORIZONTAL, false));
                 listViewCategorias.setAdapter(categoriasRecyclerViewAdapter);
             }
+        }
+    }
+
+    public class Favoritos extends AsyncTask<String, String, List<PlatilloFavorito>> {
+
+        @Override
+        protected List<PlatilloFavorito> doInBackground(String... strings) {
+            List<PlatilloFavorito> platilloFavoritoList = new ArrayList<>();
+            try {
+                PlatilloFavoritoService platilloFavoritoService = new PlatilloFavoritoService();
+                platilloFavoritoList = platilloFavoritoService.obtenerPlatilloFavoritos();
+            } catch (Exception e) {
+                System.out.println("Error en UnderThreash:" + e.getMessage() + " " + e.getClass());
+            }
+            return platilloFavoritoList;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<PlatilloFavorito> platilloFavorito) {
+            super.onPostExecute(platilloFavorito);
+            try {
+                if (!platilloFavorito.isEmpty()) {
+                    List<PlatilloFavorito> listaPlatillos = filtrarFavoritos(platilloFavorito);
+                    if (!listaPlatillos.isEmpty()) {
+                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, RestaurantePorCategoria.this);
+                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(RestaurantePorCategoria.this, LinearLayoutManager.HORIZONTAL, false));
+                        rvPlatillosFavoritos.setAdapter(rvAdapter);
+                    }
+                }
+            } catch (Throwable throwable) {
+                System.out.println("Error Activity: " + throwable.getMessage());
+                throwable.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
         }
     }
 }

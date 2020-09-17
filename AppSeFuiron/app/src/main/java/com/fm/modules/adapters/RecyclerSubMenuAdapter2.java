@@ -75,13 +75,12 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvSubMenu;
-        TextView tvOpcionSubMenu;
         RecyclerView rvOpcionesDeSubMenu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvSubMenu = itemView.findViewById(R.id.tvSubMenu);
+            tvSubMenu = itemView.findViewById(R.id.tvSubMenu2);
             rvOpcionesDeSubMenu = itemView.findViewById(R.id.rvOpcionesDeSubMenu);
         }
 

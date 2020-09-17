@@ -1,24 +1,23 @@
 package com.fm.modules.adapters;
 
-import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.commons.utils.Utilities;
+import com.fm.modules.app.login.Logued;
+import com.fm.modules.models.Image;
+import com.fm.modules.service.ImageService;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,48 +79,143 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
         }
     }
 
-    public class HolderRestaurantes{
+    public class HolderRestaurantes {
         AppCompatImageView ivOutstandingImage;
         AppCompatImageView ivRestaurantLogo;
         TextView tvRestaurantName;
         TextView tvMinimalMount;
         TextView tvLabelMinimalMount;
 
-        public HolderRestaurantes(View view){
+        public HolderRestaurantes(View view) {
             ivOutstandingImage = (AppCompatImageView) view.findViewById(R.id.ivOutstandingImage);
             ivRestaurantLogo = (AppCompatImageView) view.findViewById(R.id.ivRestaurantLogo);
             tvRestaurantName = (TextView) view.findViewById(R.id.tvRestaurantName);
             tvMinimalMount = (TextView) view.findViewById(R.id.tvMinimalMount);
             tvLabelMinimalMount = (TextView) view.findViewById(R.id.tvLabelMinimalMount);
         }
+
+        protected void verImagen(Long id) {
+            CargarImagen cargarImagen = new CargarImagen();
+            cargarImagen.execute(id);
+
+        }
+
+        protected void verLogo(Long id) {
+            CargarLogo cargarLogo = new CargarLogo();
+            cargarLogo.execute(id);
+        }
+
+        private class CargarImagen extends AsyncTask<Long, String, Image> {
+
+            @Override
+            protected Image doInBackground(Long... longs) {
+                Image image = null;
+                try {
+                    if (Logued.imagenesIDs == null) {
+                        Logued.imagenes = new ArrayList<>();
+                        Logued.imagenesIDs = new ArrayList<>();
+                    }
+                    List<Integer> integers = Logued.imagenesIDs;
+                    if (!integers.contains(longs[0].intValue())) {
+                        ImageService imageService = new ImageService();
+                        image = imageService.obtenerImagenPorId(longs[0]);
+                        if (image != null) {
+                            Logued.imagenesIDs.add(image.getId().intValue());
+                            Logued.imagenes.add(image);
+                        }
+                    } else {
+                        for (int i = 0; i < integers.size(); i++) {
+                            if (integers.get(i) == longs[0].intValue()) {
+                                image = Logued.imagenes.get(i);
+                            }
+                        }
+                    }
+                } catch (
+                        Exception e) {
+                    System.out.println("error asynk image: " + e);
+                }
+                return image;
+            }
+
+            @Override
+            protected void onPostExecute(Image image) {
+                super.onPostExecute(image);
+                if (image != null) {
+                    Utilities.displayImageFromBytea(image.getContent(), ivOutstandingImage);
+                    System.out.println("asynk display image ! !!!!!!!!!!!!!!!!");
+                }
+            }
+        }
+
+        private class CargarLogo extends AsyncTask<Long, String, Image> {
+
+            @Override
+            protected Image doInBackground(Long... longs) {
+                Image image = null;
+                try {
+                    if (Logued.imagenesIDs == null) {
+                        Logued.imagenes = new ArrayList<>();
+                        Logued.imagenesIDs = new ArrayList<>();
+                    }
+                    List<Integer> integers = Logued.imagenesIDs;
+                    if (!integers.contains(longs[0].intValue())) {
+                        ImageService imageService = new ImageService();
+                        image = imageService.obtenerImagenPorId(longs[0]);
+                        if (image != null) {
+                            Logued.imagenesIDs.add(image.getId().intValue());
+                            Logued.imagenes.add(image);
+                        }
+                    } else {
+                        for (int i = 0; i < integers.size(); i++) {
+                            if (integers.get(i) == longs[0].intValue()) {
+                                image = Logued.imagenes.get(i);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("error asynk image: " + e);
+                }
+                return image;
+            }
+
+            @Override
+            protected void onPostExecute(Image image) {
+                super.onPostExecute(image);
+                if (image != null) {
+                    Utilities.displayImageFromBytea(image.getContent(), ivRestaurantLogo);
+                    System.out.println("asynk display image ! !!!!!!!!!!!!!!!!");
+                }
+            }
+        }
     }
 
-    public class HolderItemFood{
+    public class HolderItemFood {
         AppCompatImageView ivFoodImage;
         TextView tvFoodName;
         TextView tvFoodDescription;
         TextView tvFoodPrice;
         Button btnAdd;
 
-        public HolderItemFood(View view){
+        public HolderItemFood(View view) {
             ivFoodImage = view.findViewById(R.id.ivFoodImage);
             tvFoodName = view.findViewById(R.id.tvFoodName);
             tvFoodDescription = view.findViewById(R.id.tvFoodDescription);
             tvFoodPrice = view.findViewById(R.id.tvFoodPrice);
-            btnAdd = view.findViewById(R.id.btnAdd);
+            btnAdd = view.findViewById(R.id.btnAddPlatillo);
         }
     }
 
-    public class HolderMenu{
+    public class HolderMenu {
 
-        public CardView cvMenuName;
-        public TextView tvMenuName;
+        public ImageView imageMenu;
+        public TextView txtMenu;
 
         public HolderMenu(View view) {
-            //cvMenuName = view.findViewById(R.id.cvMenuName);
-            //tvMenuName = view.findViewById(R.id.tvMenuName);
+            imageMenu = view.findViewById(R.id.hdMenuImage);
+            txtMenu = view.findViewById(R.id.hdMenuText);
         }
     }
+
     public class HolderItemCategorias {
         AppCompatImageView catImage;
         AppCompatTextView catName;
@@ -133,5 +227,4 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
             catCountRestaurants = view.findViewById(R.id.tvRestaurantsCount1);
         }
     }
-
 }

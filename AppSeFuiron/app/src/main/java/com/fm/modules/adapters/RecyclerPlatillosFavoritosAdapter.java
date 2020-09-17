@@ -59,7 +59,7 @@ public class RecyclerPlatillosFavoritosAdapter  extends RecyclerView.Adapter<Rec
             tvFoodName = view.findViewById(R.id.tvFoodName);
             tvFoodDescription = view.findViewById(R.id.tvFoodDescription);
             tvFoodPrice = view.findViewById(R.id.tvFoodPrice);
-            btnAdd = view.findViewById(R.id.btnAdd);
+            btnAdd = view.findViewById(R.id.btnAddPlatillo);
         }
 
         public void asignarDatos(final PlatilloFavorito platillosFavorito) {

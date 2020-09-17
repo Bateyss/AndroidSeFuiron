@@ -44,6 +44,7 @@ public class MenuPorRestauranteItemViewAdapter extends ItemViewAdapterImagen<Res
 
             final RespuestaMenuPorRestaurantes menu = (RespuestaMenuPorRestaurantes) getItem(position);
 
+            /*
             holder.tvMenuName.setText(menu.getNombreMenu());
             holder.cvMenuName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -53,7 +54,7 @@ public class MenuPorRestauranteItemViewAdapter extends ItemViewAdapterImagen<Res
                     context.startActivity(i);
                 }
             });
-
+             */
         }catch (Exception e){
 
         }

@@ -83,7 +83,7 @@
                 tools:text="$" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btnAdd"
+                android:id="@+id/btnAddPlatillo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_default"

@@ -16,19 +16,19 @@ public class Restaurante {
     private String representante;
     private String numeroDeContacto;
     private double comision;
-    private Integer cargosExtra;
+    private double cargosExtra;
     private Long imagenDePortada;
     private Long logoDeRestaurante;
     private String nit;
     private String correo;
-    private String destacado;
-    private String orden;
+    private boolean destacado;
+    private int orden;
 
 
     public Restaurante() {
     }
 
-    public Restaurante(Long restauranteId, String nombreRestaurante, Departamento departamento, String username, String password, String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento, String representante, String numeroDeContacto, double comision, Integer cargosExtra, Long imagenDePortada, Long logoDeRestaurante, String nit, String correo, String destacado, String orden) {
+    public Restaurante(Long restauranteId, String nombreRestaurante, Departamento departamento, String username, String password, String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento, String representante, String numeroDeContacto, double comision, double cargosExtra, Long imagenDePortada, Long logoDeRestaurante, String nit, String correo, boolean destacado, int orden) {
         this.restauranteId = restauranteId;
         this.nombreRestaurante = nombreRestaurante;
         this.departamento = departamento;
@@ -146,11 +146,11 @@ public class Restaurante {
         this.comision = comision;
     }
 
-    public Integer getCargosExtra() {
+    public double getCargosExtra() {
         return cargosExtra;
     }
 
-    public void setCargosExtra(Integer cargosExtra) {
+    public void setCargosExtra(double cargosExtra) {
         this.cargosExtra = cargosExtra;
     }
 
@@ -186,19 +186,19 @@ public class Restaurante {
         this.correo = correo;
     }
 
-    public String getDestacado() {
+    public boolean getDestacado() {
         return destacado;
     }
 
-    public void setDestacado(String destacado) {
+    public void setDestacado(boolean destacado) {
         this.destacado = destacado;
     }
 
-    public String getOrden() {
+    public int getOrden() {
         return orden;
     }
 
-    public void setOrden(String orden) {
+    public void setOrden(int orden) {
         this.orden = orden;
     }
 

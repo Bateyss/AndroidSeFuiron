@@ -16,7 +16,7 @@ public class OpcionesDeSubMenuService extends RestTemplateEntity<OpcionesDeSubMe
         super(new OpcionesDeSubMenu(), OpcionesDeSubMenu.class, OpcionesDeSubMenu[].class);
     }
 
-    private final String url = Constantes.URL_OPCIONESDESUBMENUSELC;
+    private final String url = Constantes.URL_OPCIONESDESUBMENU;
 
     public List<OpcionesDeSubMenu> obtenerOpcionesDeSubMenu() {
         List<OpcionesDeSubMenu> lista = getListURL(url);

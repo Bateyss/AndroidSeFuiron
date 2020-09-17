@@ -1,17 +1,18 @@
 package com.fm.modules.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.GlobalRestaurantes;
+import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
 import com.fm.modules.models.Restaurante;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-//import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
 
 public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurante> {
 
@@ -42,45 +43,29 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
 
             final Restaurante restaurante = (Restaurante) getItem(position);
 
-            //Byte[] bitmapdata = restaurante.getImagenDePortada(); // let this be your byte array
-            //Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata , 0, bitmapdata .length);
 
-
-            //holder.ivOutstandingImage.setImageBitmap(restaurante.getLogoDeRestaurante());
-
-            // Esto es de prueba
-            //System.out.println("Array: " +restaurante.getImagenDePortada());
-            Bitmap imagenP;
-            //ImageService imageService = new ImageService();
-            //List<Imagen> list = imageService.obtenerImages();
-            //int img = list.get(0).getContent().length;
-            //System.out.println("JSON IMG: " +img);
-            //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            //Imagen imagen = obtenerImg();
-            //byte[] byteCode = Base64.decode(obtenerImg(), Base64.DEFAULT);
-            //imagenP = BitmapFactory.decodeByteArray(byteCode, 0, byteCode.length);
-
-
-            holder.ivOutstandingImage.setImageResource(R.drawable.not_found);
+            holder.ivOutstandingImage.setImageResource(R.drawable.sample_outstanding_image);
             holder.tvRestaurantName.setText(restaurante.getNombreRestaurante());
             holder.tvLabelMinimalMount.setText(restaurante.getDepartamento().getNombreDepartamento());
             holder.tvMinimalMount.setText(String.valueOf(restaurante.getDepartamento().getPais().getNombrePais()));
+            Picasso.get().load("http://netlima.com/casas/negocios/Pizza_Hut_logo.svg.png").placeholder(R.drawable.ic_profile_header_background).into(holder.ivRestaurantLogo);
             holder.ivOutstandingImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Intent i = new Intent(context, RestauranteMenuActivity.class);
-                    //i.putExtra("idRestaurante", restaurante.getRestautanteId());
-                    //System.out.println("ID RESTAURANTE: " + restaurante.getRestautanteId());
-                    //context.startActivity(i);
+                    GlobalRestaurantes.restauranteSelected = restaurante;
+                    Intent i = new Intent(context, RestauranteMenuActivity.class);
+                    i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
+                    context.startActivity(i);
                 }
             });
-
+            holder.verImagen(restaurante.getImagenDePortada());
+            holder.verLogo(restaurante.getLogoDeRestaurante());
         } catch (Exception e) {
             System.out.println("Error ListaAdapterRestaurante" + e);
         }
         return convertView;
     }
+
 
 }
 

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "919048348420-812o01ptcnr5g5uscqdsoijnbvp4kg1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fm.modules",
+            "certificate_hash": "6c55d675817b0316c5406a412845dcf2fa21f171"
+          }
+        },
+        {
           "client_id": "919048348420-kb5p4pnqshvns40uv1j1r0qhea3ar29s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

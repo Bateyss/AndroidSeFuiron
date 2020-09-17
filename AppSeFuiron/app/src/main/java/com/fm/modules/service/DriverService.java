@@ -14,7 +14,7 @@ public class DriverService extends RestTemplateEntity<Driver> implements Seriali
 
     private static final long serialVersionUID = 1L;
 
-    private final String url = Constantes.URL_PEDIDO;
+    private final String url = Constantes.URL_DRIVER;
 
     public List<Driver> obtenerDrivers() {
         List<Driver> lista = getListURL(url);

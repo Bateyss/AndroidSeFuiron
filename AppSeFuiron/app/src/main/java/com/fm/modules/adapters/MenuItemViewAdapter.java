@@ -2,22 +2,17 @@ package com.fm.modules.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.fm.modules.R;
 import com.fm.modules.app.restaurantes.PlatillosActivity;
-import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
 import com.fm.modules.models.Menu;
-import com.fm.modules.models.Platillo;
-import com.fm.modules.models.Restaurante;
 
 import java.util.List;
 
-public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu>{
+public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
 
     private int resource;
     private LayoutInflater layoutInflater;
@@ -48,16 +43,18 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu>{
 
             final Menu menu = (Menu) getItem(position);
 
-            holder.tvMenuName.setText(menu.getNombreMenu());
-            holder.cvMenuName.setOnClickListener(new View.OnClickListener() {
+            holder.imageMenu.setImageResource(R.drawable.ic_flan);
+            holder.txtMenu.setText(menu.getNombreMenu());
+            holder.imageMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, PlatillosActivity.class);
+                    i.putExtra("idMenu", menu.getMenuId().intValue());
                     context.startActivity(i);
                 }
             });
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return convertView;

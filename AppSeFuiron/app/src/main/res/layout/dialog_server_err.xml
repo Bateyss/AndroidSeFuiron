@@ -7,15 +7,18 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView2"
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_dialog_header_background"
+        app:layout_constraintBottom_toTopOf="@+id/btnPassErr"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -24,14 +27,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="@dimen/space_4x"
         android:includeFontPadding="false"
         android:text="@string/no_internet_dialog_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.006" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLock"
@@ -39,10 +44,12 @@
         android:layout_height="180dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_no_internet"
+        app:layout_constraintBottom_toTopOf="@+id/btnPassErr"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintVertical_bias="0.063" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecoverySuccessDescription"
@@ -55,39 +62,42 @@
         android:textColor="@color/purple"
         android:textSize="20dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/xxrs"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/ivLock" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLock"
+        app:layout_constraintVertical_bias="0.058" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/xxrs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/no_internet_dialog_secondary_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/purple"
         android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintBottom_toTopOf="@+id/btnPassErr"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvRecoverySuccessDescription"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLock"
+        app:layout_constraintVertical_bias="0.701" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPassErr"
         style="@style/PrimaryButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="168dp"
         android:paddingStart="@dimen/space_4x"
         android:paddingEnd="@dimen/space_4x"
         android:text="@string/come_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

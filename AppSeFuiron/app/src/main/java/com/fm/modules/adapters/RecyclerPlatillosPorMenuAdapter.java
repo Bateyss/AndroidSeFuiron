@@ -64,7 +64,7 @@ public class RecyclerPlatillosPorMenuAdapter  extends RecyclerView.Adapter<Recyc
             tvFoodName = view.findViewById(R.id.tvFoodName);
             tvFoodDescription = view.findViewById(R.id.tvFoodDescription);
             tvFoodPrice = view.findViewById(R.id.tvFoodPrice);
-            btnAdd = view.findViewById(R.id.btnAdd);
+            btnAdd = view.findViewById(R.id.btnAddPlatillo);
         }
 
         public void asignarDatos(final RespuestaPlatilloPorMenu platilloSeleccionado) {

@@ -119,31 +119,6 @@ public class RestaurantesActivity extends AppCompatActivity {
         return c;
     }
 
-    /*
-    public class Conexion extends AsyncTask<String, String, Boolean>{
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean conectado = false;
-            try {
-                UsuarioApi usuarioApi = new UsuarioApi(dominio);
-                List<Usuario> list = usuarioApi.findAll();
-                if (!list.isEmpty()) {
-                    conectado = true;
-                }
-            } catch (Exception e) {
-                Log.e("Conexion", "error al comprobar conexion");
-                Log.e("Conexion", "" + e);
-            }
-            return conectado;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-        }
-    }
-*/
     public class UnderThreads extends AsyncTask<String, String , List<Restaurante>>{
 
         @Override

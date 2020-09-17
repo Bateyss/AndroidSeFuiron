@@ -45,7 +45,8 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity[]> response = restTemplate.getForEntity(url, classEntityArray);
             list = Arrays.asList(response.getBody());
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest getListURL: " + getClass().getName() + e);
+            e.printStackTrace();
         }
         return list;
     }
@@ -62,7 +63,7 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity> response = restTemplate.getForEntity(url.concat("/").concat(id.toString()), classEntity);
             entity = response.getBody();
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest getOneURL: " + getClass().getName() + e);
             entity = null;
         }
         return entity;
@@ -81,7 +82,7 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity> response = restTemplate.exchange(url, HttpMethod.POST, request, classEntity);
             etity = response.getBody();
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest createURL: " + getClass().getName() + e);
             etity = null;
         }
         return etity;
@@ -100,7 +101,7 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity> response = restTemplate.exchange(url.concat("/").concat(id.toString()), HttpMethod.PUT, request, classEntity);
             etity = response.getBody();
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest updateURL: "+ getClass().getName() + e);
             etity = null;
         }
         return etity;
@@ -113,7 +114,7 @@ public abstract class RestTemplateEntity<Entity> {
             restTemplate.delete(url.concat("/").concat(id.toString()));
             ;
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest deleteURL: "+ getClass().getName() + e);
         }
 
     }
@@ -132,7 +133,7 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity> response = restTemplate.getForEntity(url, classEntity, request);
             etity = response.getBody();
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e);
+            System.out.println("error absRest getByBodyURL: " + getClass().getName() + e);
             etity = null;
         }
         return etity;
