@@ -19,7 +19,7 @@ public class CategoriasViewAdapter extends ItemViewAdapterImagen<Categoria> {
     private Context context;
 
     public CategoriasViewAdapter(List<Categoria> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
     }

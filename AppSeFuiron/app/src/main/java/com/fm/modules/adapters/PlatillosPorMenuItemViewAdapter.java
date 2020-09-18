@@ -18,7 +18,7 @@ public class PlatillosPorMenuItemViewAdapter  extends ItemViewAdapterImagen<Resp
     private Context context;
 
     public PlatillosPorMenuItemViewAdapter(List<RespuestaPlatilloPorMenu> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
 

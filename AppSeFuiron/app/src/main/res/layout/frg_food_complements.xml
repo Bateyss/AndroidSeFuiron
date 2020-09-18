@@ -61,7 +61,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivFoodImage"
+                    android:id="@+id/ivFoodImageAdicionales"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/space_2x"
@@ -73,20 +73,19 @@
                     app:layout_constraintBottom_toBottomOf="@+id/npFoodQuantity"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextViewTitleStyle"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                     android:id="@+id/tvFoodName"
+                    style="@style/TextViewTitleStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_default"
                     android:layout_marginEnd="@dimen/space_default"
                     android:text="@{viewModel.food.name}"
-                    tools:text="La Doble!"
-                    app:layout_constraintVertical_chainStyle="spread"
-                    app:layout_constraintStart_toEndOf="@+id/ivFoodImage"
-                    app:layout_constraintTop_toTopOf="@+id/npFoodQuantity"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFoodPrice"
                     app:layout_constraintEnd_toStartOf="@+id/npFoodQuantity"
-                    app:layout_constraintBottom_toTopOf="@+id/tvFoodPrice"/>
+                    app:layout_constraintStart_toEndOf="@+id/ivFoodImageAdicionales"
+                    app:layout_constraintTop_toTopOf="@+id/npFoodQuantity"
+                    app:layout_constraintVertical_chainStyle="spread"
+                    tools:text="La Doble!" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitleStyle"

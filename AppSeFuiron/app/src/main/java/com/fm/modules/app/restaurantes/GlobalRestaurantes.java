@@ -16,6 +16,7 @@ public class GlobalRestaurantes {
     public static List<SubMenu> subMenuList;
     public static List<OpcionesDeSubMenu> opcionesDeSubMenuList;
     public static Platillo platillo;
+    public static Platillo platilloSeleccionado;
     public static SubMenu subMenu;
     public static List<OpcionesDeSubMenu> opcionesDeSubMenusSeleccionados;
     public static Date horaActualizado;

@@ -5,27 +5,31 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.provider.MediaStore;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.cardview.widget.CardView;
 
 import com.fm.modules.R;
 import com.fm.modules.app.commons.conectivity.Conectividad;
-import com.fm.modules.app.commons.utils.Utilities;
+import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Image;
+import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.UsuarioService;
@@ -34,7 +38,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,10 +55,11 @@ public class SignUp extends AppCompatActivity {
     private boolean networking;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener datePickerDialogListener;
-    private FrameLayout imageframeLayout;
+    private CardView imageframeLayout;
     private Date fecha1 = null;
     private Registrar registrar = new Registrar();
     private String fileImagenProfile = null;
+    private AppCompatImageView imageProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,8 @@ public class SignUp extends AppCompatActivity {
         inputTelph = (TextInputEditText) findViewById(R.id.sgnupPhoneNumber);
         inputUsename = (TextInputEditText) findViewById(R.id.sgnupUsername);
         buttonSign = (Button) findViewById(R.id.btnSignUp);
-        imageframeLayout = (FrameLayout) findViewById(R.id.flProfilePhoto);
+        imageframeLayout = (CardView) findViewById(R.id.sgnflProfilePhoto);
+        imageProfile = (AppCompatImageView) findViewById(R.id.signProfilePhoto);
         inputDateBorn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +147,10 @@ public class SignUp extends AppCompatActivity {
             return;
         }
         if (b.equals(inputCorreo.getText().toString())) {
-            Toast.makeText(SignUp.this, "Ingrese Correo", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(inputCorreo.getText().toString()).matches()) {
+            Toast.makeText(SignUp.this, "Ingrese un Correo Valido", Toast.LENGTH_LONG).show();
             return;
         }
         if (b.equals(inputTelph.getText().toString())) {
@@ -153,6 +161,7 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(SignUp.this, "Ingrese Fecha de Nacimiento", Toast.LENGTH_LONG).show();
             return;
         }
+        buttonSign.setEnabled(false);
         registrar.execute();
     }
 
@@ -177,7 +186,7 @@ public class SignUp extends AppCompatActivity {
         openFile.addCategory(Intent.CATEGORY_OPENABLE);
         openFile.setType("image/*");
         // request code 200 es Galeria de fotos
-        Intent i = Intent.createChooser(openFile,"file");
+        Intent i = Intent.createChooser(openFile, "file");
         startActivityForResult(openFile, 200);
     }
 
@@ -191,11 +200,28 @@ public class SignUp extends AppCompatActivity {
             int id = cursor.getColumnIndex(str[0]);
             String path = cursor.getString(id);
             cursor.close();
-            fileImagenProfile = path;
+            if (path != null) {
+                fileImagenProfile = path;
+                File file = new File(path);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                } catch (Exception ignore) {
+                }
+                if (bitmap != null) {
+                    imageProfile.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(SignUp.this, "No se puede subir la imagen", Toast.LENGTH_SHORT).show();
+                    imageProfile.setImageResource(R.drawable.ic_confused_person);
+                }
+            } else {
+                Toast.makeText(SignUp.this, "No se puede subir la imagen", Toast.LENGTH_SHORT).show();
+                imageProfile.setImageResource(R.drawable.ic_confused_person);
+            }
         }
     }
 
-    public void dialogo1(){
+    public void dialogo1() {
         AlertDialog dialog = new AlertDialog.Builder(SignUp.this)
                 .setView(R.layout.dialog_user_regstd)
                 .setCancelable(true)
@@ -207,7 +233,8 @@ public class SignUp extends AppCompatActivity {
                 })
                 .show();
     }
-    public void dialogo2(){
+
+    public void dialogo2() {
         AlertDialog dialog = new AlertDialog.Builder(SignUp.this)
                 .setView(R.layout.dialog_user_no_regstd)
                 .setCancelable(true)
@@ -242,13 +269,13 @@ public class SignUp extends AppCompatActivity {
                 u.setFechaDeMacimiento(fecha1);
 
                 Image image = new Image();
-                image.setContent(new byte[0]);
+                image.setContent(null);
                 if (fileImagenProfile != null) {
                     try {
-                        System.out.println("path: "+ fileImagenProfile);
+                        System.out.println("path: " + fileImagenProfile);
                         image.setContent(FileCopyUtils.copyToByteArray(new File(fileImagenProfile)));
                     } catch (Exception e) {
-                        System.out.println("error imagen "+e);
+                        System.out.println("error imagen " + e);
                     }
                 }
                 ImageService imageService = new ImageService();
@@ -257,6 +284,7 @@ public class SignUp extends AppCompatActivity {
                 UsuarioService usuarioService = new UsuarioService();
                 Usuario registrado = usuarioService.crearUsuario(u);
                 if (registrado != null) {
+                    Logued.usuarioLogued = registrado;
                     v = true;
                 }
             } catch (Exception ex) {
@@ -277,9 +305,14 @@ public class SignUp extends AppCompatActivity {
             try {
                 // usuario registrado, compartir en pantalla
                 if (res) {
-                   dialogo1();
+                    dialogo1();
+                    Thread.sleep(4 * 1000);
+                    Intent i = new Intent(SignUp.this, RestaurantePorCategoria.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                 } else {
                     dialogo2();
+                    buttonSign.setEnabled(true);
                 }
                 limpiar();
                 reiniciarAsynkProcess();

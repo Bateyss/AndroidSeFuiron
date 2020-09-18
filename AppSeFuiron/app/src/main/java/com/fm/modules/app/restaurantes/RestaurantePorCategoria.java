@@ -1,6 +1,8 @@
 package com.fm.modules.app.restaurantes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,10 +27,12 @@ import com.fm.modules.adapters.RestauranteItemViewAdapter;
 import com.fm.modules.app.commons.utils.RecyclerTouchListener;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.Categoria;
+import com.fm.modules.models.Image;
 import com.fm.modules.models.MenxCategoria;
 import com.fm.modules.models.PlatilloFavorito;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.Usuario;
+import com.fm.modules.service.ImageService;
 import com.fm.modules.service.MenuxCategoriaService;
 import com.fm.modules.service.PlatilloFavoritoService;
 
@@ -50,6 +55,9 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     private List<MenxCategoria> menxCategoriaGlobal;
     private RecyclerView rvPlatillosFavoritos;
     private List<Categoria> categoriasSelected;
+    private View inclide;
+    private AppCompatImageView fotoPerfil;
+    private CargarFoto cargarFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +73,23 @@ public class RestaurantePorCategoria extends AppCompatActivity {
         listViewRestaurantes = (ListView) findViewById(R.id.rvRestaurants_res);
         rvPlatillosFavoritos = findViewById(R.id.rvPlatillosFavoritos_cat);
         textSearch = (EditText) findViewById(R.id.etSearch_rest);
+        inclide = (View) findViewById(R.id.asConfigur);
+        fotoPerfil = (AppCompatImageView) inclide.findViewById(R.id.ivProfilePhotoPrincipal);
         if (isNetActive()) {
             favoritos.execute();
             categoriasRestaurante.execute();
         }
         textChanged();
         categoryselected();
+        profilePhoto();
+    }
+
+    private void profilePhoto() {
+        cargarFoto = new CargarFoto();
+        Usuario usuario = Logued.usuarioLogued;
+        if (usuario != null) {
+            cargarFoto.execute(usuario.getImagenDePerfil());
+        }
     }
 
     public void textChanged() {
@@ -337,6 +356,43 @@ public class RestaurantePorCategoria extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+        }
+    }
+
+    private class CargarFoto extends AsyncTask<Long, String, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(Long... longs) {
+
+            Bitmap imagen = null;
+            try {
+                imagen = Logued.imagenPerfil;
+                if (imagen == null) {
+                    ImageService imageService = new ImageService();
+                    Image image = new Image();
+                    image = imageService.obtenerImagenPorId(longs[0]);
+                    if (image != null) {
+                        byte[] b = image.getContent();
+                        if (b != null) {
+                            imagen = BitmapFactory.decodeByteArray(b, 0, b.length);
+                            Logued.imagenPerfil = imagen;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("*** error asynk imagePerfil: " + e);
+            }
+            return imagen;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            super.onPostExecute(image);
+            if (image != null) {
+                fotoPerfil.setImageBitmap(image);
+            } else {
+                fotoPerfil.setImageResource(R.drawable.ic_empty_profile_photo);
+            }
         }
     }
 }

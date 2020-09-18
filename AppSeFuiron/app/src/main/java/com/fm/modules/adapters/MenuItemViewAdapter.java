@@ -20,7 +20,7 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
 
 
     public MenuItemViewAdapter(List<Menu> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
 

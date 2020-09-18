@@ -1,5 +1,6 @@
 package com.fm.modules.adapters;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,12 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
         return lista;
     }
 
+    private Context context;
 
-    public ItemViewAdapterImagen(List<T> lista) {
+
+    public ItemViewAdapterImagen(List<T> lista, Context context) {
         this.lista = lista;
+        this.context = context;
     }
 
     @Override
@@ -141,7 +145,7 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
             protected void onPostExecute(Image image) {
                 super.onPostExecute(image);
                 if (image != null) {
-                    Utilities.displayImageFromBytea(image.getContent(), ivOutstandingImage);
+                    Utilities.displayImageFromBytea(image.getContent(), ivOutstandingImage, context);
                     System.out.println("asynk display image ! !!!!!!!!!!!!!!!!");
                 }
             }
@@ -182,7 +186,7 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
             protected void onPostExecute(Image image) {
                 super.onPostExecute(image);
                 if (image != null) {
-                    Utilities.displayImageFromBytea(image.getContent(), ivRestaurantLogo);
+                    Utilities.displayImageFromBytea(image.getContent(), ivRestaurantLogo, context);
                     System.out.println("asynk display image ! !!!!!!!!!!!!!!!!");
                 }
             }

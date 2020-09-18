@@ -26,7 +26,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fm.modules.R;
-import com.fm.modules.app.commons.utils.Generics;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.app.signup.SignUp;
 import com.fm.modules.models.Image;
@@ -51,7 +50,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 
 public class Logon extends AppCompatActivity {
@@ -88,6 +86,7 @@ public class Logon extends AppCompatActivity {
         loginFacebook();
         // end facebook
         //logon
+        Logued.imagenPerfil = null;
         userInput = (TextInputEditText) findViewById(R.id.etEmaillogin);
         passInput = (TextInputEditText) findViewById(R.id.etPasswordlogin);
         buttonLogin = (Button) findViewById(R.id.btnLogin);
@@ -391,24 +390,16 @@ public class Logon extends AppCompatActivity {
                 u.setFechaDeMacimiento(new Date());
                 Image image = new Image();
                 ImageService imageService = new ImageService();
-                byte[] arrayBytes = new byte[0];
-                if (user.getPhotoUrl() != null) {
-                    try {
-                        URL url = new URL(user.getPhotoUrl().toString());
-                        arrayBytes = Generics.downloadUrl(url);
-                    } catch (Exception e) {
-                        System.out.println("error imagen " + e);
-                    }
-                }
-                image.setContent(arrayBytes);
+                image.setContent(null);
                 Image inm = imageService.crearImagen(image);
                 u.setImagenDePerfil(inm.getId());
                 Usuario registered = usuarioService.crearUsuario(u);
                 if (registered != null) {
-                    Logued.usuarioLogued = u;
+                    Logued.usuarioLogued = registered;
                     i = -5;
                 }
             } catch (Exception e) {
+                System.out.println("erro register user from firebase: " + e);
             }
             return i;
         }
@@ -423,7 +414,7 @@ public class Logon extends AppCompatActivity {
                         AlertDialog dialog = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_server_err)
                                 .setCancelable(true)
-                                .setPositiveButton("Ok", null)
+                                .setPositiveButton("Continuar", null)
                                 .show();
                         break;
                     case -1:
@@ -431,7 +422,7 @@ public class Logon extends AppCompatActivity {
                         AlertDialog dialog1 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_user_err)
                                 .setCancelable(true)
-                                .setPositiveButton("Ok", null)
+                                .setPositiveButton("Continuar", null)
                                 .show();
                         break;
                     case -2:
@@ -439,7 +430,7 @@ public class Logon extends AppCompatActivity {
                         AlertDialog dialog2 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_pass_err)
                                 .setCancelable(true)
-                                .setPositiveButton("Ok", null)
+                                .setPositiveButton("Continuar", null)
                                 .show();
                         break;
                     case -4:
@@ -447,7 +438,7 @@ public class Logon extends AppCompatActivity {
                         break;
                     case -5:
                         dialogo1();
-                        Thread.sleep(2 * 1000);
+                        Thread.sleep(4 * 1000);
                         Intent intent = new Intent(Logon.this, RestaurantePorCategoria.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

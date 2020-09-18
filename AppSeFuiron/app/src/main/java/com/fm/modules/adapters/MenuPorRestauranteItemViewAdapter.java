@@ -21,7 +21,7 @@ public class MenuPorRestauranteItemViewAdapter extends ItemViewAdapterImagen<Res
 
 
     public MenuPorRestauranteItemViewAdapter(List<RespuestaMenuPorRestaurantes> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
 

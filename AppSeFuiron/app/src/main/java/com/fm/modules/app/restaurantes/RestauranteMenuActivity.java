@@ -59,10 +59,15 @@ public class RestauranteMenuActivity extends AppCompatActivity {
         //initTab();
         listView = (ListView) findViewById(R.id.lvMenus);
         imagenLogo = (AppCompatImageView) findViewById(R.id.ivRestaurantLogoMenu);
-        verLogo();
         if (isNetActive()) {
             cargarDatos();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verLogo();
     }
 
     public void verLogo() {
@@ -79,9 +84,9 @@ public class RestauranteMenuActivity extends AppCompatActivity {
             }
         }
         if (image != null) {
-            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo);
+            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, RestauranteMenuActivity.this);
         } else {
-            Utilities.displayAppCompatImageFromBytea(null, imagenLogo);
+            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, RestauranteMenuActivity.this);
         }
     }
 
@@ -144,10 +149,9 @@ public class RestauranteMenuActivity extends AppCompatActivity {
             List<Menu> subM = new ArrayList<>();
             try {
                 OpcionesDeSubMenuService opcionesDeSubMenuService = new OpcionesDeSubMenuService();
-                List<OpcionesDeSubMenu> opciones = new ArrayList<>();
-                opciones = opcionesDeSubMenuService.obtenerOpcionesDeSubMenu();
+                List<OpcionesDeSubMenu> opciones = opcionesDeSubMenuService.obtenerOpcionesDeSubMenu();
                 if (!opciones.isEmpty()) {
-
+                    System.out.println("********* opciones cargadas ***************");
                     List<SubMenu> subMenus = new ArrayList<>();
                     List<Integer> ints = new ArrayList<>();
                     for (OpcionesDeSubMenu op : opciones) {

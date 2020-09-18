@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="match_parent" android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
-                android:id="@+id/flProfilePhoto"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/sgnflProfilePhoto"
                 android:layout_width="94dp"
                 android:layout_height="92dp"
                 android:layout_marginTop="@dimen/space_1x"
@@ -35,6 +35,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/space_4n"
+                app:cardCornerRadius="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.475"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,17 +43,19 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/signProfilePhoto"
-                    android:src="@drawable/ic_empty_profile_photo"
                     android:layout_width="match_parent"
-                    android:layout_height="91dp" />
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_empty_profile_photo" />
 
-            </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="23dp"
                 android:layout_height="38dp"
-                app:layout_constraintCircle="@id/flProfilePhoto"
+                app:layout_constraintCircle="@id/sgnflProfilePhoto"
                 app:layout_constraintCircleAngle="140"
+                android:src="@drawable/ic_plus"
                 app:layout_constraintCircleRadius="48dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +67,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/flProfilePhoto">
+                app:layout_constraintTop_toBottomOf="@+id/sgnflProfilePhoto">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputName"
@@ -154,9 +157,9 @@
                     android:layout_marginStart="@dimen/space_5x"
                     android:layout_marginTop="@dimen/space_1x"
                     android:layout_marginEnd="@dimen/space_5x"
+                    android:focusable="true"
                     android:hint="@string/birthday"
-                    app:boxBackgroundColor="@color/opaquePurple"
-                    android:focusable="true">
+                    app:boxBackgroundColor="@color/opaquePurple">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etsgnupBirthday"
@@ -166,8 +169,7 @@
                         android:clickable="false"
                         android:focusable="false"
                         android:imeOptions="actionNext"
-                        android:inputType="date"
-                        />
+                        android:inputType="date" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,6 +192,7 @@
                         android:inputType="phone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputUsername"
                     android:layout_width="match_parent"
@@ -209,7 +212,6 @@
                         android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
 
 
             </LinearLayout>

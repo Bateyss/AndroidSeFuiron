@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
 
 
 /**
@@ -129,13 +130,14 @@ public class Utilities {
         }
     }
 
-    public static void displayImageFromBytea(byte[] bytea, ImageView view) {
+    public static void displayImageFromBytea(byte[] bytea, ImageView view, Context context) {
         try {
             if (bytea != null) {
                 Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
                 view.setImageBitmap(imag);
             } else {
-                view.setImageResource(R.drawable.not_found);
+                view.setImageResource(R.drawable.ic_logo_splash);
+                view.setBackgroundColor(context.getResources().getColor(R.color.purple));
             }
         } catch (Exception e) {
             System.out.println("error display image from bytea: " + e);
@@ -143,18 +145,52 @@ public class Utilities {
 
     }
 
-    public static void displayAppCompatImageFromBytea(byte[] bytea, AppCompatImageView view) {
+    public static void displayAppCompatImageFromBytea(byte[] bytea, AppCompatImageView view, Context context) {
         try {
             if (bytea != null) {
                 Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
                 view.setImageBitmap(imag);
             } else {
-                view.setImageResource(R.drawable.not_found);
+                view.setImageResource(R.drawable.ic_logo_splash);
+                view.setBackgroundColor(context.getResources().getColor(R.color.purple));
             }
         } catch (Exception e) {
             System.out.println("error display image from bytea: " + e);
         }
 
+    }
+
+    public static void displayAppCompatImageFoodFromBytea(byte[] bytea, AppCompatImageView view, Context context) {
+        try {
+            if (bytea != null) {
+                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+                view.setImageBitmap(imag);
+            } else {
+                view.setImageResource(R.drawable.ic_hamburger);
+                view.setBackgroundColor(context.getResources().getColor(R.color.purple));
+                view.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        } catch (Exception e) {
+            System.out.println("error display image from bytea: " + e);
+        }
+
+    }
+
+    public String encrip(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }

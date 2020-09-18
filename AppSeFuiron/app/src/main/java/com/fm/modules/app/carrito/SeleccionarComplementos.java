@@ -1,6 +1,7 @@
 package com.fm.modules.app.carrito;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,15 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
 import com.fm.modules.adapters.RecyclerSubMenuAdapter2;
+import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.Driver;
+import com.fm.modules.models.Image;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Platillo;
 import com.fm.modules.models.PlatilloSeleccionado;
 import com.fm.modules.models.SubMenu;
+import com.fm.modules.service.ImageService;
 import com.fm.modules.sqlite.models.OpcionesDeSubMenuSeleccionadoSQLite;
 import com.fm.modules.sqlite.models.PedidoSQLite;
 import com.fm.modules.sqlite.models.PlatillosSeleccionadoSQLite;
@@ -51,6 +55,7 @@ public class SeleccionarComplementos extends AppCompatActivity {
     List<Platillo> platillosGlobal;
     MaterialButton btnAddCarrito;
     Platillo platilloActual;
+    CargarImagen cargarImagen = new CargarImagen();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class SeleccionarComplementos extends AppCompatActivity {
         numberPicker = (NumberPicker) findViewById(R.id.npFoodQuantity);
         tvFoodName = (AppCompatTextView) findViewById(R.id.tvFoodName);
         tvFoodPrice = (AppCompatTextView) findViewById(R.id.tvFoodPrice);
-        appCompatImageView = (AppCompatImageView) findViewById(R.id.ivFoodImage);
+        appCompatImageView = (AppCompatImageView) findViewById(R.id.ivFoodImageAdicionales);
         btnAddCarrito = (MaterialButton) findViewById(R.id.btnAddToShoppingCart);
         opcionesDeSubMenusGlobal = new ArrayList<>();
         subMenusGlobal = new ArrayList<>();
@@ -69,6 +74,22 @@ public class SeleccionarComplementos extends AppCompatActivity {
         mostrarPlatillo(idPlatillo);
         mostrarComplementos(idPlatillo);
         agregarAlCarritoListener();
+        cargarImg();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cargarImg();
+    }
+
+    private void cargarImg() {
+        Platillo platillo = GlobalRestaurantes.platilloSeleccionado;
+        cargarImagen.cancel(true);
+        cargarImagen = new CargarImagen();
+        if (platillo != null) {
+            cargarImagen.execute(platillo.getImagen());
+        }
     }
 
     private void agregarAlCarritoListener() {
@@ -159,12 +180,12 @@ public class SeleccionarComplementos extends AppCompatActivity {
 
     public Pedido registrarPedido() {
         List<Pedido> pedidos = Logued.pedidosActuales;
-        if (pedidos == null){
+        if (pedidos == null) {
             pedidos = new ArrayList<>();
         }
         Pedido ped = null;
-        for (Pedido pe : pedidos ){
-            if (pe.getPedidoId().intValue() ==platilloActual.getMenu().getRestaurante().getRestauranteId()){
+        for (Pedido pe : pedidos) {
+            if (pe.getPedidoId().intValue() == platilloActual.getMenu().getRestaurante().getRestauranteId()) {
                 ped = pe;
             }
         }
@@ -258,5 +279,46 @@ public class SeleccionarComplementos extends AppCompatActivity {
         }
     }
 
+    private class CargarImagen extends AsyncTask<Long, String, Image> {
+
+        @Override
+        protected Image doInBackground(Long... longs) {
+            Image image = null;
+            try {
+                if (Logued.imagenesIDs == null) {
+                    Logued.imagenes = new ArrayList<>();
+                    Logued.imagenesIDs = new ArrayList<>();
+                }
+                List<Integer> integers = Logued.imagenesIDs;
+                if (!integers.contains(longs[0].intValue())) {
+                    ImageService imageService = new ImageService();
+                    image = imageService.obtenerImagenPorId(longs[0]);
+                    if (image != null) {
+                        Logued.imagenesIDs.add(image.getId().intValue());
+                        Logued.imagenes.add(image);
+                    }
+                } else {
+                    for (int i = 0; i < integers.size(); i++) {
+                        if (integers.get(i) == longs[0].intValue()) {
+                            image = Logued.imagenes.get(i);
+                        }
+                    }
+                }
+            } catch (
+                    Exception e) {
+                System.out.println("error asynk image: " + e);
+            }
+            return image;
+        }
+
+        @Override
+        protected void onPostExecute(Image image) {
+            super.onPostExecute(image);
+            if (image != null) {
+                Utilities.displayAppCompatImageFoodFromBytea(image.getContent(), appCompatImageView, SeleccionarComplementos.this);
+                System.out.println("asynk display image ! !!!!!!!!!!!!!!!!");
+            }
+        }
+    }
 
 }

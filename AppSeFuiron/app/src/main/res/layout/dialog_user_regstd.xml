@@ -40,7 +40,6 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_ready_secure"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -48,7 +47,7 @@
         android:id="@+id/tvRecoverySuccessDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="48dp"
         android:gravity="center"
         android:text="@string/Registered_summary"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -59,18 +58,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/ivLock" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPassErr"
-        style="@style/PrimaryButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="168dp"
-        android:paddingStart="@dimen/space_4x"
-        android:paddingEnd="@dimen/space_4x"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

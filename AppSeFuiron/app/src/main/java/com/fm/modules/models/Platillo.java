@@ -11,12 +11,12 @@ public class Platillo {
     private Long imagen;
     private String descripcion;
     private int orden;
+    private int disponible;
 
     public Platillo() {
     }
 
-    public Platillo(Long platilloId, Menu menu, String nombre, double precioBase, Long imagen, String descripcion,
-                    int orden) {
+    public Platillo(Long platilloId, Menu menu, String nombre, double precioBase, Long imagen, String descripcion, int orden, int disponible) {
         this.platilloId = platilloId;
         this.menu = menu;
         this.nombre = nombre;
@@ -24,6 +24,7 @@ public class Platillo {
         this.imagen = imagen;
         this.descripcion = descripcion;
         this.orden = orden;
+        this.disponible = disponible;
     }
 
     public Long getPlatilloId() {
@@ -82,25 +83,26 @@ public class Platillo {
         this.orden = orden;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{platilloId:'");
-        builder.append(platilloId);
-        builder.append("',menus:'");
-        builder.append(menu);
-        builder.append("',nombre:'");
-        builder.append(nombre);
-        builder.append("',precioBase:'");
-        builder.append(precioBase);
-        builder.append("',imagen:'");
-        builder.append(imagen);
-        builder.append("',descripcion:'");
-        builder.append(descripcion);
-        builder.append("',orden:'");
-        builder.append(orden);
-        builder.append("'}");
-        return builder.toString();
+    public int getDisponible() {
+        return disponible;
     }
 
+    public void setDisponible(int disponible) {
+        this.disponible = disponible;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Platillo{");
+        sb.append("platilloId=").append(platilloId);
+        sb.append(", menu=").append(menu);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", precioBase=").append(precioBase);
+        sb.append(", imagen=").append(imagen);
+        sb.append(", descripcion='").append(descripcion).append('\'');
+        sb.append(", orden=").append(orden);
+        sb.append(", disponible=").append(disponible);
+        sb.append('}');
+        return sb.toString();
+    }
 }

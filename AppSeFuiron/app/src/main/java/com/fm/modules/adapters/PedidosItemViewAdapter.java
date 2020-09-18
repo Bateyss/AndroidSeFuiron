@@ -17,7 +17,7 @@ public class PedidosItemViewAdapter extends ItemViewAdapterImagen<Pedido> {
     private Context context;
 
     public PedidosItemViewAdapter(List<Pedido> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
     }

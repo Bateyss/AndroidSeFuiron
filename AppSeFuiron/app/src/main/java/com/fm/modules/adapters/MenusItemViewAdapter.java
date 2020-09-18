@@ -21,7 +21,7 @@ public class MenusItemViewAdapter extends ItemViewAdapterImagen<Menu>{
 
 
     public MenusItemViewAdapter(List<Menu> lista, Context context, int resource) {
-        super(lista);
+        super(lista,context);
         this.context = context;
         this.resource = resource;
     }

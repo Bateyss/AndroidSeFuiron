@@ -22,14 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hlItVImgFood"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
-                app:cardCornerRadius="10dp"
                 android:layout_marginStart="@dimen/space_2x"
                 android:layout_marginTop="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_default"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFoodPrice"
                 app:layout_constraintDimensionRatio="4:3"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +37,19 @@
                 tools:srcCompat="@drawable/food_sample">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivFoodImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/space_2x"
+                    android:layout_marginTop="@dimen/space_default"
+                    android:layout_marginBottom="@dimen/space_default"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvFoodPrice"
+                    app:layout_constraintDimensionRatio="4:3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvFoodName"
+                    tools:srcCompat="@drawable/food_sample" />
 
-            </androidx.cardview.widget.CardView>
+            </androidx.appcompat.widget.AppCompatImageView>
 
 
             <androidx.appcompat.widget.AppCompatTextView
