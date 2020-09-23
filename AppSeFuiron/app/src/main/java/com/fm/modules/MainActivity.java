@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fm.modules.app.menu.MenuBotton;
+import com.fm.modules.app.login.Logon;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(MainActivity.this, MenuBotton.class);
+            Intent intent = new Intent(MainActivity.this, Logon.class);
             startActivity(intent);
         }
     }

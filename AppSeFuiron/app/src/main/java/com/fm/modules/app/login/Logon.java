@@ -27,7 +27,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fm.modules.R;
 import com.fm.modules.app.commons.utils.Utilities;
-import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.app.signup.SignUp;
 import com.fm.modules.models.Image;
 import com.fm.modules.models.Usuario;
@@ -337,7 +337,7 @@ public class Logon extends AppCompatActivity {
                         break;
                 }
                 if (res > 0) {
-                    Intent intent = new Intent(Logon.this, RestaurantePorCategoria.class);
+                    Intent intent = new Intent(Logon.this, MenuBotton.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
@@ -444,7 +444,7 @@ public class Logon extends AppCompatActivity {
                     case -5:
                         dialogo1();
                         Thread.sleep(4 * 1000);
-                        Intent intent = new Intent(Logon.this, RestaurantePorCategoria.class);
+                        Intent intent = new Intent(Logon.this, MenuBotton.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         break;
@@ -453,7 +453,7 @@ public class Logon extends AppCompatActivity {
                         break;
                 }
                 if (res > 0) {
-                    Intent intent = new Intent(Logon.this, RestaurantePorCategoria.class);
+                    Intent intent = new Intent(Logon.this, MenuBotton.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
@@ -492,10 +492,16 @@ public class Logon extends AppCompatActivity {
             opcionesDeSubMenuSeleccionadoSQLite.truncate();
             PedidoSQLite pedidoSQLite = new PedidoSQLite(Logon.this);
             pedidoSQLite.truncate();
+            pedidoSQLite.close();
             PlatillosSeleccionadoSQLite platillosSeleccionadoSQLite = new PlatillosSeleccionadoSQLite(Logon.this);
             platillosSeleccionadoSQLite.truncate();
+            platillosSeleccionadoSQLite.close();
             TarjetasSQLite tarjetasSQLite = new TarjetasSQLite(Logon.this);
             tarjetasSQLite.truncate();
+            tarjetasSQLite.close();
+            Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+            Logued.platillosSeleccionadosActuales = new ArrayList<>();
+            Logued.pedidoActual = null;
         } catch (Exception ignored) {
         }
     }
