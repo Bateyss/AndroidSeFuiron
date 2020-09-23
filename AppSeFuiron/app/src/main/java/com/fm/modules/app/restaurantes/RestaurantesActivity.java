@@ -144,8 +144,8 @@ public class RestaurantesActivity extends AppCompatActivity {
             super.onPostExecute(restaurantes);
             try {
                if (!restaurantes.isEmpty()){
-                   RestauranteItemViewAdapter adapter = new RestauranteItemViewAdapter(restaurantes, RestaurantesActivity.this, R.layout.frg_restaurants);
-                   listView.setAdapter(adapter);
+                   /*RestauranteItemViewAdapter adapter = new RestauranteItemViewAdapter(restaurantes, RestaurantesActivity.this, R.layout.frg_restaurants,);
+                   listView.setAdapter(adapter);*/
                    Toast.makeText(RestaurantesActivity.this, "Restaurantes Cargados" +restaurantes.size(), Toast.LENGTH_SHORT).show();
                }else{
                    Toast.makeText(RestaurantesActivity.this, "Restaurantes No Cargados" +restaurantes.size(), Toast.LENGTH_SHORT).show();

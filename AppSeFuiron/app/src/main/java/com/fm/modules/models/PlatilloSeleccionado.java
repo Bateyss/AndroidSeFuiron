@@ -7,17 +7,18 @@ public class PlatilloSeleccionado {
     private Pedido pedido;
     private String nombre;
     private double precio;
+    private int cantidad;
 
     public PlatilloSeleccionado() {
     }
 
-    public PlatilloSeleccionado(Long platilloSeleccionadoId, Platillo platillo, Pedido pedido, String nombre,
-                                double precio) {
+    public PlatilloSeleccionado(Long platilloSeleccionadoId, Platillo platillo, Pedido pedido, String nombre, double precio, int cantidad) {
         this.platilloSeleccionadoId = platilloSeleccionadoId;
         this.platillo = platillo;
         this.pedido = pedido;
         this.nombre = nombre;
         this.precio = precio;
+        this.cantidad = cantidad;
     }
 
     public Long getPlatilloSeleccionadoId() {
@@ -58,6 +59,14 @@ public class PlatilloSeleccionado {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     @Override

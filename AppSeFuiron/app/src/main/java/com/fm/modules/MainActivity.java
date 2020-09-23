@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fm.modules.app.login.Logon;
+import com.fm.modules.app.menu.MenuBotton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,12 +26,12 @@ public class MainActivity extends AppCompatActivity {
         splash.execute();
     }
 
-    public class Splash extends AsyncTask<String,String,String>{
+    public class Splash extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... strings) {
             try {
-                Thread.sleep(3*1000);
+                Thread.sleep(3 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(MainActivity.this, Logon.class);
+            Intent intent = new Intent(MainActivity.this, MenuBotton.class);
             startActivity(intent);
         }
     }

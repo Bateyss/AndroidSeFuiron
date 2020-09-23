@@ -26,6 +26,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fm.modules.R;
+import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.app.signup.SignUp;
 import com.fm.modules.models.Image;
@@ -50,6 +51,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Logon extends AppCompatActivity {
@@ -94,6 +96,10 @@ public class Logon extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         userInput.setText("");
         passInput.setText("");
+        Logued.pedidoActual = null;
+        Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+        Logued.platillosSeleccionadosActuales = new ArrayList<>();
+        Logued.restauranteActual = null;
         loginFuimonos();
         // end logon
     }
@@ -281,9 +287,8 @@ public class Logon extends AppCompatActivity {
             try {
                 if (isNetActive()) {
                     Usuario u = new Usuario();
-                    u.setUsername(usuario);
-                    u.setPassword(passw);
-
+                    u.setUsername(Utilities.encrip(usuario));
+                    u.setPassword(Utilities.encrip(passw));
                     UsuarioService usuarioService = new UsuarioService();
                     v = usuarioService.signIn(u);
                     if (v > 0) {
@@ -389,8 +394,8 @@ public class Logon extends AppCompatActivity {
                 u.setRegPago("EFECTIVO");
                 u.setFechaDeMacimiento(new Date());
                 Image image = new Image();
+                image.setId(0L);
                 ImageService imageService = new ImageService();
-                image.setContent(null);
                 Image inm = imageService.crearImagen(image);
                 u.setImagenDePerfil(inm.getId());
                 Usuario registered = usuarioService.crearUsuario(u);
@@ -468,7 +473,7 @@ public class Logon extends AppCompatActivity {
                 if (user != null) {
                     usuario = user.getUid();
                     passw = user.getUid();
-                    acceder.execute();
+                    accederFirebased.execute(user);
                 }
             }
         };

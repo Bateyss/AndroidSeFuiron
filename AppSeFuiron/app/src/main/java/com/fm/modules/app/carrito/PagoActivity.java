@@ -1,12 +1,17 @@
 package com.fm.modules.app.carrito;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
@@ -61,7 +66,9 @@ public class PagoActivity extends AppCompatActivity {
         btnPagar = (Button) findViewById(R.id.pagoBtnPagar);
         btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
         btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        pedido = null;
+        pedido = Logued.pedidoActual;
+        btnPagar.setEnabled(false);
+        btnPagar.setBackgroundColor(getResources().getColor(R.color.lightGray));
         platilloSeleccionados = new ArrayList<>();
         opcionesSeleccionadas = new ArrayList<>();
         mostrarDatos();
@@ -79,18 +86,12 @@ public class PagoActivity extends AppCompatActivity {
         btnTarjeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Pedido> pedidos = Logued.pedidosActuales;
-                List<Pedido> nuevos = new ArrayList<>();
-                if (pedidos != null) {
-                    if (!pedidos.isEmpty()) {
-                        for (Pedido pedi : pedidos) {
-                            pedi.setFormaDePago("Tarjeta");
-                            nuevos.add(pedi);
-                            pedido = pedi;
-                        }
-                    }
+                if (pedido != null) {
+                    pedido.setFormaDePago("Tarjeta");
+                    btnPagar.setEnabled(true);
+                    btnPagar.setBackgroundColor(getResources().getColor(R.color.orange));
                 }
-                Logued.pedidosActuales = nuevos;
+                Logued.pedidoActual = pedido;
                 btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lime));
                 btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
             }
@@ -98,18 +99,12 @@ public class PagoActivity extends AppCompatActivity {
         btnEfectivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Pedido> pedidos = Logued.pedidosActuales;
-                List<Pedido> nuevos = new ArrayList<>();
-                if (pedidos != null) {
-                    if (!pedidos.isEmpty()) {
-                        for (Pedido pedi : pedidos) {
-                            pedi.setFormaDePago("Efectivo");
-                            nuevos.add(pedi);
-                            pedido = pedi;
-                        }
-                    }
+                if (pedido != null) {
+                    pedido.setFormaDePago("Tarjeta");
+                    btnPagar.setEnabled(true);
+                    btnPagar.setBackgroundColor(getResources().getColor(R.color.orange));
                 }
-                Logued.pedidosActuales = nuevos;
+                Logued.pedidoActual = pedido;
                 btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
                 btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lime));
             }
@@ -146,18 +141,38 @@ public class PagoActivity extends AppCompatActivity {
             String[] strings = direccion.split(" ; ", 7);
             if (strings.length > 3) {
                 txtDireccion1.setText(strings[0]);
-                String dir2 = strings[1] + " , " + strings[2];
+                String dir2 = strings[1] + " , " + strings[3];
                 txtDireccion2.setText(dir2);
             }
             total2 = total1 * 0.13;
             total3 = total1 * 0.05;
             // descuento = descuento * total1;
             total4 = total1 + total2 + total3 - descuento;
+            pedido.setTotalDePedido(total1);
+            pedido.setTotalEnRestautante(total4);
+            pedido.setTotalDeCargosExtra(total3);
+            pedido.setTotalEnRestautanteSinComision(total1 + total2 - descuento);
             DecimalFormat decimalFormat = new DecimalFormat("$ #,##0.00");
             txtTotal.setText(String.valueOf(decimalFormat.format(total4)));
         } catch (Exception e) {
             System.out.println("error carrito: " + e);
         }
+    }
+
+    public boolean isNetActive() {
+        boolean c = false;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                c = true;
+            }
+        } catch (Exception e) {
+            Log.e("error", "" + "error al comprobar conexion");
+            Log.e("error", "" + e);
+            c = false;
+        }
+        return c;
     }
 
     public class GuardarPedidoAsync extends AsyncTask<String, String, Integer> {
@@ -173,38 +188,42 @@ public class PagoActivity extends AppCompatActivity {
                         pedido.setFechaOrdenado(new Date());
                         DriverService driverService = new DriverService();
                         List<Driver> drivers = driverService.obtenerDrivers();
-                        if (drivers.isEmpty()) {
-                            Toast.makeText(PagoActivity.this, "no hay drivers", Toast.LENGTH_SHORT).show();
-
-                        } else {
+                        if (!drivers.isEmpty()) {
                             pedido.setDrivers(drivers.get(0));
+                            pedido.setStatus(0);
                         }
-                        Pedido per = pedidoService.crearPedido(pedido);
-                        if (per != null) {
-                            b = 1;
-                        }
-                        if (b == 1) {
-                            PlatilloSeleccionadoService platilloSeleccionadoService = new PlatilloSeleccionadoService();
-                            for (PlatilloSeleccionado pla : platilloSeleccionados) {
-                                pla.setPedido(per);
-                                PlatilloSeleccionado pls = platilloSeleccionadoService.crearPlatilloSeleccionado(pla);
-                                if (pls != null) {
-                                    b = 2;
-                                    if (!opcionesSeleccionadas.isEmpty()) {
-                                        OpcionSubMenuSeleccionadoService opcionSubMenuSeleccionadoService = new OpcionSubMenuSeleccionadoService();
-                                        for (OpcionesDeSubMenuSeleccionado opc : opcionesSeleccionadas) {
-                                            if (opc.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == pla.getPlatilloSeleccionadoId().intValue()) {
-                                                opc.setPlatilloSeleccionado(pls);
-                                                OpcionesDeSubMenuSeleccionado pp = opcionSubMenuSeleccionadoService.crearOpcionSubMenu(opc);
-                                                if (pp != null) {
-                                                    b = 3;
+                        if (isNetActive()) {
+                            Pedido per = pedidoService.crearPedido(pedido);
+                            if (per != null) {
+                                b = 1;
+                                GlobalCarrito.pedidoRegistrado = per;
+                            } else {
+                                b = 2;
+                            }
+                            if (b == 1) {
+                                PlatilloSeleccionadoService platilloSeleccionadoService = new PlatilloSeleccionadoService();
+                                for (PlatilloSeleccionado pla : platilloSeleccionados) {
+                                    pla.setPedido(per);
+                                    PlatilloSeleccionado pls = platilloSeleccionadoService.crearPlatilloSeleccionado(pla);
+                                    if (pls != null) {
+                                        b = 3;
+                                        if (!opcionesSeleccionadas.isEmpty()) {
+                                            OpcionSubMenuSeleccionadoService opcionSubMenuSeleccionadoService = new OpcionSubMenuSeleccionadoService();
+                                            for (OpcionesDeSubMenuSeleccionado opc : opcionesSeleccionadas) {
+                                                if (opc.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == pla.getPlatilloSeleccionadoId().intValue()) {
+                                                    opc.setPlatilloSeleccionado(pls);
+                                                    OpcionesDeSubMenuSeleccionado pp = opcionSubMenuSeleccionadoService.crearOpcionSubMenu(opc);
+                                                    if (pp != null) {
+                                                        b = 3;
+                                                    }
                                                 }
                                             }
                                         }
+                                    } else {
+                                        b = 2;
                                     }
                                 }
                             }
-
                         }
                     }
                 }
@@ -220,13 +239,21 @@ public class PagoActivity extends AppCompatActivity {
             int procesed = b;
             switch (procesed) {
                 case 0:
-                    Toast.makeText(PagoActivity.this, "Error al guardar", Toast.LENGTH_SHORT).show();
+                    AlertDialog dialog = new AlertDialog.Builder(PagoActivity.this)
+                            .setView(R.layout.dialog_server_err)
+                            .setCancelable(true)
+                            .setPositiveButton("Continuar", null)
+                            .show();
                     break;
                 case 2:
-                    Toast.makeText(PagoActivity.this, "Pedido Guardado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PagoActivity.this, PedidoNoRegistrado.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     break;
                 case 3:
-                    Toast.makeText(PagoActivity.this, "Complementos Agregados", Toast.LENGTH_SHORT).show();
+                    Intent intent2 = new Intent(PagoActivity.this, PedidoRegistrado.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent2);
                     break;
             }
             reiniciarAsynk();

@@ -1,10 +1,15 @@
 package com.fm.modules.app.restaurantes;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,30 +18,41 @@ import com.fm.modules.adapters.RecyclerPlatillosAdapter;
 import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.Image;
+import com.fm.modules.models.Menu;
 import com.fm.modules.models.Platillo;
 import com.fm.modules.models.Restaurante;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlatillosActivity extends AppCompatActivity {
+public class PlatillosActivity extends Fragment {
     private RecyclerView rvPlatillos;
     private AppCompatImageView imagenLogo;
+    private View viewGlobal;
 
-    int idMenu;
-
-    @Override
+    /*@Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_platillos);
         rvPlatillos = (RecyclerView) findViewById(R.id.rvPlatillos);
         imagenLogo = (AppCompatImageView) findViewById(R.id.ivRestaurantLogoPlatillo);
         verPlatillos();
+    }*/
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frg_platillos, container, false);
+        viewGlobal = view;
+        rvPlatillos = (RecyclerView) view.findViewById(R.id.rvPlatillos);
+        imagenLogo = (AppCompatImageView) view.findViewById(R.id.ivRestaurantLogoPlatillo);
+        verPlatillos();
+        return view;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         verLogo();
     }
 
@@ -54,15 +70,18 @@ public class PlatillosActivity extends AppCompatActivity {
             }
         }
         if (image != null) {
-            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, PlatillosActivity.this);
+            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, viewGlobal.getContext());
         } else {
-            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, PlatillosActivity.this);
+            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, viewGlobal.getContext());
         }
     }
 
     public void verPlatillos() {
-        idMenu = getIntent().getIntExtra("idMenu", 0);
-        System.out.println("idMenu: " + idMenu);
+        Menu m = GlobalRestaurantes.menuSeleccionado;
+        int idMenu = 0;
+        if (m != null) {
+            idMenu = m.getMenuId().intValue();
+        }
         if (idMenu != 0) {
             List<Platillo> platilloList = new ArrayList<>();
             List<Integer> ints = new ArrayList<>();
@@ -75,10 +94,15 @@ public class PlatillosActivity extends AppCompatActivity {
                 }
             }
 
-            RecyclerPlatillosAdapter recyclerPlatillosAdapter = new RecyclerPlatillosAdapter(platilloList, PlatillosActivity.this);
-            rvPlatillos.setLayoutManager(new LinearLayoutManager(PlatillosActivity.this, LinearLayoutManager.VERTICAL, false));
+            RecyclerPlatillosAdapter recyclerPlatillosAdapter = new RecyclerPlatillosAdapter(platilloList, viewGlobal.getContext(), getActivity());
+            rvPlatillos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
             rvPlatillos.setAdapter(recyclerPlatillosAdapter);
         }
     }
 
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
+    }
 }

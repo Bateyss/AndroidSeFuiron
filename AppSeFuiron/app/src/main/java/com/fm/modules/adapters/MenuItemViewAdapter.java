@@ -6,7 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.app.restaurantes.PlatillosActivity;
 import com.fm.modules.models.Menu;
 
@@ -17,13 +22,14 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
     private int resource;
     private LayoutInflater layoutInflater;
     private Context context;
+    private FragmentActivity fragmentActivity;
 
 
-    public MenuItemViewAdapter(List<Menu> lista, Context context, int resource) {
-        super(lista,context);
+    public MenuItemViewAdapter(List<Menu> lista, Context context, int resource, FragmentActivity fragmentActivity) {
+        super(lista, context);
         this.context = context;
         this.resource = resource;
-
+        this.fragmentActivity = fragmentActivity;
     }
 
     @Override
@@ -48,9 +54,11 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
             holder.imageMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, PlatillosActivity.class);
+                    GlobalRestaurantes.menuSeleccionado = menu;
+                    showFragment(new PlatillosActivity());
+                    /*Intent i = new Intent(context, PlatillosActivity.class);
                     i.putExtra("idMenu", menu.getMenuId().intValue());
-                    context.startActivity(i);
+                    context.startActivity(i);*/
                 }
             });
 
@@ -58,5 +66,12 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
 
         }
         return convertView;
+    }
+
+    private void showFragment(Fragment fragment) {
+        fragmentActivity.getSupportFragmentManager()
+                .beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

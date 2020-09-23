@@ -5,8 +5,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class RestTemplateEntity<Entity> {
@@ -35,7 +35,7 @@ public abstract class RestTemplateEntity<Entity> {
 
     public List<Entity> getListURL(String url) {
         // metodo GET de rest template, convierte el resultado al Entity generado
-        List<Entity> list = new LinkedList<>();
+        List<Entity> list = new ArrayList<>();
         try {
             restTemplate = new RestTemplate();
             /*
@@ -101,7 +101,7 @@ public abstract class RestTemplateEntity<Entity> {
             ResponseEntity<Entity> response = restTemplate.exchange(url.concat("/").concat(id.toString()), HttpMethod.PUT, request, classEntity);
             etity = response.getBody();
         } catch (Exception e) {
-            System.out.println("error absRest updateURL: "+ getClass().getName() + e);
+            System.out.println("error absRest updateURL: " + getClass().getName() + e);
             etity = null;
         }
         return etity;
@@ -114,7 +114,7 @@ public abstract class RestTemplateEntity<Entity> {
             restTemplate.delete(url.concat("/").concat(id.toString()));
             ;
         } catch (Exception e) {
-            System.out.println("error absRest deleteURL: "+ getClass().getName() + e);
+            System.out.println("error absRest deleteURL: " + getClass().getName() + e);
         }
 
     }

@@ -1,17 +1,23 @@
 package com.fm.modules.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.fm.modules.R;
-import com.fm.modules.app.restaurantes.GlobalRestaurantes;
+import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
 import com.fm.modules.models.Restaurante;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurante> {
@@ -19,11 +25,13 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
     private int resource;
     private LayoutInflater layoutInflater;
     private Context context;
+    private FragmentActivity fragmentActivity;
 
-    public RestauranteItemViewAdapter(List<Restaurante> lista, Context context, int resource) {
+    public RestauranteItemViewAdapter(List<Restaurante> lista, Context context, int resource, FragmentActivity fragmentActivity) {
         super(lista, context);
         this.context = context;
         this.resource = resource;
+        this.fragmentActivity = fragmentActivity;
     }
 
     @Override
@@ -42,8 +50,6 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
             }
 
             final Restaurante restaurante = (Restaurante) getItem(position);
-
-
             holder.ivOutstandingImage.setImageResource(R.drawable.sample_outstanding_image);
             holder.tvRestaurantName.setText(restaurante.getNombreRestaurante());
             holder.tvLabelMinimalMount.setText(restaurante.getDepartamento().getNombreDepartamento());
@@ -52,10 +58,41 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
             holder.ivOutstandingImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GlobalRestaurantes.restauranteSelected = restaurante;
-                    Intent i = new Intent(context, RestauranteMenuActivity.class);
-                    i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
-                    context.startActivity(i);
+                    Restaurante rr = Logued.restauranteActual;
+                    if (rr == null) {
+                        rr = restaurante;
+                        Logued.restauranteActual = restaurante;
+                        showFragment(new RestauranteMenuActivity());
+                        /*Intent i = new Intent(context, RestauranteMenuActivity.class);
+                        i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
+                        context.startActivity(i);*/
+                    } else {
+                        if (rr.getRestauranteId().intValue() == restaurante.getRestauranteId().intValue()) {
+                            showFragment(new RestauranteMenuActivity());
+                            /*Intent i = new Intent(context, RestauranteMenuActivity.class);
+                            i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
+                            context.startActivity(i);*/
+                        } else {
+                            AlertDialog dialog = new AlertDialog.Builder(context)
+                                    .setTitle("Cambiar de Restaurante")
+                                    .setMessage("Esta apunto de cambiar de restaurante")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Logued.restauranteActual = restaurante;
+                                            Logued.platillosSeleccionadosActuales = new ArrayList<>();
+                                            Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+                                            showFragment(new RestauranteMenuActivity());
+                                            /*Intent i = new Intent(context, RestauranteMenuActivity.class);
+                                            i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
+                                            context.startActivity(i);*/
+                                        }
+                                    })
+                                    .setNegativeButton("Cancelar", null)
+                                    .show();
+                        }
+                    }
                 }
             });
             holder.verImagen(restaurante.getImagenDePortada());
@@ -66,6 +103,12 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
         return convertView;
     }
 
+    private void showFragment(Fragment fragment) {
+        fragmentActivity.getSupportFragmentManager()
+                .beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
+    }
 
 }
 

@@ -2,44 +2,136 @@ package com.fm.modules.app.carrito;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.menu.HomeFragment;
 import com.fm.modules.models.Pedido;
+import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ProcesarCarritoActivity extends Fragment {
 
-public class ProcesarCarritoActivity extends AppCompatActivity {
+    private EditText direccion1;
+    private EditText direccion2;
+    private TextView direccion3;
+    private EditText direccion4;
+    private EditText direccion5;
+    private EditText direccion6;
+    private EditText direccion7;
+    private Button btnAgregar;
+    private Button selectLocation;
+    private View viewGlobal;
 
-    EditText direccion1;
-    EditText direccion2;
-    EditText direccion3;
-    EditText direccion4;
-    EditText direccion5;
-    EditText direccion6;
-    EditText direccion7;
-    Button btnAgregar;
-
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procesar_carrito);
         direccion1 = (EditText) findViewById(R.id.direccionTxt1);
         direccion2 = (EditText) findViewById(R.id.direccionTxt2);
-        direccion3 = (EditText) findViewById(R.id.direccionTxt3);
+        direccion3 = (TextView) findViewById(R.id.direccionTxt3);
         direccion4 = (EditText) findViewById(R.id.direccionTxt4);
         direccion5 = (EditText) findViewById(R.id.direccionTxt5);
         direccion6 = (EditText) findViewById(R.id.direccionTxt6);
         direccion7 = (EditText) findViewById(R.id.direccionTxt7);
         btnAgregar = (Button) findViewById(R.id.direccionBtnAdd);
+        selectLocation = (Button) findViewById(R.id.proceCarBtnSelecLc);
         listeneragregar();
+        listenerSeleccionar();
+        datosLast();
+    }*/
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_procesar_carrito, container, false);
+        direccion1 = (EditText) view.findViewById(R.id.direccionTxt1);
+        direccion2 = (EditText) view.findViewById(R.id.direccionTxt2);
+        direccion3 = (TextView) view.findViewById(R.id.direccionTxt3);
+        direccion4 = (EditText) view.findViewById(R.id.direccionTxt4);
+        direccion5 = (EditText) view.findViewById(R.id.direccionTxt5);
+        direccion6 = (EditText) view.findViewById(R.id.direccionTxt6);
+        direccion7 = (EditText) view.findViewById(R.id.direccionTxt7);
+        btnAgregar = (Button) view.findViewById(R.id.direccionBtnAdd);
+        selectLocation = (Button) view.findViewById(R.id.proceCarBtnSelecLc);
+        listeneragregar();
+        listenerSeleccionar();
+        datosLast();
+        viewGlobal = view;
+        return view;
+    }
+
+    private void datosLast() {
+        String d1 = GlobalCarrito.direccion1;
+        String d2 = GlobalCarrito.direccion2;
+        String d4 = GlobalCarrito.direccion4;
+        String d5 = GlobalCarrito.direccion5;
+        String d6 = GlobalCarrito.direccion6;
+        String d7 = GlobalCarrito.direccion7;
+        if (d1 != null) {
+            direccion1.setText(d1);
+        }
+        if (d2 != null) {
+            direccion1.setText(d2);
+        }
+        if (d4 != null) {
+            direccion1.setText(d4);
+        }
+        if (d5 != null) {
+            direccion1.setText(d5);
+        }
+        if (d6 != null) {
+            direccion1.setText(d6);
+        }
+        if (d7 != null) {
+            direccion1.setText(d7);
+        }
+    }
+
+    private void listenerSeleccionar() {
+        selectLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!"".equals(direccion1.getText().toString())) {
+                    GlobalCarrito.direccion1 = direccion1.getText().toString();
+                }
+                if (!"".equals(direccion2.getText().toString())) {
+                    GlobalCarrito.direccion2 = direccion2.getText().toString();
+                }
+                if (!"".equals(direccion4.getText().toString())) {
+                    GlobalCarrito.direccion4 = direccion4.getText().toString();
+                }
+                if (!"".equals(direccion5.getText().toString())) {
+                    GlobalCarrito.direccion5 = direccion5.getText().toString();
+                }
+                if (!"".equals(direccion6.getText().toString())) {
+                    GlobalCarrito.direccion6 = direccion6.getText().toString();
+                }
+                if (!"".equals(direccion7.getText().toString())) {
+                    GlobalCarrito.direccion7 = direccion7.getText().toString();
+                }
+                showFragment(new HomeFragment());
+                //Intent intent = new Intent(viewGlobal.getContext(), Location.class);
+                //startActivity(intent);
+            }
+        });
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     private void listeneragregar() {
@@ -60,7 +152,10 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         stb.append(" ; ");
         stb.append(direccion2.getText().toString());
         stb.append(" ; ");
-        stb.append(direccion3.getText().toString());
+        LatLng ln = GlobalCarrito.latLngSeleccionada;
+        stb.append(ln.latitude);
+        stb.append("::");
+        stb.append(ln.longitude);
         stb.append(" ; ");
         stb.append(direccion4.getText().toString());
         stb.append(" ; ");
@@ -70,52 +165,50 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         stb.append(" ; ");
         stb.append(direccion7.getText().toString());
         String dir = stb.toString();
-        List<Pedido> pedidos = Logued.pedidosActuales;
-        List<Pedido> nuevos = new ArrayList<>();
-        if (pedidos != null) {
-            if (!pedidos.isEmpty()) {
-                for (Pedido pedi : pedidos) {
-                    pedi.setDireccion(dir);
-                    nuevos.add(pedi);
-                }
-            }
+        Pedido ped = Logued.pedidoActual;
+        if (ped != null) {
+            ped.setDireccion(dir);
         }
-        Logued.pedidosActuales = nuevos;
-        Intent i = new Intent(ProcesarCarritoActivity.this, PagoActivity.class);
+        Logued.pedidoActual = ped;
+        Intent i = new Intent(viewGlobal.getContext(), PagoActivity.class);
         startActivity(i);
     }
 
     private boolean validar() {
         boolean b = false;
         if ("".equals(direccion1.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Direccion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese una Direccion", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion2.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Colonia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese una Colonia", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion3.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Referencia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese una Referencia", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        LatLng ln = GlobalCarrito.latLngSeleccionada;
+        if (ln == null) {
+            Toast.makeText(viewGlobal.getContext(), "Selecciona una Ubicaion", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion4.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese Numero de Casa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese Numero de Casa", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion5.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese Numero Referencia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese Numero Referencia", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion6.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese un Pais", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese un Pais", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion7.getText().toString())) {
-            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese un Departamento", Toast.LENGTH_SHORT).show();
+            Toast.makeText(viewGlobal.getContext(), "Ingrese un Departamento", Toast.LENGTH_SHORT).show();
             return false;
         }
-        b = true;
-        return b;
+        return true;
     }
 }

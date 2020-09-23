@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menuHome"
+        android:id="@+id/mmenuHome"
         android:enabled="true"
         android:icon="@drawable/ic_home"
         android:title="@string/home" />
 
     <item
-        android:id="@+id/menuShoppingCart"
+        android:id="@+id/mmenuShoppingCart"
         android:enabled="true"
         android:icon="@drawable/ic_shopping_cart"
         android:title="@string/shopping_cart" />
 
     <item
-        android:id="@+id/menuOptions"
+        android:id="@+id/mmenuOptions"
         android:enabled="true"
         android:icon="@drawable/ic_options"
         android:title="@string/options" />

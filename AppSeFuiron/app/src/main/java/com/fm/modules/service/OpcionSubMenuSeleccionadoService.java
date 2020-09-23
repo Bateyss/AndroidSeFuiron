@@ -1,16 +1,9 @@
 package com.fm.modules.service;
 
 
-import com.fm.modules.entities.RespuestaOpcionSubMenuPorPlatillo;
-import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class OpcionSubMenuSeleccionadoService extends RestTemplateEntity<OpcionesDeSubMenuSeleccionado> implements Serializable {
@@ -21,7 +14,7 @@ public class OpcionSubMenuSeleccionadoService extends RestTemplateEntity<Opcione
 
     private static final long serialVersionUID = 1L;
 
-    private final String url = Constantes.URL_OPCIONESDESUBMENU;
+    private final String url = Constantes.URL_OPCIONESDESUBMENUSELC;
 
     public List<OpcionesDeSubMenuSeleccionado> obtenerOpcionSubMenus() {
         List<OpcionesDeSubMenuSeleccionado> lista = getListURL(url);

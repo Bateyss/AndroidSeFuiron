@@ -14,8 +14,8 @@ import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.PlatilloSeleccionado;
-import com.fm.modules.sqlite.models.OpcionesDeSubMenuSeleccionadoSQLite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<RecyclerPlatillosSeleccionadosAdapter.ViewHolder> {
@@ -37,8 +37,33 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PlatilloSeleccionado p = items.get(position);
+        final int posicion = position;
+        final PlatilloSeleccionado p = items.get(position);
         holder.asignarDatos(p);
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<OpcionesDeSubMenuSeleccionado> opcionesModificadas = Logued.opcionesDeSubMenusEnPlatillosSeleccionados;
+
+                List<Integer> posicionesEliminar = new ArrayList<>();
+                for (int i = 0; i < opcionesModificadas.size(); i++) {
+                    OpcionesDeSubMenuSeleccionado opcion = opcionesModificadas.get(i);
+                    if (opcion.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == p.getPlatilloSeleccionadoId().intValue()) {
+                        posicionesEliminar.add(i);
+                    }
+                }
+                if (!posicionesEliminar.isEmpty()) {
+                    for (int indice : posicionesEliminar) {
+                        posicionesEliminar.remove(indice);
+                    }
+                }
+                items.remove(posicion);
+                Logued.opcionesDeSubMenusEnPlatillosSeleccionados = opcionesModificadas;
+                Logued.platillosSeleccionadosActuales = items;
+                notifyItemRemoved(posicion);
+                notifyItemRangeChanged(posicion, items.size());
+            }
+        });
     }
 
     @Override
@@ -84,46 +109,12 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
              * en caso se agregue cantidad a la tabla platillo seleccionado
              * se usara el codigo que esta como comentario en este metodo
              * */
-            //double platilloMasAdicional = platilloSeleccionado.getPlatillo().getPrecioBase() + adicionales;
-            //int cantidad = (int) (platilloSeleccionado.getPrecio()/platilloMasAdicional);
             String opcioness = stb.toString();
             tvFoodDescription.setText(opcioness);
             String precio = "$ " + platilloSeleccionado.getPrecio();
-            // String cantida = "x" + cantidad;
-            String cantida = "x1";
+            String cantidad = "x" + platilloSeleccionado.getCantidad();
             tvFoodPrice.setText(precio);
-            tvFoodQuantity.setText(cantida);
-
-
-            //btnDelete.setOnClickListener(new View.OnClickListener() {
-            //     @Override
-            //    public void onClick(View view) {
-            //       PlatillosSeleccionadoSQLite platillosSeleccionadoSQLite = new PlatillosSeleccionadoSQLite(context);
-            //       PlatilloSeleccionado platilloSeleccionado = new PlatilloSeleccionado();
-            //       /*
-            //        * al platillo seleccionado se le asignara un id segun sea el platillo con su id,
-            //        * en el caso de que el cliente agrega varios platillos al mismo pedido
-            //        * el id del platillo seleccionado se basara en el platillo uqe se pide
-            //        * */
-            //       platilloSeleccionado.setPlatilloSeleccionadoId(platillo.getPlatilloId());
-            //      platilloSeleccionado.setPlatillo(platillo);
-            //      platilloSeleccionado.setPrecio(platillo.getPrecioBase());
-            //      platilloSeleccionado.setNombre(platillo.getNombre());
-            //      Pedido pedido = new Pedido();
-            //       /*
-            //        * al pedido se le asignara un id segun sea el restaurante con su id,
-            //        * en el caso de que el cliente hace el varios pedidos a diferentes restaurantes
-            //       * el pedido en si se basara a que restaurante lo esta haciendo
-            //       * */
-            //      pedido.setPedidoId(platillo.getMenu().getRestaurante().getRestauranteId());
-            //      platilloSeleccionado.setPedido(pedido);
-            //       platillosSeleccionadoSQLite.create(platilloSeleccionado);
-            //       Toast.makeText(context, "Agregado", Toast.LENGTH_SHORT).show();
-            //       Intent i = new Intent(context, SeleccionarComplementos.class);
-            //       i.putExtra("idPlatillo", platillo.getPlatilloId().intValue());
-            //       context.startActivity(i);
-            //   }
-            //});
+            tvFoodQuantity.setText(cantidad);
         }
     }
 }

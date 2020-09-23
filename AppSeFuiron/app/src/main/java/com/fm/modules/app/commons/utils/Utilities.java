@@ -176,7 +176,7 @@ public class Utilities {
 
     }
 
-    public String encrip(String base) {
+    public static String encrip(String base) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(base.getBytes("UTF-8"));

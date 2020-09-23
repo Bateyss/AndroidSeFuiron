@@ -221,14 +221,24 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
     }
 
     public class HolderItemCategorias {
-        AppCompatImageView catImage;
-        AppCompatTextView catName;
-        AppCompatTextView catCountRestaurants;
+        public AppCompatImageView catImage;
+        public AppCompatTextView catName;
+        public AppCompatTextView catCountRestaurants;
 
         public HolderItemCategorias(View view) {
             catImage = view.findViewById(R.id.ivCategoryIcon1);
             catName = view.findViewById(R.id.tvCategoryName1);
             catCountRestaurants = view.findViewById(R.id.tvRestaurantsCount1);
+        }
+    }
+
+    public class HolderItemOption {
+        public AppCompatImageView image;
+        public AppCompatTextView name;
+
+        public HolderItemOption(View view) {
+            image = (AppCompatImageView) view.findViewById(R.id.ivOptionIcon);
+            name = (AppCompatTextView) view.findViewById(R.id.tvOptionName);
         }
     }
 }

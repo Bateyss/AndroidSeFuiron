@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
@@ -32,10 +35,12 @@ public class RecyclerPlatillosAdapter extends RecyclerView.Adapter<RecyclerPlati
 
     private List<Platillo> items;
     private Context context;
+    private FragmentActivity fragmentActivity;
 
-    public RecyclerPlatillosAdapter(List<Platillo> platillos, Context context) {
+    public RecyclerPlatillosAdapter(List<Platillo> platillos, Context context, FragmentActivity fragmentActivity) {
         this.items = platillos;
         this.context = context;
+        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -81,32 +86,12 @@ public class RecyclerPlatillosAdapter extends RecyclerView.Adapter<RecyclerPlati
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PlatillosSeleccionadoSQLite platillosSeleccionadoSQLite = new PlatillosSeleccionadoSQLite(context);
-                    PlatilloSeleccionado platilloSeleccionado = new PlatilloSeleccionado();
-                    /*
-                     * al platillo seleccionado se le asignara un id segun sea el platillo con su id,
-                     * en el caso de que el cliente agrega varios platillos al mismo pedido
-                     * el id del platillo seleccionado se basara en el platillo uqe se pide
-                     * */
-                    platilloSeleccionado.setPlatilloSeleccionadoId(platillo.getPlatilloId());
-                    platilloSeleccionado.setPlatillo(platillo);
-                    platilloSeleccionado.setPrecio(platillo.getPrecioBase());
-                    platilloSeleccionado.setNombre(platillo.getNombre());
-                    Pedido pedido = new Pedido();
-                    /*
-                     * al pedido se le asignara un id segun sea el restaurante con su id,
-                     * en el caso de que el cliente hace el varios pedidos a diferentes restaurantes
-                     * el pedido en si se basara a que restaurante lo esta haciendo
-                     * */
-                    pedido.setPedidoId(platillo.getMenu().getRestaurante().getRestauranteId());
-                    platilloSeleccionado.setPedido(pedido);
-                    Long ll = platillosSeleccionadoSQLite.create(platilloSeleccionado);
-                    platillosSeleccionadoSQLite.readId(ll);
                     GlobalRestaurantes.platillo = platillo;
-                    Intent i = new Intent(context, SeleccionarComplementos.class);
                     GlobalRestaurantes.platilloSeleccionado = platillo;
+                    showFragment(new SeleccionarComplementos());
+                    /*Intent i = new Intent(context, SeleccionarComplementos.class);
                     i.putExtra("idPlatillo", platillo.getPlatilloId().intValue());
-                    context.startActivity(i);
+                    context.startActivity(i);*/
                 }
             });
             verImagen(platillo.getImagen());
@@ -159,5 +144,12 @@ public class RecyclerPlatillosAdapter extends RecyclerView.Adapter<RecyclerPlati
                 }
             }
         }
+    }
+
+    private void showFragment(Fragment fragment) {
+        fragmentActivity.getSupportFragmentManager()
+                .beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

@@ -2,12 +2,16 @@ package com.fm.modules.app.carrito;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +24,7 @@ import com.fm.modules.models.PlatilloSeleccionado;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class CarritoActivity extends AppCompatActivity {
+public class CarritoActivity extends Fragment {
 
     private RecyclerView carritoRecicler;
     private TextView totalOrdenTxtVw;
@@ -28,11 +32,12 @@ public class CarritoActivity extends AppCompatActivity {
     private TextView cargoFuimonosTxtVw;
     private TextView promocionTxtVw;
     private TextView totalaCancelarTxtVw;
-    Button btnCodigo;
-    Button btnMas;
-    Button btnTerminate;
+    private Button btnCodigo;
+    private Button btnMas;
+    private Button btnTerminate;
+    private View viewGlobal;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_carrito_actual);
@@ -45,8 +50,29 @@ public class CarritoActivity extends AppCompatActivity {
         btnCodigo = (Button) findViewById(R.id.carritoBtnCodigo);
         btnMas = (Button) findViewById(R.id.carritoBtnMas);
         btnTerminate = (Button) findViewById(R.id.carritoBtnTerminar);
+        btnTerminate.setEnabled(false);
         mostrarCarrito();
         btnListeners();
+    }*/
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frg_restaurants_categoria, container, false);
+        viewGlobal = view;
+        carritoRecicler = (RecyclerView) viewGlobal.findViewById(R.id.rvcarrito_compras);
+        totalOrdenTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal1);
+        impuestoTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal2);
+        cargoFuimonosTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal3);
+        promocionTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoDescuento);
+        totalaCancelarTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal4);
+        btnCodigo = (Button) viewGlobal.findViewById(R.id.carritoBtnCodigo);
+        btnMas = (Button) viewGlobal.findViewById(R.id.carritoBtnMas);
+        btnTerminate = (Button) viewGlobal.findViewById(R.id.carritoBtnTerminar);
+        btnTerminate.setEnabled(false);
+        mostrarCarrito();
+        btnListeners();
+        return view;
     }
 
     private void mostrarCarrito() {
@@ -62,13 +88,14 @@ public class CarritoActivity extends AppCompatActivity {
                     for (PlatilloSeleccionado pl : lista) {
                         total1 = total1 + pl.getPrecio();
                     }
-                    RecyclerPlatillosSeleccionadosAdapter adapter = new RecyclerPlatillosSeleccionadosAdapter(lista, CarritoActivity.this);
-                    carritoRecicler.setLayoutManager(new LinearLayoutManager(CarritoActivity.this, LinearLayoutManager.VERTICAL, false));
+                    RecyclerPlatillosSeleccionadosAdapter adapter = new RecyclerPlatillosSeleccionadosAdapter(lista, viewGlobal.getContext());
+                    carritoRecicler.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
                     carritoRecicler.setAdapter(adapter);
                     //descuento = lista.get(0).getPlatillo().getMenu().getRestaurante().getDescuento();
                 }
+                btnTerminate.setEnabled(true);
             } else {
-                Toast.makeText(CarritoActivity.this, "no hay carrito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(viewGlobal.getContext(), "no hay carrito", Toast.LENGTH_SHORT).show();
             }
             total2 = total1 * 0.13;
             total3 = total1 * 0.05;
@@ -95,14 +122,14 @@ public class CarritoActivity extends AppCompatActivity {
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CarritoActivity.this, RestaurantePorCategoria.class);
+                Intent i = new Intent(viewGlobal.getContext(), RestaurantePorCategoria.class);
                 startActivity(i);
             }
         });
         btnTerminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CarritoActivity.this, ProcesarCarritoActivity.class);
+                Intent i = new Intent(viewGlobal.getContext(), ProcesarCarritoActivity.class);
                 startActivity(i);
             }
         });

@@ -23,12 +23,13 @@ public class Restaurante {
     private String correo;
     private boolean destacado;
     private int orden;
+    private Boolean disponible;
 
 
     public Restaurante() {
     }
 
-    public Restaurante(Long restauranteId, String nombreRestaurante, Departamento departamento, String username, String password, String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento, String representante, String numeroDeContacto, double comision, double cargosExtra, Long imagenDePortada, Long logoDeRestaurante, String nit, String correo, boolean destacado, int orden) {
+    public Restaurante(Long restauranteId, String nombreRestaurante, Departamento departamento, String username, String password, String horarioDeApertura, String horarioDeCierre, String tiempoEstimadoDeEntrega, double descuento, String representante, String numeroDeContacto, double comision, double cargosExtra, Long imagenDePortada, Long logoDeRestaurante, String nit, String correo, boolean destacado, int orden, Boolean disponible) {
         this.restauranteId = restauranteId;
         this.nombreRestaurante = nombreRestaurante;
         this.departamento = departamento;
@@ -48,6 +49,7 @@ public class Restaurante {
         this.correo = correo;
         this.destacado = destacado;
         this.orden = orden;
+        this.disponible = disponible;
     }
 
     public Long getRestauranteId() {
@@ -200,6 +202,18 @@ public class Restaurante {
 
     public void setOrden(int orden) {
         this.orden = orden;
+    }
+
+    public boolean isDestacado() {
+        return destacado;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 
     @Override

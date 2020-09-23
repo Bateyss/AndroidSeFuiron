@@ -11,6 +11,7 @@ import java.util.List;
 
 public class GlobalRestaurantes {
 
+    public static Menu menuSeleccionado;
     public static List<Menu> menuList;
     public static List<Platillo> platilloList;
     public static List<SubMenu> subMenuList;

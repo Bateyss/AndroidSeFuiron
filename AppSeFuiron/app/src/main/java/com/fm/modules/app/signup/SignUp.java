@@ -26,10 +26,10 @@ import androidx.cardview.widget.CardView;
 
 import com.fm.modules.R;
 import com.fm.modules.app.commons.conectivity.Conectividad;
+import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Image;
-import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.UsuarioService;
@@ -258,8 +258,8 @@ public class SignUp extends AppCompatActivity {
                 System.out.println("comienza a leer vistas");
                 u.setNombre(inputNombre.getText().toString());
                 u.setApellido(inputApellido.getText().toString());
-                u.setUsername(inputUsename.getText().toString());
-                u.setPassword(inputPass.getText().toString());
+                u.setUsername(Utilities.encrip(inputUsename.getText().toString()));
+                u.setPassword(Utilities.encrip(inputPass.getText().toString()));
                 u.setCorreoElectronico(inputCorreo.getText().toString());
                 u.setCelular(inputTelph.getText().toString());
                 u.setFechaCreacion(new Date());
@@ -306,9 +306,9 @@ public class SignUp extends AppCompatActivity {
                 // usuario registrado, compartir en pantalla
                 if (res) {
                     dialogo1();
-                    Thread.sleep(4 * 1000);
                     Intent i = new Intent(SignUp.this, RestaurantePorCategoria.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Thread.sleep(4 * 1000);
                     startActivity(i);
                 } else {
                     dialogo2();

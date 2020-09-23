@@ -11,12 +11,12 @@ public class Platillo {
     private Long imagen;
     private String descripcion;
     private int orden;
-    private int disponible;
+    private Boolean disponible;
 
     public Platillo() {
     }
 
-    public Platillo(Long platilloId, Menu menu, String nombre, double precioBase, Long imagen, String descripcion, int orden, int disponible) {
+    public Platillo(Long platilloId, Menu menu, String nombre, double precioBase, Long imagen, String descripcion, int orden, Boolean disponible) {
         this.platilloId = platilloId;
         this.menu = menu;
         this.nombre = nombre;
@@ -83,11 +83,11 @@ public class Platillo {
         this.orden = orden;
     }
 
-    public int getDisponible() {
+    public Boolean getDisponible() {
         return disponible;
     }
 
-    public void setDisponible(int disponible) {
+    public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
 

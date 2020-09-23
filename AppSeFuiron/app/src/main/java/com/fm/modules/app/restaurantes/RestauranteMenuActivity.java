@@ -7,12 +7,17 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -27,6 +32,7 @@ import com.fm.modules.models.Platillo;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.OpcionesDeSubMenuService;
+import com.fm.modules.service.PlatilloService;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -34,23 +40,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class RestauranteMenuActivity extends AppCompatActivity {
+public class RestauranteMenuActivity extends Fragment {
 
     UnderThreads underThreads = new UnderThreads();
 
     private boolean conectec;
     private TabLayout menuTab;
     private ViewPager viewPager;
-    private Bundle bundle;
-    private Intent intent;
-    private RecyclerView rvFoods;
     private ListView listView;
     private AppCompatImageView imagenLogo;
 
+    private View viewGlobal;
 
-    int idRestaurante = 0;
-
+    @Nullable
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frg_restaurant_menu, container, false);
+        viewGlobal = view;
+        listView = (ListView) view.findViewById(R.id.lvMenus);
+        imagenLogo = (AppCompatImageView) view.findViewById(R.id.ivRestaurantLogoMenu);
+        if (isNetActive()) {
+            cargarDatos();
+        }
+        return view;
+    }
+
+    /*@Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_restaurant_menu);
@@ -62,13 +77,14 @@ public class RestauranteMenuActivity extends AppCompatActivity {
         if (isNetActive()) {
             cargarDatos();
         }
-    }
+    }*/
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         verLogo();
     }
+
 
     public void verLogo() {
         Image image = null;
@@ -84,9 +100,9 @@ public class RestauranteMenuActivity extends AppCompatActivity {
             }
         }
         if (image != null) {
-            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, RestauranteMenuActivity.this);
+            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, viewGlobal.getContext());
         } else {
-            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, RestauranteMenuActivity.this);
+            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, viewGlobal.getContext());
         }
     }
 
@@ -120,15 +136,15 @@ public class RestauranteMenuActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    public void onStop() {
+        super.onStop();
         reiniciarAsync();
     }
 
     public boolean isNetActive() {
         boolean c = false;
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
                 c = true;
@@ -155,43 +171,46 @@ public class RestauranteMenuActivity extends AppCompatActivity {
                     List<SubMenu> subMenus = new ArrayList<>();
                     List<Integer> ints = new ArrayList<>();
                     for (OpcionesDeSubMenu op : opciones) {
-                        if (!ints.contains(op.getSubMenu().getSubMenuId().intValue())) {
-                            subMenus.add(op.getSubMenu());
-                            ints.add(op.getSubMenu().getSubMenuId().intValue());
+                        try {
+                            if (!ints.contains(op.getSubMenu().getSubMenuId().intValue())) {
+                                subMenus.add(op.getSubMenu());
+                                ints.add(op.getSubMenu().getSubMenuId().intValue());
+                            }
+                        } catch (Exception ignore) {
                         }
                     }
-                    List<Platillo> platillos = new ArrayList<>();
-                    ints = new ArrayList<>();
-                    for (SubMenu sb : subMenus) {
-                        if (!ints.contains(sb.getPlatillo().getPlatilloId().intValue())) {
-                            platillos.add(sb.getPlatillo());
-                            ints.add(sb.getPlatillo().getPlatilloId().intValue());
-                        }
-                    }
-                    List<Menu> menus = new ArrayList<>();
-                    ints = new ArrayList<>();
-                    for (Platillo pa : platillos) {
-                        if (!ints.contains(pa.getMenu().getMenuId().intValue())) {
-                            menus.add(pa.getMenu());
-                            ints.add(pa.getMenu().getMenuId().intValue());
-                        }
-                    }
-                    System.out.println("subMenus " + subMenus.size());
-                    System.out.println("platillos " + platillos.size());
-                    System.out.println("menus " + menus.size());
                     GlobalRestaurantes.opcionesDeSubMenuList = opciones;
                     if (!subMenus.isEmpty()) {
                         GlobalRestaurantes.subMenuList = subMenus;
                     }
-                    if (!platillos.isEmpty()) {
-                        GlobalRestaurantes.platilloList = platillos;
+                } else {
+                    GlobalRestaurantes.opcionesDeSubMenuList = new ArrayList<>();
+                    GlobalRestaurantes.subMenuList = new ArrayList<>();
+                }
+                PlatilloService platilloService = new PlatilloService();
+                List<Platillo> platillos = platilloService.obtenerPlatillos();
+                if (!platillos.isEmpty()) {
+                    GlobalRestaurantes.platilloList = platillos;
+                    List<Menu> menus = new ArrayList<>();
+                    List<Integer> ints = new ArrayList<>();
+                    for (Platillo pa : platillos) {
+                        try {
+                            if (!ints.contains(pa.getMenu().getMenuId().intValue())) {
+                                menus.add(pa.getMenu());
+                                ints.add(pa.getMenu().getMenuId().intValue());
+                            }
+                        } catch (Exception ignore) {
+                        }
                     }
                     if (!menus.isEmpty()) {
                         GlobalRestaurantes.menuList = menus;
                         subM = menus;
                     }
-
+                } else {
+                    GlobalRestaurantes.platilloList = new ArrayList<>();
+                    GlobalRestaurantes.menuList = new ArrayList<>();
                 }
+
             } catch (Exception e) {
                 System.out.println("Error en UnderThreash:" + e.getMessage() + " " + e.getClass());
             }
@@ -201,7 +220,13 @@ public class RestauranteMenuActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Menu> menus) {
             super.onPostExecute(menus);
+            Restaurante restaurante = Logued.restauranteActual;
+            int idRestaurante = 0;
+            if (restaurante != null) {
+                idRestaurante = restaurante.getRestauranteId().intValue();
+            }
             try {
+                System.out.println("menus encontrados: " + menus.size());
                 if (!menus.isEmpty()) {
                     List<Menu> menuList = new ArrayList<>();
                     for (Menu m : menus) {
@@ -211,9 +236,9 @@ public class RestauranteMenuActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    MenuItemViewAdapter adapter = new MenuItemViewAdapter(menuList, RestauranteMenuActivity.this, R.layout.holder_menu);
+                    MenuItemViewAdapter adapter = new MenuItemViewAdapter(menuList, viewGlobal.getContext(), R.layout.holder_menu, getActivity());
                     listView.setAdapter(adapter);
-                    Toast.makeText(RestauranteMenuActivity.this, "Menus Cargados" + menus.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewGlobal.getContext(), "Menus Cargados" + menus.size(), Toast.LENGTH_SHORT).show();
                 }
             } catch (Throwable throwable) {
                 System.out.println("Error Activity: " + throwable.getMessage());
@@ -225,5 +250,11 @@ public class RestauranteMenuActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

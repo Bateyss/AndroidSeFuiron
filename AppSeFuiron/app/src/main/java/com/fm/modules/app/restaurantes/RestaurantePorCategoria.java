@@ -9,14 +9,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RestaurantePorCategoria extends AppCompatActivity {
+public class RestaurantePorCategoria extends Fragment {
 
     private CategoriasRestaurante categoriasRestaurante = new CategoriasRestaurante();
     private Favoritos favoritos = new Favoritos();
@@ -58,8 +62,36 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     private View inclide;
     private AppCompatImageView fotoPerfil;
     private CargarFoto cargarFoto;
+    private View viewGlobal;
 
+    @Nullable
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frg_restaurants_categoria, container, false);
+        viewGlobal = view;
+        categoriasGlobal = new ArrayList<>();
+        restaurantesGlobal = new ArrayList<>();
+        categoriasFiltered = new ArrayList<>();
+        menxCategoriaGlobal = new ArrayList<>();
+        categoriasSelected = new ArrayList<>();
+        restaurantesFiltered = new ArrayList<>();
+        listViewCategorias = (RecyclerView) view.findViewById(R.id.rvCategorias_cat);
+        listViewRestaurantes = (ListView) view.findViewById(R.id.rvRestaurants_res);
+        rvPlatillosFavoritos = view.findViewById(R.id.rvPlatillosFavoritos_cat);
+        textSearch = (EditText) view.findViewById(R.id.etSearch_rest);
+        inclide = (View) view.findViewById(R.id.asConfigur);
+        fotoPerfil = (AppCompatImageView) inclide.findViewById(R.id.ivProfilePhotoPrincipal);
+        if (isNetActive()) {
+            favoritos.execute();
+            categoriasRestaurante.execute();
+        }
+        textChanged();
+        categoryselected();
+        profilePhoto();
+        return view;
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frg_restaurants_categoria);
@@ -82,7 +114,8 @@ public class RestaurantePorCategoria extends AppCompatActivity {
         textChanged();
         categoryselected();
         profilePhoto();
-    }
+    }*/
+
 
     private void profilePhoto() {
         cargarFoto = new CargarFoto();
@@ -111,7 +144,7 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     }
 
     public void categoryselected() {
-        listViewCategorias.addOnItemTouchListener(new RecyclerTouchListener(RestaurantePorCategoria.this, listViewCategorias, new RecyclerTouchListener.ClickListener() {
+        listViewCategorias.addOnItemTouchListener(new RecyclerTouchListener(viewGlobal.getContext(), listViewCategorias, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 categoriasSelected.add(categoriasFiltered.get(position));
@@ -156,11 +189,11 @@ public class RestaurantePorCategoria extends AppCompatActivity {
                         listaFiltrada.add(re);
                     }
                 }
-                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(listaFiltrada, RestaurantePorCategoria.this, R.layout.holder_item_restaurant);
+                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(listaFiltrada, viewGlobal.getContext(), R.layout.holder_item_restaurant, getActivity());
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
                 if (listaFiltrada.isEmpty()) {
-                    Toast.makeText(RestaurantePorCategoria.this, "Restaurantes no Disponibles", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(RestaurantePorCategoria.this, "Hora de Cierre", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewGlobal.getContext(), "Restaurantes no Disponibles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewGlobal.getContext(), "Hora de Cierre", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
@@ -181,15 +214,14 @@ public class RestaurantePorCategoria extends AppCompatActivity {
             if (!lista.isEmpty()) {
                 verRestaurantesAbiertos(lista);
             } else {
-                Toast.makeText(RestaurantePorCategoria.this, "sin resultados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(viewGlobal.getContext(), "sin resultados", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    public void onPause() {
+        super.onPause();
         reiniciarAsynk();
     }
 
@@ -203,14 +235,13 @@ public class RestaurantePorCategoria extends AppCompatActivity {
     public boolean isNetActive() {
         boolean c = false;
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
                 c = true;
             }
         } catch (Exception e) {
-            Log.e("error", "" + "error al comprobar conexion");
-            Log.e("error", "" + e);
+            System.out.println("error isNetActive: " + e);
             c = false;
         }
         return c;
@@ -307,10 +338,10 @@ public class RestaurantePorCategoria extends AppCompatActivity {
                 GlobalRestaurantes.restaurantes = restaurantesGlobal;
                 restaurantesFiltered = filtrarRestaurantesDestacados(restaurantesGlobal);
                 categoriasFiltered = filtrarCategoriasPorNombre(categoriasGlobal);
-                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(restaurantesFiltered, RestaurantePorCategoria.this, R.layout.holder_item_restaurant);
+                RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(restaurantesFiltered, viewGlobal.getContext(), R.layout.holder_item_restaurant, getActivity());
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
-                CategoriasRecyclerViewAdapter categoriasRecyclerViewAdapter = new CategoriasRecyclerViewAdapter(categoriasFiltered, RestaurantePorCategoria.this);
-                listViewCategorias.setLayoutManager(new LinearLayoutManager(RestaurantePorCategoria.this, LinearLayoutManager.HORIZONTAL, false));
+                CategoriasRecyclerViewAdapter categoriasRecyclerViewAdapter = new CategoriasRecyclerViewAdapter(categoriasFiltered, viewGlobal.getContext());
+                listViewCategorias.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
                 listViewCategorias.setAdapter(categoriasRecyclerViewAdapter);
             }
         }
@@ -342,8 +373,8 @@ public class RestaurantePorCategoria extends AppCompatActivity {
                 if (!platilloFavorito.isEmpty()) {
                     List<PlatilloFavorito> listaPlatillos = filtrarFavoritos(platilloFavorito);
                     if (!listaPlatillos.isEmpty()) {
-                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, RestaurantePorCategoria.this);
-                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(RestaurantePorCategoria.this, LinearLayoutManager.HORIZONTAL, false));
+                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext());
+                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
                         rvPlatillosFavoritos.setAdapter(rvAdapter);
                     }
                 }
@@ -394,5 +425,11 @@ public class RestaurantePorCategoria extends AppCompatActivity {
                 fotoPerfil.setImageResource(R.drawable.ic_empty_profile_photo);
             }
         }
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }
