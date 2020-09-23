@@ -147,23 +147,23 @@ public class RestaurantePorCategoria extends Fragment {
         listViewCategorias.addOnItemTouchListener(new RecyclerTouchListener(viewGlobal.getContext(), listViewCategorias, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                categoriasSelected.add(categoriasFiltered.get(position));
-                categoriasSelected = filtrarCategoriasPorNombre(categoriasFiltered);
-                List<String> strings = new ArrayList<>();
-                for (Categoria categoria : categoriasSelected) {
-                    strings.add(categoria.getNombreCategoria());
-                }
-                if (!menxCategoriaGlobal.isEmpty()) {
-                    List<Restaurante> restauranteList = restaurantesGlobal;
-                    for (MenxCategoria menxCategoriax : menxCategoriaGlobal) {
-                        if (strings.contains(menxCategoriax.getCategoria().getNombreCategoria())) {
-                            restauranteList.add(menxCategoriax.getMenu().getRestaurante());
+                Categoria categoria = categoriasFiltered.get(position);
+                List<MenxCategoria> menxCategorias = GlobalRestaurantes.menxCategorias;
+                List<Restaurante> restaurantes = new ArrayList<>();
+                int idCategoria = categoria.getCategoriaId().intValue();
+                List<Integer> integers = new ArrayList<>();
+                if (menxCategorias != null && !menxCategorias.isEmpty()) {
+                    for (MenxCategoria mx : menxCategorias) {
+                        if (mx.getCategoria().getCategoriaId().intValue() == idCategoria) {
+                            if (!integers.contains(mx.getMenu().getRestaurante().getRestauranteId().intValue())) {
+                                restaurantes.add(mx.getMenu().getRestaurante());
+                                integers.add(mx.getMenu().getRestaurante().getRestauranteId().intValue());
+                            }
                         }
                     }
-                    if (!restauranteList.isEmpty()) {
-                        restaurantesFiltered = filtrarRestaurantes(restauranteList);
-                        verRestaurantesAbiertos(restaurantesFiltered);
-                    }
+                }
+                if (!restaurantes.isEmpty()) {
+                    verRestaurantesAbiertos(restaurantes);
                 }
             }
 
@@ -206,7 +206,7 @@ public class RestaurantePorCategoria extends Fragment {
         List<Restaurante> lista = new ArrayList<>();
         if (!"".equals(text)) {
             for (Restaurante restaurant : restaurantesGlobal) {
-                if (restaurant.getNombreRestaurante().contains(text)) {
+                if (restaurant.getNombreRestaurante().toUpperCase().contains(text.toUpperCase())) {
                     lista.add(restaurant);
                 }
             }
@@ -323,6 +323,7 @@ public class RestaurantePorCategoria extends Fragment {
             super.onPostExecute(menxCategorias);
             if (!menxCategorias.isEmpty()) {
                 menxCategoriaGlobal = menxCategorias;
+                GlobalRestaurantes.menxCategorias = menxCategorias;
                 List<Integer> integers = new ArrayList<>();
                 for (MenxCategoria menxCategoria : menxCategorias) {
                     if (!integers.contains(menxCategoria.getCategoria().getCategoriaId().intValue())) {
@@ -376,6 +377,8 @@ public class RestaurantePorCategoria extends Fragment {
                         RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext());
                         rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
                         rvPlatillosFavoritos.setAdapter(rvAdapter);
+                    } else {
+                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
                     }
                 }
             } catch (Throwable throwable) {

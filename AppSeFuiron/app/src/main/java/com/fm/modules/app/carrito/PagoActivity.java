@@ -7,12 +7,16 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
@@ -30,22 +34,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PagoActivity extends AppCompatActivity {
+public class PagoActivity extends Fragment {
 
-    TextView txtTotal;
-    TextView txtDireccion1;
-    TextView txtDireccion2;
-    Button btnTarjeta;
-    Button btnEfectivo;
-    Button btnPagar;
-    Pedido pedido;
-    List<PlatilloSeleccionado> platilloSeleccionados;
-    List<OpcionesDeSubMenuSeleccionado> opcionesSeleccionadas;
-    GuardarPedidoAsync guardarPedidoAsync = new GuardarPedidoAsync();
+    private TextView txtTotal;
+    private TextView txtDireccion1;
+    private TextView txtDireccion2;
+    private Button btnTarjeta;
+    private Button btnEfectivo;
+    private Button btnPagar;
+    private Pedido pedido;
+    private List<PlatilloSeleccionado> platilloSeleccionados;
+    private List<OpcionesDeSubMenuSeleccionado> opcionesSeleccionadas;
+    private GuardarPedidoAsync guardarPedidoAsync = new GuardarPedidoAsync();
+    private View viewGlobal;
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    public void onPause() {
+        super.onPause();
         reiniciarAsynk();
     }
 
@@ -54,7 +59,7 @@ public class PagoActivity extends AppCompatActivity {
         guardarPedidoAsync = new GuardarPedidoAsync();
     }
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pago);
@@ -73,6 +78,29 @@ public class PagoActivity extends AppCompatActivity {
         opcionesSeleccionadas = new ArrayList<>();
         mostrarDatos();
         listenerBotones();
+    }*/
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_pago, container, false);
+        viewGlobal = view;
+        txtTotal = (TextView) view.findViewById(R.id.pagoTxtTotal);
+        txtDireccion1 = (TextView) view.findViewById(R.id.pagoTxtDireccion);
+        txtDireccion2 = (TextView) view.findViewById(R.id.pagoTxtDireccion2);
+        btnTarjeta = (Button) view.findViewById(R.id.pagoBtnTarjeta);
+        btnEfectivo = (Button) view.findViewById(R.id.pagoBtnEfectivo);
+        btnPagar = (Button) view.findViewById(R.id.pagoBtnPagar);
+        btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        pedido = Logued.pedidoActual;
+        btnPagar.setEnabled(false);
+        btnPagar.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        platilloSeleccionados = new ArrayList<>();
+        opcionesSeleccionadas = new ArrayList<>();
+        mostrarDatos();
+        listenerBotones();
+        return view;
     }
 
     public void obtenerPedido() {
@@ -162,7 +190,7 @@ public class PagoActivity extends AppCompatActivity {
     public boolean isNetActive() {
         boolean c = false;
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
                 c = true;
@@ -239,19 +267,19 @@ public class PagoActivity extends AppCompatActivity {
             int procesed = b;
             switch (procesed) {
                 case 0:
-                    AlertDialog dialog = new AlertDialog.Builder(PagoActivity.this)
+                    AlertDialog dialog = new AlertDialog.Builder(viewGlobal.getContext())
                             .setView(R.layout.dialog_server_err)
                             .setCancelable(true)
                             .setPositiveButton("Continuar", null)
                             .show();
                     break;
                 case 2:
-                    Intent intent = new Intent(PagoActivity.this, PedidoNoRegistrado.class);
+                    Intent intent = new Intent(viewGlobal.getContext(), PedidoNoRegistrado.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     break;
                 case 3:
-                    Intent intent2 = new Intent(PagoActivity.this, PedidoRegistrado.class);
+                    Intent intent2 = new Intent(viewGlobal.getContext(), PedidoRegistrado.class);
                     intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent2);
                     break;

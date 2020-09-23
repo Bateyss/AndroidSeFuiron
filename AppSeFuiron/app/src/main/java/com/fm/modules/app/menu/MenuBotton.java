@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,10 +13,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.CarritoActivity;
+import com.fm.modules.app.carrito.GlobalCarrito;
+import com.fm.modules.app.carrito.PagoActivity;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MenuBotton extends AppCompatActivity {
+public class MenuBotton extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,17 @@ public class MenuBotton extends AppCompatActivity {
 
         showFragment(new RestaurantePorCategoria());
 
+        boolean openShopingCart = GlobalCarrito.toShopinCart;
+        if (openShopingCart) {
+            showFragment(new PagoActivity());
+            GlobalCarrito.toShopinCart = false;
+        }
+        boolean openSales = GlobalCarrito.toSales;
+        if (openSales) {
+            showFragment(new PagoActivity());
+            GlobalCarrito.toSales = false;
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -41,7 +55,7 @@ public class MenuBotton extends AppCompatActivity {
                     showFragment(new RestaurantePorCategoria());
                 }
                 if (item.getItemId() == R.id.mmenuShoppingCart) {
-                    showFragment(new ShopinFragment());
+                    showFragment(new CarritoActivity());
                 }
                 if (item.getItemId() == R.id.mmenuOptions) {
                     showFragment(new OpcionsFragment());

@@ -43,9 +43,6 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
     private Location lastLocation;
     private final LatLng defaulLocation = new LatLng(13.701283, -89.224245);
     private static final int DEFAULT_ZOOM = 15;
-    private static final int MARKER_ZOOM = 21;
-    private boolean mLocationPermissionGranted = false;
-    private boolean permissionDenied = false;
     private Button cancelar;
     private Button seleccionar;
 

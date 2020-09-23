@@ -11,7 +11,10 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.Categoria;
+import com.fm.modules.models.MenxCategoria;
+import com.fm.modules.models.Restaurante;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     private Context context;
     List<Categoria> categorias = new ArrayList<>();
 
-    public CategoriasRecyclerViewAdapter(List<Categoria> categorias,Context context) {
+    public CategoriasRecyclerViewAdapter(List<Categoria> categorias, Context context) {
         this.context = context;
         this.categorias = categorias;
     }
@@ -32,15 +35,33 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @NonNull
     @Override
     public CategoriasRecyclerViewAdapter.HolderItemCategorias onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_item_category_unit,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_item_category_unit, parent, false);
         return new CategoriasRecyclerViewAdapter.HolderItemCategorias(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HolderItemCategorias holder, int position) {
-        holder.catCountRestaurants.setText(categorias.get(position).getCategoriaId().toString());
         holder.catImage.setImageResource(R.drawable.ic_flan);
         holder.catName.setText(categorias.get(position).getNombreCategoria());
+        List<MenxCategoria> menxCategorias = GlobalRestaurantes.menxCategorias;
+        List<Restaurante> restaurantes = new ArrayList<>();
+        int idCategoria = categorias.get(position).getCategoriaId().intValue();
+        List<Integer> integers = new ArrayList<>();
+        if (menxCategorias != null && !menxCategorias.isEmpty()) {
+            for (MenxCategoria mx : menxCategorias) {
+                if (mx.getCategoria().getCategoriaId().intValue() == idCategoria) {
+                    if (!integers.contains(mx.getMenu().getRestaurante().getRestauranteId().intValue())) {
+                        restaurantes.add(mx.getMenu().getRestaurante());
+                        integers.add(mx.getMenu().getRestaurante().getRestauranteId().intValue());
+                    }
+                }
+            }
+        }
+        int cantidad = 0;
+        if (!restaurantes.isEmpty()) {
+            cantidad = restaurantes.size();
+        }
+        holder.catCountRestaurants.setText(String.valueOf(cantidad));
     }
 
     @Override

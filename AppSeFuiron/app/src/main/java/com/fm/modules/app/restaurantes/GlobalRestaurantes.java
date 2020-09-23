@@ -1,6 +1,7 @@
 package com.fm.modules.app.restaurantes;
 
 import com.fm.modules.models.Menu;
+import com.fm.modules.models.MenxCategoria;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.Platillo;
 import com.fm.modules.models.Restaurante;
@@ -23,4 +24,5 @@ public class GlobalRestaurantes {
     public static Date horaActualizado;
     public static List<Restaurante> restaurantes;
     public static Restaurante restauranteSelected;
+    public static List<MenxCategoria> menxCategorias;
 }

@@ -9,8 +9,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
+import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Pedido;
+
+import java.util.ArrayList;
 
 public class PedidoRegistrado extends AppCompatActivity {
 
@@ -26,7 +30,11 @@ public class PedidoRegistrado extends AppCompatActivity {
         inicioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PedidoRegistrado.this, RestaurantePorCategoria.class);
+                Logued.platillosSeleccionadosActuales = new ArrayList<>();
+                Logued.pedidoActual = new Pedido();
+                Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+                Logued.restauranteActual = null;
+                Intent intent = new Intent(PedidoRegistrado.this, MenuBotton.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,17 +58,17 @@ public class CarritoActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_restaurants_categoria, container, false);
+        View view = inflater.inflate(R.layout.frg_carrito_actual, container, false);
         viewGlobal = view;
-        carritoRecicler = (RecyclerView) viewGlobal.findViewById(R.id.rvcarrito_compras);
-        totalOrdenTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal1);
-        impuestoTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal2);
-        cargoFuimonosTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal3);
-        promocionTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoDescuento);
-        totalaCancelarTxtVw = (TextView) viewGlobal.findViewById(R.id.carritoTotal4);
-        btnCodigo = (Button) viewGlobal.findViewById(R.id.carritoBtnCodigo);
-        btnMas = (Button) viewGlobal.findViewById(R.id.carritoBtnMas);
-        btnTerminate = (Button) viewGlobal.findViewById(R.id.carritoBtnTerminar);
+        carritoRecicler = (RecyclerView) view.findViewById(R.id.rvcarrito_compras);
+        totalOrdenTxtVw = (TextView) view.findViewById(R.id.carritoTotal1);
+        impuestoTxtVw = (TextView) view.findViewById(R.id.carritoTotal2);
+        cargoFuimonosTxtVw = (TextView) view.findViewById(R.id.carritoTotal3);
+        promocionTxtVw = (TextView) view.findViewById(R.id.carritoDescuento);
+        totalaCancelarTxtVw = (TextView) view.findViewById(R.id.carritoTotal4);
+        btnCodigo = (Button) view.findViewById(R.id.carritoBtnCodigo);
+        btnMas = (Button) view.findViewById(R.id.carritoBtnMas);
+        btnTerminate = (Button) view.findViewById(R.id.carritoBtnTerminar);
         btnTerminate.setEnabled(false);
         mostrarCarrito();
         btnListeners();
@@ -92,10 +92,12 @@ public class CarritoActivity extends Fragment {
                     carritoRecicler.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
                     carritoRecicler.setAdapter(adapter);
                     //descuento = lista.get(0).getPlatillo().getMenu().getRestaurante().getDescuento();
+                    btnTerminate.setEnabled(true);
+                } else {
+                    showFragment(new CarritoEmptyActivity());
                 }
-                btnTerminate.setEnabled(true);
             } else {
-                Toast.makeText(viewGlobal.getContext(), "no hay carrito", Toast.LENGTH_SHORT).show();
+                showFragment(new CarritoEmptyActivity());
             }
             total2 = total1 * 0.13;
             total3 = total1 * 0.05;
@@ -122,8 +124,9 @@ public class CarritoActivity extends Fragment {
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(viewGlobal.getContext(), RestaurantePorCategoria.class);
-                startActivity(i);
+                showFragment(new RestaurantePorCategoria());
+                /*Intent i = new Intent(viewGlobal.getContext(), RestaurantePorCategoria.class);
+                startActivity(i);*/
             }
         });
         btnTerminate.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +136,12 @@ public class CarritoActivity extends Fragment {
                 startActivity(i);
             }
         });
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
 }

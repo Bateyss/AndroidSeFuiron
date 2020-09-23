@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
-import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
+import com.fm.modules.app.menu.MenuBotton;
 
 public class PedidoNoRegistrado extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class PedidoNoRegistrado extends AppCompatActivity {
         inicioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PedidoNoRegistrado.this, RestaurantePorCategoria.class);
+                Intent intent = new Intent(PedidoNoRegistrado.this, MenuBotton.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

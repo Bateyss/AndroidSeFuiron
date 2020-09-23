@@ -2,26 +2,22 @@ package com.fm.modules.app.carrito;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
+import com.fm.modules.app.localet.Location;
 import com.fm.modules.app.login.Logued;
-import com.fm.modules.app.menu.HomeFragment;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Pedido;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ProcesarCarritoActivity extends Fragment {
+public class ProcesarCarritoActivity extends AppCompatActivity {
 
     private EditText direccion1;
     private EditText direccion2;
@@ -32,9 +28,9 @@ public class ProcesarCarritoActivity extends Fragment {
     private EditText direccion7;
     private Button btnAgregar;
     private Button selectLocation;
-    private View viewGlobal;
+    //private View viewGlobal;
 
-   /* @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procesar_carrito);
@@ -50,9 +46,9 @@ public class ProcesarCarritoActivity extends Fragment {
         listeneragregar();
         listenerSeleccionar();
         datosLast();
-    }*/
+    }
 
-    @Nullable
+    /*@Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_procesar_carrito, container, false);
@@ -70,7 +66,7 @@ public class ProcesarCarritoActivity extends Fragment {
         datosLast();
         viewGlobal = view;
         return view;
-    }
+    }*/
 
     private void datosLast() {
         String d1 = GlobalCarrito.direccion1;
@@ -121,18 +117,18 @@ public class ProcesarCarritoActivity extends Fragment {
                 if (!"".equals(direccion7.getText().toString())) {
                     GlobalCarrito.direccion7 = direccion7.getText().toString();
                 }
-                showFragment(new HomeFragment());
-                //Intent intent = new Intent(viewGlobal.getContext(), Location.class);
-                //startActivity(intent);
+                //showFragment(new HomeFragment());
+                Intent intent = new Intent(ProcesarCarritoActivity.this, Location.class);
+                startActivity(intent);
             }
         });
     }
 
-    private void showFragment(Fragment fragment) {
+    /*private void showFragment(Fragment fragment) {
         getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
-    }
+    }*/
 
     private void listeneragregar() {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
@@ -170,43 +166,44 @@ public class ProcesarCarritoActivity extends Fragment {
             ped.setDireccion(dir);
         }
         Logued.pedidoActual = ped;
-        Intent i = new Intent(viewGlobal.getContext(), PagoActivity.class);
+        GlobalCarrito.toSales = true;
+        Intent i = new Intent(ProcesarCarritoActivity.this, MenuBotton.class);
         startActivity(i);
     }
 
     private boolean validar() {
         boolean b = false;
         if ("".equals(direccion1.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese una Direccion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Direccion", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion2.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese una Colonia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Colonia", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion3.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese una Referencia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese una Referencia", Toast.LENGTH_SHORT).show();
             return false;
         }
         LatLng ln = GlobalCarrito.latLngSeleccionada;
         if (ln == null) {
-            Toast.makeText(viewGlobal.getContext(), "Selecciona una Ubicaion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Selecciona una Ubicaion", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion4.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese Numero de Casa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese Numero de Casa", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion5.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese Numero Referencia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese Numero Referencia", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion6.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese un Pais", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese un Pais", Toast.LENGTH_SHORT).show();
             return false;
         }
         if ("".equals(direccion7.getText().toString())) {
-            Toast.makeText(viewGlobal.getContext(), "Ingrese un Departamento", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProcesarCarritoActivity.this, "Ingrese un Departamento", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
