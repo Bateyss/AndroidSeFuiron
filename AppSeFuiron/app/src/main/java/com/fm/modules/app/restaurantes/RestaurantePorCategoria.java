@@ -374,7 +374,7 @@ public class RestaurantePorCategoria extends Fragment {
                 if (!platilloFavorito.isEmpty()) {
                     List<PlatilloFavorito> listaPlatillos = filtrarFavoritos(platilloFavorito);
                     if (!listaPlatillos.isEmpty()) {
-                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext());
+                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext(), getActivity());
                         rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
                         rvPlatillosFavoritos.setAdapter(rvAdapter);
                     } else {

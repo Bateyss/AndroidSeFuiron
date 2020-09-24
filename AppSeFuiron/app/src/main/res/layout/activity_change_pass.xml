@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginTop="@dimen/space_5x"
+            android:layout_marginEnd="@dimen/space_5x"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:src="@drawable/change_password_act_icon" />
+
+            <EditText
+                android:id="@+id/changePassPass1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autofillHints="asd"
+
+                android:hint="Contraseña Actual*"
+                android:inputType="textPassword"
+                android:textColorHint="@color/purple" />
+
+
+            <EditText
+                android:id="@+id/changePassPass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autofillHints="asd"
+                android:hint="Nueva Contraseña*"
+                android:inputType="textPassword"
+                android:textColorHint="@color/purple" />
+
+            <EditText
+                android:id="@+id/changePassPass3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autofillHints="asd"
+                android:hint="Confirmar Contraseña*"
+                android:inputType="textPassword"
+                android:textColorHint="@color/purple" />
+
+            <Button
+                android:id="@+id/changePassBtnChange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_3x"
+                android:layout_marginTop="@dimen/space_5x"
+                android:layout_marginEnd="@dimen/space_3x"
+                android:background="@drawable/add_food_action_bacground_orange"
+                android:text="@string/next"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

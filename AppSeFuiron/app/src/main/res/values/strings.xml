@@ -14,7 +14,7 @@
     <string name="email_required">Correo electrónico*</string>
     <string name="username_required">Usuario*</string>
     <string name="password_required">Contraseña*</string>
-    <string name="birthday">Fecha de nacimiento</string>
+    <string name="birthday">Fecha de nacimiento*</string>
     <string name="phonenumber_required">Número de celular*</string>
     <string name="sign_me_up">¡Registrame!</string>
     <string name="last_name_required">Apellido*</string>
@@ -23,7 +23,7 @@
     <string name="val_empty_password">Necesitamos tu contraseña</string>
     <string name="val_empty_phone_number">Necesitamos tu número de celular</string>
     <string name="recover_your_password">Recuperá\ntu contraseña</string>
-    <string name="recovery_description">Confirmá tu correo electrónico y te enviaremos una nueva contraseña.</string>
+    <string name="recovery_description">Confirmá tu Usuario y te enviaremos una nueva contraseña al correo.</string>
     <string name="recover_password">Recuperar contraseña</string>
     <string name="ready">¡Listo!</string>
     <string name="recovery_success_description">No hay más que hacer aquí, ahora revisá tu correo electrónico.</string>
@@ -111,6 +111,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

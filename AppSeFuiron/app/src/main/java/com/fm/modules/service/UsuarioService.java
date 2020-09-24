@@ -96,4 +96,26 @@ public class UsuarioService extends RestTemplateEntity<Usuario> implements Seria
         return i;
     }
 
+    public int chansePass(Usuario usuario){
+        int i = 0;
+        /*
+         * 0 = server problem
+         * 1 = password changed
+         * */
+        try {
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                RestTemplate restTemplate = new RestTemplate();
+                HttpEntity<Object> entity = new HttpEntity<Object>(headers);
+                restTemplate.exchange(Constantes.DOMINIO.concat("/usuarioLogin/").concat(usuario.getUsername()).concat("/").concat(usuario.getPassword()), HttpMethod.GET,entity, RespuestaGenerica.class);
+                i = 1;
+            } catch (Exception e) {
+                System.out.println("error absRest s: " + e);
+                i = 0;
+            }
+        }catch (Exception e){}
+        return i;
+    }
+
 }

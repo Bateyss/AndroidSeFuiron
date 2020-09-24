@@ -188,9 +188,9 @@ public class RestaurantesActivity extends AppCompatActivity {
             super.onPostExecute(platilloFavorito);
             try {
                 if (!platilloFavorito.isEmpty()){
-                    RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(platilloFavorito, RestaurantesActivity.this);
+                    /*RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(platilloFavorito, RestaurantesActivity.this,get);
                     rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(RestaurantesActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                    rvPlatillosFavoritos.setAdapter(rvAdapter);
+                    rvPlatillosFavoritos.setAdapter(rvAdapter);*/
 
                     Toast.makeText(RestaurantesActivity.this, "Plativos Favoritos Cargados" +platilloFavorito.size(), Toast.LENGTH_SHORT).show();
                 }else{

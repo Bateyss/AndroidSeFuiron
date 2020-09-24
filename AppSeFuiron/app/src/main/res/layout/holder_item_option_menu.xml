@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/holderItemOptionMenu"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/menuOptionImage"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="@dimen/space_3x"
+        android:layout_marginTop="@dimen/space_2x"
+        android:layout_marginBottom="@dimen/space_2x"
+        tools:srcCompat="@drawable/ic_profile_option" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/menuOptionName"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/space_2x"
+        android:textColor="@color/purple"
+        android:textStyle="bold"
+        tools:text="Mi perfil" />
+
+</LinearLayout>

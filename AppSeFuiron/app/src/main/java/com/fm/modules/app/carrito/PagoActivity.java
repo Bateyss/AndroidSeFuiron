@@ -128,7 +128,7 @@ public class PagoActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 if (pedido != null) {
-                    pedido.setFormaDePago("Tarjeta");
+                    pedido.setFormaDePago("Efectivo");
                     btnPagar.setEnabled(true);
                     btnPagar.setBackgroundColor(getResources().getColor(R.color.orange));
                 }

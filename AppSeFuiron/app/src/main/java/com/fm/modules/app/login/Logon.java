@@ -3,14 +3,15 @@ package com.fm.modules.app.login;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -66,11 +68,14 @@ public class Logon extends AppCompatActivity {
     private String usuario = "", passw = "";
     private TextInputEditText userInput;
     private TextInputEditText passInput;
+    private AppCompatTextView forgotPass;
     private Button buttonLogin;
-    private ImageView buttonsing;
+    private AppCompatTextView buttonsing;
     ProgressBar progressBar;
     Acceder acceder = new Acceder();
     AccederFirebased accederFirebased = new AccederFirebased();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     private boolean conected;
 
@@ -92,8 +97,10 @@ public class Logon extends AppCompatActivity {
         userInput = (TextInputEditText) findViewById(R.id.etEmaillogin);
         passInput = (TextInputEditText) findViewById(R.id.etPasswordlogin);
         buttonLogin = (Button) findViewById(R.id.btnLogin);
-        buttonsing = (ImageView) findViewById(R.id.btnFuimonosSignUp);
+        buttonsing = (AppCompatTextView) findViewById(R.id.tvWithoutAccount);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        forgotPass = (AppCompatTextView) findViewById(R.id.tvForgotPassword);
+
         userInput.setText("");
         passInput.setText("");
         Logued.pedidoActual = null;
@@ -101,7 +108,31 @@ public class Logon extends AppCompatActivity {
         Logued.platillosSeleccionadosActuales = new ArrayList<>();
         Logued.restauranteActual = null;
         loginFuimonos();
+        forgotListener();
+        sharedListener();
         // end logon
+    }
+
+    private void sharedListener() {
+        sharedPreferences = getSharedPreferences("LogonData", MODE_PRIVATE);
+        String usuarioPref = sharedPreferences.getString("email", "neles");
+        String passwPref = sharedPreferences.getString("password", "neles");
+        if (!"neles".equals(usuarioPref) && !"neles".equals(passwPref)) {
+            usuario = usuarioPref;
+            passw = passwPref;
+            acceder.execute();
+        }
+    }
+
+    private void forgotListener() {
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Logon.this, RecoveryPassword.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     public void loginFuimonos() {
@@ -161,6 +192,10 @@ public class Logon extends AppCompatActivity {
             }
             if ("".equals(passw)) {
                 Toast.makeText(Logon.this, "Igrese contraseña", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(usuario).matches()) {
+                Toast.makeText(Logon.this, "Ingrese un Correo Valido", Toast.LENGTH_LONG).show();
                 return false;
             }
             return true;
@@ -287,12 +322,23 @@ public class Logon extends AppCompatActivity {
             try {
                 if (isNetActive()) {
                     Usuario u = new Usuario();
-                    u.setUsername(Utilities.encrip(usuario));
+                    u.setUsername(usuario);
                     u.setPassword(Utilities.encrip(passw));
                     UsuarioService usuarioService = new UsuarioService();
                     v = usuarioService.signIn(u);
                     if (v > 0) {
                         u = usuarioService.obtenerUsuarioPorId((long) v);
+                        if (u != null) {
+                            editor = sharedPreferences.edit();
+                            editor.putString("email", usuario);
+                            editor.putString("password", passw);
+                            editor.apply();
+                        } else {
+                            editor = sharedPreferences.edit();
+                            editor.putString("email", "neles");
+                            editor.putString("password", "neles");
+                            editor.commit();
+                        }
                     }
                     Logued.usuarioLogued = u;
                 }

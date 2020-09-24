@@ -2,6 +2,7 @@ package com.fm.modules.app.signup;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,12 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -28,11 +31,12 @@ import com.fm.modules.R;
 import com.fm.modules.app.commons.conectivity.Conectividad;
 import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
-import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Image;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.UsuarioService;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.springframework.util.FileCopyUtils;
@@ -51,7 +55,7 @@ public class SignUp extends AppCompatActivity {
     private TextInputEditText inputDateBorn;
     private TextInputEditText inputTelph;
     private TextInputEditText inputUsename;
-    private Button buttonSign;
+    private MaterialButton buttonSign;
     private boolean networking;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener datePickerDialogListener;
@@ -72,7 +76,7 @@ public class SignUp extends AppCompatActivity {
         inputDateBorn = (TextInputEditText) findViewById(R.id.etsgnupBirthday);
         inputTelph = (TextInputEditText) findViewById(R.id.sgnupPhoneNumber);
         inputUsename = (TextInputEditText) findViewById(R.id.sgnupUsername);
-        buttonSign = (Button) findViewById(R.id.btnSignUp);
+        buttonSign = (MaterialButton) findViewById(R.id.btnSignUp);
         imageframeLayout = (CardView) findViewById(R.id.sgnflProfilePhoto);
         imageProfile = (AppCompatImageView) findViewById(R.id.signProfilePhoto);
         inputDateBorn.setOnClickListener(new View.OnClickListener() {
@@ -104,11 +108,29 @@ public class SignUp extends AppCompatActivity {
         buttonSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (networking) {
+                if (isNetActive()) {
                     validadRegistro();
+                } else {
+                    Toast.makeText(SignUp.this, "No hay Conexion", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public boolean isNetActive() {
+        boolean c = false;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                c = true;
+            }
+        } catch (Exception e) {
+            Log.e("error", "" + "error al comprobar conexion");
+            Log.e("error", "" + e);
+            c = false;
+        }
+        return c;
     }
 
     private void showDatePickDialog(View view) {
@@ -258,7 +280,7 @@ public class SignUp extends AppCompatActivity {
                 System.out.println("comienza a leer vistas");
                 u.setNombre(inputNombre.getText().toString());
                 u.setApellido(inputApellido.getText().toString());
-                u.setUsername(Utilities.encrip(inputUsename.getText().toString()));
+                u.setUsername(inputUsename.getText().toString());
                 u.setPassword(Utilities.encrip(inputPass.getText().toString()));
                 u.setCorreoElectronico(inputCorreo.getText().toString());
                 u.setCelular(inputTelph.getText().toString());
@@ -306,7 +328,7 @@ public class SignUp extends AppCompatActivity {
                 // usuario registrado, compartir en pantalla
                 if (res) {
                     dialogo1();
-                    Intent i = new Intent(SignUp.this, RestaurantePorCategoria.class);
+                    Intent i = new Intent(SignUp.this, MenuBotton.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Thread.sleep(4 * 1000);
                     startActivity(i);

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.MenuBotton;
-import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Pedido;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class PedidoRegistrado extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Logued.platillosSeleccionadosActuales = new ArrayList<>();
-                Logued.pedidoActual = new Pedido();
+                Logued.pedidoActual = null;
                 Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
                 Logued.restauranteActual = null;
                 Intent intent = new Intent(PedidoRegistrado.this, MenuBotton.class);

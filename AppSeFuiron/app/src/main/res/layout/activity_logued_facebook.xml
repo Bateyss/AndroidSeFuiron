@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/com_facebook_button_send_background_color_pressed"
+    tools:context=".app.login.LoguedFacebook">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginEnd="@dimen/space_2x"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/space_5x"
+            app:cardCornerRadius="100dp">
+
+            <ImageView
+                android:id="@+id/loguedFbPhoto"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/com_facebook_profile_picture_blank_square"
+                android:text="as" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/loguedFbTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:gravity="center"
+            android:maxLines="3"
+            android:text="@string/com_facebook_share_button_text"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:drawableStart="@drawable/ic_app_logo"
+            android:textColor="@android:color/white"
+
+            app:cardCornerRadius="20dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loguedFbContinueBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/com_facebook_button_send_background_color"
+                android:text="@string/next"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

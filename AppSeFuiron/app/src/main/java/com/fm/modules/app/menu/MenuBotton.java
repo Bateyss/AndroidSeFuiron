@@ -18,13 +18,17 @@ import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.carrito.PagoActivity;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuBotton extends FragmentActivity {
+
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_botton);
+        firebaseAuth = FirebaseAuth.getInstance();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -58,7 +62,7 @@ public class MenuBotton extends FragmentActivity {
                     showFragment(new CarritoActivity());
                 }
                 if (item.getItemId() == R.id.mmenuOptions) {
-                    showFragment(new OpcionsFragment());
+                    showFragment(new OptionsFragment());
                 }
                 return false;
             }

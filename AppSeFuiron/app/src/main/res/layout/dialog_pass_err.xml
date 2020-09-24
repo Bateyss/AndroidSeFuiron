@@ -1,86 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:scaleType="centerCrop"
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_dialog_header_background"
-        app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
         style="@style/TextViewTitleStyle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_4x"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/space_4x"
         android:includeFontPadding="false"
-        android:text="@string/huy_x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        android:text="@string/huy_x" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLock"
-        android:layout_width="341dp"
+        android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_lock"
-        app:layout_constraintBottom_toTopOf="@+id/btnPassErr"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        app:layout_constraintVertical_bias="0.193" />
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="@dimen/space_2x"
+        android:src="@drawable/ic_lock" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecoverySuccessDescription"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="@dimen/space_2x"
         android:gravity="center"
         android:text="@string/bad_pasword"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/purple"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnPassErr"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/ivLock" />
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/xxrs"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="@dimen/space_2x"
         android:gravity="center"
         android:text="@string/recover_password"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/purple"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvRecoverySuccessDescription"
-        app:layout_constraintVertical_bias="0.515" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/purple" />
 
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         android:id="@+id/btnPassErr"
         style="@style/PrimaryButtonStyle"
         android:layout_width="wrap_content"
@@ -94,6 +72,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.939" />
+        app:layout_constraintVertical_bias="0.939" />-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

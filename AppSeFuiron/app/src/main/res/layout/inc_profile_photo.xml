@@ -17,7 +17,6 @@
         android:focusable="true"
         android:padding="@dimen/space_4n"
         app:cardCornerRadius="50dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle"
         app:layout_constraintTop_toTopOf="parent">

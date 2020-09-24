@@ -1,93 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_4x"
+        android:layout_marginEnd="@dimen/space_4x"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
-            style="@style/SelectableBorderlesStyle"
             android:id="@+id/ivBack"
+            style="@style/SelectableBorderlesStyle"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginTop="@dimen/space_3x"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/ic_left_arrow" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextViewTitleStyle"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:id="@+id/tvTitle"
-            android:includeFontPadding="false"
-            android:layout_width="0dp"
+            style="@style/TextViewTitleStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_6x"
+            android:layout_marginStart="@dimen/space_4x"
             android:layout_marginTop="@dimen/space_2x"
-            android:layout_marginEnd="@dimen/space_6x"
-            tools:text="¡Listo y seguro!"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivBack"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginEnd="@dimen/space_4x"
+            android:layout_weight="0"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:text="¡Listo y seguro!" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivIcon"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_10x"
             android:layout_marginTop="@dimen/space_6x"
-            android:layout_marginEnd="@dimen/space_10x"
             android:adjustViewBounds="true"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:src="@drawable/ic_ready_secure" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubtitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="¡Listo!"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@color/purple"
-            android:includeFontPadding="false"
-            tools:text="¡Listo!"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@+id/ivIcon"
-            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-            app:layout_constraintBottom_toTopOf="@+id/tvMessage"/>
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMessage"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:textStyle="bold"
             android:layout_marginTop="@dimen/space_default"
-            tools:text="Hemos actualizado tu contraseña."
-            app:layout_constraintStart_toStartOf="@+id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle"
-            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-            app:layout_constraintBottom_toTopOf="@+id/btnChangePassword"/>
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="Hemos actualizado tu contraseña."
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
-            style="@style/SecondaryButtonStyle"
             android:id="@+id/btnChangePassword"
-            android:layout_width="0dp"
+            style="@style/SecondaryButtonStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4x"
+            android:layout_marginTop="@dimen/space_4x"
             android:layout_marginEnd="@dimen/space_4x"
-            android:layout_marginBottom="@dimen/space_4x"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="Iniciar sesión"
-            app:layout_constraintStart_toStartOf="@+id/tvTitle"
-            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:text="@string/next"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-</layout>
+</LinearLayout>
