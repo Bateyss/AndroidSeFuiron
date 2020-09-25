@@ -3,6 +3,7 @@ package com.fm.modules.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,12 @@ import com.fm.modules.R;
 import com.fm.modules.app.login.Logon;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.OptionsEntity;
+import com.fm.modules.app.menu.SupportFragment;
 import com.fm.modules.app.menu.UserProfileFragment;
+import com.fm.modules.app.usuario.MyFavorites;
+import com.fm.modules.app.usuario.MyLocations;
 import com.fm.modules.app.usuario.MyOrders;
+import com.fm.modules.app.usuario.SeguirPedidoFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -63,17 +68,24 @@ public class RecyclerMenuOtionsAdapter extends RecyclerView.Adapter<RecyclerMenu
                     case 2:
                         break;
                     case 3:
+                        showFragment(new MyLocations());
                         break;
                     case 4:
                         showFragment(new MyOrders());
                         break;
                     case 5:
+                        showFragment(new MyFavorites());
                         break;
                     case 6:
+                        showFragment(new SupportFragment());
                         break;
                     case 7:
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:+50370149398"));
+                        context.startActivity(intent);
                         break;
                     case 8:
+                        showFragment(new SeguirPedidoFragment());
                         break;
                     case 9:
                         try {
@@ -85,9 +97,9 @@ public class RecyclerMenuOtionsAdapter extends RecyclerView.Adapter<RecyclerMenu
                         }
                         firebaseAuth.signOut();
                         Logued.usuarioLogued = null;
-                        Intent intent = new Intent(context, Logon.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Intent intent1 = new Intent(context, Logon.class);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent1);
                         break;
                 }
             }

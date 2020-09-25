@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,33 +25,45 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_5x">
+            android:layout_marginTop="@dimen/space_5x"
+            app:cardCornerRadius="25dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_2x"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_platillo" />
+
+                    <TextView
+                        style="@style/TextViewSubTitleStyle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableStart="@drawable/ic_food_icon"
+                        android:layout_weight="1"
                         android:gravity="center"
+                        android:maxLines="2"
                         android:text="total de orden"
                         android:textColor="@color/purple" />
 
                     <TextView
                         android:id="@+id/pagoTxtTotal"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:maxLines="1"
                         android:text="$ 0.00"
                         android:textAlignment="center"
@@ -112,7 +125,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_5x"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            app:cardCornerRadius="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,17 +158,24 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/pagoBtnPagar"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_3x"
             android:layout_marginTop="@dimen/space_5x"
             android:layout_marginEnd="@dimen/space_3x"
-            android:background="@drawable/add_food_action_bacground_orange"
-            android:text="Pagar"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            app:cardCornerRadius="25dp">
+
+            <Button
+                android:id="@+id/pagoBtnPagar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/add_food_action_bacground_orange"
+                android:text="Pagar"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.fm.modules.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,44 +7,41 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.fm.modules.R;
 import com.fm.modules.models.Categoria;
 
 import java.util.List;
 
-public class CategoriasPagerAdapter extends PagerAdapter {
+public class CategoriasPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Categoria> categoriaList;
     private LayoutInflater layoutInflater;
-    private Context context;
+    private int numTabs;
 
-    public CategoriasPagerAdapter(List<Categoria> categoriaList, Context context) {
-        this.categoriaList = categoriaList;
-        this.context = context;
+    public CategoriasPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Categoria> categorias) {
+        super(fm, behavior);
+        categoriaList = categorias;
+        numTabs = categorias.size();
     }
 
-    /**
-     * Return the number of views available.
-     */
     @Override
     public int getCount() {
         return categoriaList.size();
     }
 
-    /**
-     * Determines whether a page View is associated with a specific key object
-     * as returned by {@link #instantiateItem(ViewGroup, int)}. This method is
-     * required for a PagerAdapter to function properly.
-     *
-     * @param view   Page View to check for association with <code>object</code>
-     * @param object Object to check for association with <code>view</code>
-     * @return true if <code>view</code> is associated with the key object <code>object</code>
-     */
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view.equals(object);
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return null;
     }
 
     @NonNull
@@ -63,7 +59,7 @@ public class CategoriasPagerAdapter extends PagerAdapter {
             holderItemCategorias.catCountRestaurants.setText("");
         } catch (Exception e) {
         }
-        container.addView(view,0);
+        container.addView(view, 0);
         return view;
     }
 

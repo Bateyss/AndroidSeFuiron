@@ -154,6 +154,7 @@ public class PagoActivity extends Fragment {
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnPagar.setEnabled(false);
                 btnTarjeta.setEnabled(false);
                 btnEfectivo.setEnabled(false);
                 obtenerPedido();
@@ -246,6 +247,7 @@ public class PagoActivity extends Fragment {
                                 PlatilloSeleccionadoService platilloSeleccionadoService = new PlatilloSeleccionadoService();
                                 for (PlatilloSeleccionado pla : platilloSeleccionados) {
                                     pla.setPedido(per);
+                                    pla.setPlatilloSeleccionadoId(0L);
                                     PlatilloSeleccionado pls = platilloSeleccionadoService.crearPlatilloSeleccionado(pla);
                                     if (pls != null) {
                                         b = 3;
@@ -254,6 +256,7 @@ public class PagoActivity extends Fragment {
                                             for (OpcionesDeSubMenuSeleccionado opc : opcionesSeleccionadas) {
                                                 if (opc.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == pla.getPlatilloSeleccionadoId().intValue()) {
                                                     opc.setPlatilloSeleccionado(pls);
+                                                    opc.setOpcionesDeSubMenuSeleccionadoId(0L);
                                                     OpcionesDeSubMenuSeleccionado pp = opcionSubMenuSeleccionadoService.crearOpcionSubMenu(opc);
                                                     if (pp != null) {
                                                         b = 3;
@@ -298,6 +301,7 @@ public class PagoActivity extends Fragment {
                     startActivity(intent2);
                     break;
             }
+            btnPagar.setEnabled(false);
             reiniciarAsynk();
         }
     }

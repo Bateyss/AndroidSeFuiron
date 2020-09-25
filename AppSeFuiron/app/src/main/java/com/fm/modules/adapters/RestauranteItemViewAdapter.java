@@ -55,7 +55,7 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
             holder.tvLabelMinimalMount.setText(restaurante.getDepartamento().getNombreDepartamento());
             holder.tvMinimalMount.setText(String.valueOf(restaurante.getDepartamento().getPais().getNombrePais()));
             Picasso.get().load("http://netlima.com/casas/negocios/Pizza_Hut_logo.svg.png").placeholder(R.drawable.ic_profile_header_background).into(holder.ivRestaurantLogo);
-            holder.ivOutstandingImage.setOnClickListener(new View.OnClickListener() {
+            holder.restauranteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Restaurante rr = Logued.restauranteActual;

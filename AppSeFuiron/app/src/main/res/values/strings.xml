@@ -26,6 +26,8 @@
     <string name="recovery_description">Confirmá tu Usuario y te enviaremos una nueva contraseña al correo.</string>
     <string name="recover_password">Recuperar contraseña</string>
     <string name="ready">¡Listo!</string>
+    <string name="correooo">¡Correoooo!</string>
+    <string name="we_response_to_email">Daremos respuesta a tu correo electronico</string>
     <string name="recovery_success_description">No hay más que hacer aquí, ahora revisá tu correo electrónico.</string>
     <string name="login_app">Iniciar sesión</string>
     <string name="come_back">Regresar</string>
@@ -54,6 +56,7 @@
     <string name="your_cart_is_empty">Tu carrito está vacío</string>
     <string name="empty_shopping_cart_description">Haz un pedido para visualizar tus ordenes</string>
     <string name="my_profile_option">Mi perfil</string>
+    <string name="my_locations">Tus Lugares</string>
     <string name="wallet_option">Billetera</string>
     <string name="adresses_option">Direcciones</string>
     <string name="my_orders_option">Mis órdenes</string>
@@ -91,6 +94,8 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
+    <string name="for_what">¿En que podemos ayudarte?</string>
+    <string name="action_pegunte">!Pregunte sin compromiso¡</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -112,6 +117,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="texts">texto</string>
+    <string name="asociate">Socio Fuimonos</string>
+    <string name="time_stimated">Hora estimada de entrega</string>
+    <string name="order_new">Pedido Realizado</string>
+    <string name="order_prepared">Tu orden se esta preparando</string>
+    <string name="order_in_comming">Recibido por fuimonos</string>
+    <string name="order_apointed">Tu orden ha sido entregada</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

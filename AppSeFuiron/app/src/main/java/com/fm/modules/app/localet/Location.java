@@ -75,27 +75,6 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         verUbicaciones();
     }
 
-    /*@Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_location, container, false);
-        seleccionar = (Button) view.findViewById(R.id.mapBtnSeleccionar);
-        cancelar = (Button) view.findViewById(R.id.mapBtncancelar);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        savedPlaces = (ListView) view.findViewById(R.id.listPlacesMap);
-        String apiKey = getString(R.string.google_maps_key);
-        Places.initialize(view.getContext(), apiKey);
-        placesClient = Places.createClient(view.getContext());
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.getContext());
-        seleccionar.setEnabled(false);
-        seleccionar.setBackgroundColor(this.getResources().getColor(R.color.colorLightGray));
-        actionCancelar();
-        return view;
-    }*/
-
     private void verUbicaciones() {
         try {
             myLocations.execute();
@@ -115,15 +94,6 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

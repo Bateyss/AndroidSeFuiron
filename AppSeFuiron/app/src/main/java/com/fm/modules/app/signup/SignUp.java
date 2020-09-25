@@ -1,10 +1,12 @@
 package com.fm.modules.app.signup;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,10 +28,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.fm.modules.R;
 import com.fm.modules.app.commons.conectivity.Conectividad;
 import com.fm.modules.app.commons.utils.Utilities;
+import com.fm.modules.app.localet.PermissionUtils;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Image;
@@ -64,6 +68,9 @@ public class SignUp extends AppCompatActivity {
     private Registrar registrar = new Registrar();
     private String fileImagenProfile = null;
     private AppCompatImageView imageProfile;
+    private static final int ACCES_FILE_PERMISSION_REQUEST_CODE = 1;
+    private boolean ACCES_FILE_PERMISSION_REQUEST_GARANTED = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +122,7 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
+        enableFilesRead();
     }
 
     public boolean isNetActive() {
@@ -204,12 +212,19 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void uploadPhoto(View view) {
-        Intent openFile = new Intent(Intent.ACTION_GET_CONTENT);
-        openFile.addCategory(Intent.CATEGORY_OPENABLE);
-        openFile.setType("image/*");
-        // request code 200 es Galeria de fotos
-        Intent i = Intent.createChooser(openFile, "file");
-        startActivityForResult(openFile, 200);
+        if (ACCES_FILE_PERMISSION_REQUEST_GARANTED) {
+            Intent openFile = new Intent(Intent.ACTION_GET_CONTENT);
+            openFile.addCategory(Intent.CATEGORY_OPENABLE);
+            openFile.setType("image/*");
+            // request code 200 es Galeria de fotos
+            Intent i = Intent.createChooser(openFile, "file");
+            startActivityForResult(openFile, 200);
+        } else {
+            Toast.makeText(SignUp.this, "No Puedes Subir Imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Primero", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Concede Permisos", Toast.LENGTH_SHORT).show();
+            enableFilesRead();
+        }
     }
 
     @Override
@@ -267,6 +282,42 @@ public class SignUp extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    private void enableFilesRead() {
+        // [START maps_check_location_permission]
+        boolean permiso1 = false;
+        boolean permiso2 = false;
+        if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            permiso1 = true;
+        }
+        if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.ACCESS_MEDIA_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            permiso2 = true;
+        }
+        if (permiso1 && permiso2) {
+            ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
+        } else {
+            // Permission to access the location is missing. Show rationale and request permission
+            PermissionUtils.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE, true);
+            PermissionUtils.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_MEDIA_LOCATION, true);
+
+            if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                permiso1 = true;
+            }
+            if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.ACCESS_MEDIA_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                permiso2 = true;
+            }
+            if (permiso1 && permiso2) {
+                ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
+            }
+        }
+        // [END maps_check_location_permission]
     }
 
     public class Registrar extends AsyncTask<String, String, Boolean> {

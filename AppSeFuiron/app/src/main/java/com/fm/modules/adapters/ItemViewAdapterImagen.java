@@ -18,6 +18,7 @@ import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.Image;
 import com.fm.modules.service.ImageService;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -90,6 +91,7 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
         TextView tvRestaurantName;
         TextView tvMinimalMount;
         TextView tvLabelMinimalMount;
+        MaterialCardView restauranteItem;
 
         public HolderRestaurantes(View view) {
             ivOutstandingImage = (AppCompatImageView) view.findViewById(R.id.ivOutstandingImage);
@@ -97,6 +99,7 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
             tvRestaurantName = (TextView) view.findViewById(R.id.tvRestaurantName);
             tvMinimalMount = (TextView) view.findViewById(R.id.tvMinimalMount);
             tvLabelMinimalMount = (TextView) view.findViewById(R.id.tvLabelMinimalMount);
+            restauranteItem = (MaterialCardView) view.findViewById(R.id.restauranteItemCard);
         }
 
         protected void verImagen(Long id) {
