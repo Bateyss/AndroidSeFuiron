@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/myorderCardItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_2x"
@@ -72,6 +73,11 @@
                 android:maxLines="1"
                 android:text="precio $00000" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_action_arrow_right" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

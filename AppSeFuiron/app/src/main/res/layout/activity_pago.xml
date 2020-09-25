@@ -38,38 +38,40 @@
                     android:orientation="horizontal">
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:drawableStart="@drawable/ic_food_icon"
                         android:gravity="center"
-                        android:drawableStart="@drawable/ic_favorites_option"
                         android:text="total de orden"
                         android:textColor="@color/purple" />
 
                     <TextView
                         android:id="@+id/pagoTxtTotal"
-                        android:maxLines="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textAlignment="center"
+                        android:maxLines="1"
                         android:text="$ 0.00"
+                        android:textAlignment="center"
                         android:textColor="@color/purple" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_favorites_option"/>
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_location_icon" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/pagoTxtDireccion"
                             style="@style/TextViewSubTitleStyle"
@@ -79,6 +81,7 @@
                             android:gravity="center"
                             android:text="mapa"
                             android:textColor="@color/purple" />
+
                         <TextView
                             android:id="@+id/pagoTxtDireccion2"
                             style="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -89,8 +92,18 @@
                             android:text="mapa"
                             android:textColor="@color/purple" />
                     </LinearLayout>
+
                 </LinearLayout>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pagoChangeLocation"
+                    style="@style/TextViewSubTitleStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_6x"
+                    android:layout_marginEnd="@dimen/space_6x"
+                    android:drawableEnd="@drawable/ic_action_arrow_right"
+                    android:text="@string/change_location" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -98,7 +111,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_5x">
+            android:layout_marginTop="@dimen/space_5x"
+            android:background="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,7 +123,8 @@
                     android:id="@+id/pagoBtnTarjeta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_wallet_option"
+                    android:background="@android:color/white"
+                    android:drawableStart="@drawable/ic_payment_target"
                     android:enabled="false"
                     android:text="Tarjeta"
                     android:textColor="@color/purple"
@@ -119,7 +134,8 @@
                     android:id="@+id/pagoBtnEfectivo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_wallet_option"
+                    android:background="@android:color/white"
+                    android:drawableStart="@drawable/ic_payment_money"
                     android:text="Efectivo"
                     android:textColor="@color/purple"
                     android:textStyle="bold" />

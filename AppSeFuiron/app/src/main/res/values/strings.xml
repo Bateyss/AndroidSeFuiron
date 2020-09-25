@@ -63,6 +63,7 @@
     <string name="track_your_order_option">Seguí tu pedido</string>
     <string name="log_out_option">Cerrar sesión</string>
     <string name="change_password">Cambiar contraseña</string>
+    <string name="change_location">Cambiar Dirección</string>
     <string name="bad_pasword">Contraseña incorrecta</string>
     <string name="bad_username">Este correo es incorrecto o no esta registrado</string>
     <string name="bad_signin">El nombre de usaurio/correo ya esta registrado, intentalo de nuevo</string>

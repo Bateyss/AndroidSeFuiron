@@ -21,6 +21,11 @@ public class PlatilloSeleccionadoService extends RestTemplateEntity<PlatilloSele
         return lista;
     }
 
+    public List<PlatilloSeleccionado> obtenerPlatilloSeleccionadosPorPedido(Long idPedido) {
+        List<PlatilloSeleccionado> lista = getListURL(Constantes.DOMINIO.concat("/platilloSeleccionadoPorPedido/").concat(idPedido.toString()));
+        return lista;
+    }
+
     public PlatilloSeleccionado obtenerPlatilloSeleccionadoPorId(Long id) {
         PlatilloSeleccionado enti = getOneURL(url, id);
         return enti;

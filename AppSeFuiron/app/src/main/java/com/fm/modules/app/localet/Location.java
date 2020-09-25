@@ -3,11 +3,12 @@ package com.fm.modules.app.localet;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,10 @@ import androidx.core.content.ContextCompat;
 import com.fm.modules.R;
 import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.carrito.ProcesarCarritoActivity;
+import com.fm.modules.app.login.Logued;
+import com.fm.modules.models.Pedido;
+import com.fm.modules.models.Usuario;
+import com.fm.modules.service.PedidoService;
 import com.fm.modules.sqlite.models.Direcciones;
 import com.fm.modules.sqlite.models.DireccionesSQLite;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,6 +50,8 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
     private static final int DEFAULT_ZOOM = 15;
     private Button cancelar;
     private Button seleccionar;
+    private List<Direcciones> direccionesGlobal;
+    private MyLocations myLocations = new MyLocations();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_location);
         seleccionar = (Button) findViewById(R.id.mapBtnSeleccionar);
         cancelar = (Button) findViewById(R.id.mapBtncancelar);
+        direccionesGlobal = new ArrayList<>();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -64,7 +72,7 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         seleccionar.setEnabled(false);
         seleccionar.setBackgroundColor(this.getResources().getColor(R.color.colorLightGray));
         actionCancelar();
-        //verUbicaciones();
+        verUbicaciones();
     }
 
     /*@Nullable
@@ -90,33 +98,7 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
 
     private void verUbicaciones() {
         try {
-            List<Direcciones> direcciones = new ArrayList<>();
-            DireccionesSQLite direccionesSQLite = new DireccionesSQLite(Location.this);
-            direcciones = direccionesSQLite.readAll();
-            if (!direcciones.isEmpty()) {
-                final List<Direcciones> direccionesFinal = direcciones;
-                DireccionesViewAdapter adapter = new DireccionesViewAdapter(direcciones, Location.this, R.layout.holder_item_option);
-                savedPlaces.setAdapter(adapter);
-                savedPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        try {
-                            String[] spliter = direccionesFinal.get(position).getCoordenadas().split(";;", 3);
-                            LatLng latLng = new LatLng(Float.parseFloat(spliter[0]), Float.parseFloat(spliter[1]));
-                            mMap.clear();
-                            // marcamos la posicion seleccionada
-                            mMap.addMarker(new MarkerOptions().position(latLng).title("new marker"));
-                            // movemos la camara a la posicion seleccionada
-                            // utilizamos el zoom que el usuario esta utilizando
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom));
-                            seleccionar.setEnabled(false);
-                            seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.colorLightGray));
-                        } catch (Exception ex) {
-                            System.out.println("error ubicaciones: " + ex);
-                        }
-                    }
-                });
-            }
+            myLocations.execute();
         } catch (Exception e) {
             System.out.println("error ubicaciones: " + e);
         }
@@ -151,6 +133,25 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         onMarckClike();
         mMap.addMarker(new MarkerOptions().position(defaulLocation).title("Marker in San Salvador"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaulLocation, DEFAULT_ZOOM));
+        String direccionSelected = GlobalLocation.locationSelected;
+        if (direccionSelected != null) {
+            String[] strings1 = {};
+            try {
+                strings1 = direccionSelected.split("::", 2);
+            } catch (Exception ignore) {
+            }
+            if (strings1.length == 2) {
+                try {
+                    LatLng selectedCoords = new LatLng(Double.parseDouble(strings1[0]), Double.parseDouble(strings1[1]));
+                    mMap.addMarker(new MarkerOptions().position(selectedCoords).title("Marker in Selected"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedCoords, DEFAULT_ZOOM));
+                } catch (Exception e) {
+                }
+            }
+        }
+        Toast.makeText(Location.this, "Elegir Ubicacion o", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Location.this, "Seleccionar Marcador", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Location.this, "Para Continuar", Toast.LENGTH_SHORT).show();
         enableMyLocation();
     }
 
@@ -164,6 +165,8 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
                 // movemos la camara a la posicion seleccionada
                 // utilizamos el zoom que el usuario esta utilizando
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom));
+                Toast.makeText(Location.this, "Seleccionar Marcador", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Location.this, "Para Continuar", Toast.LENGTH_SHORT).show();
                 seleccionar.setEnabled(false);
                 seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.colorLightGray));
             }
@@ -219,4 +222,65 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         // [END maps_check_location_permission]
     }
 
+    private class MyLocations extends AsyncTask<String, String, List<Direcciones>> {
+
+        @Override
+        protected List<Direcciones> doInBackground(String... strings) {
+            List<Direcciones> direccionesList = new ArrayList<>();
+            try {
+                PedidoService pedidoService = new PedidoService();
+                Usuario usuario = Logued.usuarioLogued;
+                List<Pedido> pedidos = new ArrayList<>();
+                if (usuario != null) {
+                    pedidos = pedidoService.obtenerMyPedidos(usuario.getUsuarioId());
+                }
+                if (!pedidos.isEmpty()) {
+                    Direcciones direcciones;
+                    int i = 0;
+                    for (Pedido pedido : pedidos) {
+                        direcciones = new Direcciones();
+                        direcciones.setIdDireccion(++i);
+                        String[] spliter = {};
+                        try {
+                            spliter = pedido.getDireccion().split(";", 7);
+                        } catch (Exception ignore) {
+                        }
+                        if (spliter.length > 3) {
+                            direcciones.setCoordenadas(spliter[2]);
+                            direcciones.setNombreDireccion(spliter[0]);
+                            direccionesList.add(direcciones);
+                        }
+                    }
+                    direccionesGlobal = direccionesList;
+                }
+            } catch (Exception e) {
+                System.out.println("Error en UnderThreash:" + e.getMessage() + " " + e.getClass());
+            }
+            return direccionesList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Direcciones> direcciones) {
+            super.onPostExecute(direcciones);
+            try {
+                if (!direcciones.isEmpty()) {
+                    DireccionesViewAdapter adapter = new DireccionesViewAdapter(direcciones, Location.this, R.layout.holder_item_option);
+                    savedPlaces.setAdapter(adapter);
+                }
+            } catch (Exception e) {
+                System.out.println("Error Activity: " + e);
+            }
+            reiniciarMyLocations();
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    public void reiniciarMyLocations() {
+        myLocations.cancel(true);
+        myLocations = new MyLocations();
+    }
 }

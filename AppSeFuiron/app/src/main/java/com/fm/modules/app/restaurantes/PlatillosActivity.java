@@ -88,8 +88,10 @@ public class PlatillosActivity extends Fragment {
             for (Platillo p : GlobalRestaurantes.platilloList) {
                 if (p.getMenu().getMenuId().intValue() == idMenu) {
                     if (!ints.contains(p.getPlatilloId().intValue())) {
-                        platilloList.add(p);
-                        ints.add(p.getPlatilloId().intValue());
+                        if (p.getDisponible()) {
+                            platilloList.add(p);
+                            ints.add(p.getPlatilloId().intValue());
+                        }
                     }
                 }
             }

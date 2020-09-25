@@ -21,6 +21,7 @@ import com.fm.modules.app.login.Logon;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.OptionsEntity;
 import com.fm.modules.app.menu.UserProfileFragment;
+import com.fm.modules.app.usuario.MyOrders;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class RecyclerMenuOtionsAdapter extends RecyclerView.Adapter<RecyclerMenu
                     case 3:
                         break;
                     case 4:
+                        showFragment(new MyOrders());
                         break;
                     case 5:
                         break;

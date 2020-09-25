@@ -1,6 +1,7 @@
 package com.fm.modules.app.localet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,18 @@ public class DireccionesViewAdapter extends ItemViewAdapterImagen<Direcciones> {
                 holder = (HolderItemOption) convertView.getTag();
                 System.out.println("Holder Inactivo");
             }
-
             final Direcciones direccion = (Direcciones) getItem(position);
-
             holder.image.setImageResource(R.drawable.ic_track_order_option);
             holder.name.setText(direccion.getNombreDireccion());
 
+            holder.itemOption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalLocation.locationSelected = direccion.getCoordenadas();
+                    Intent intent = new Intent(context, Location.class);
+                    context.startActivity(intent);
+                }
+            });
         } catch (Exception e) {
             System.out.println("Error ListaAdapterRestaurante" + e);
         }

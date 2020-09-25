@@ -21,6 +21,12 @@ public class OpcionSubMenuSeleccionadoService extends RestTemplateEntity<Opcione
         return lista;
     }
 
+    public List<OpcionesDeSubMenuSeleccionado> obtenerOpcionSubMenusPosPlatilloSeleccionado(Long idPlatilloSel) {
+        List<OpcionesDeSubMenuSeleccionado> lista = getListURL(Constantes.DOMINIO.concat("/opcionesDePlatilloSeleccionado/").concat(idPlatilloSel.toString()));
+        return lista;
+    }
+
+
     public OpcionesDeSubMenuSeleccionado obtenerOpcionSubMenuPorId(Long id) {
         OpcionesDeSubMenuSeleccionado enti = getOneURL(url, id);
         return enti;

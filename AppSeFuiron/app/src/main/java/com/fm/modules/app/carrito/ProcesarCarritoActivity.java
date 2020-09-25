@@ -79,19 +79,19 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
             direccion1.setText(d1);
         }
         if (d2 != null) {
-            direccion1.setText(d2);
+            direccion2.setText(d2);
         }
         if (d4 != null) {
-            direccion1.setText(d4);
+            direccion4.setText(d4);
         }
         if (d5 != null) {
-            direccion1.setText(d5);
+            direccion5.setText(d5);
         }
         if (d6 != null) {
-            direccion1.setText(d6);
+            direccion6.setText(d6);
         }
         if (d7 != null) {
-            direccion1.setText(d7);
+            direccion7.setText(d7);
         }
     }
 

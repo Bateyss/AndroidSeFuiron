@@ -28,6 +28,7 @@ import com.fm.modules.service.DriverService;
 import com.fm.modules.service.OpcionSubMenuSeleccionadoService;
 import com.fm.modules.service.PedidoService;
 import com.fm.modules.service.PlatilloSeleccionadoService;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class PagoActivity extends Fragment {
     private List<OpcionesDeSubMenuSeleccionado> opcionesSeleccionadas;
     private GuardarPedidoAsync guardarPedidoAsync = new GuardarPedidoAsync();
     private View viewGlobal;
+    private MaterialTextView changueLocation;
 
     @Override
     public void onPause() {
@@ -91,6 +93,7 @@ public class PagoActivity extends Fragment {
         btnTarjeta = (Button) view.findViewById(R.id.pagoBtnTarjeta);
         btnEfectivo = (Button) view.findViewById(R.id.pagoBtnEfectivo);
         btnPagar = (Button) view.findViewById(R.id.pagoBtnPagar);
+        changueLocation = (MaterialTextView) view.findViewById(R.id.pagoChangeLocation);
         btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
         btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
         pedido = Logued.pedidoActual;
@@ -100,7 +103,18 @@ public class PagoActivity extends Fragment {
         opcionesSeleccionadas = new ArrayList<>();
         mostrarDatos();
         listenerBotones();
+        changueLocationlistener();
         return view;
+    }
+
+    private void changueLocationlistener() {
+        changueLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(viewGlobal.getContext(), ProcesarCarritoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void obtenerPedido() {

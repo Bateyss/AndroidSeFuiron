@@ -20,6 +20,11 @@ public class PedidoService extends RestTemplateEntity<Pedido> implements Seriali
         return lista;
     }
 
+    public List<Pedido> obtenerMyPedidos(Long idUsuario) {
+        List<Pedido> lista = getListURL(url.concat("/obtenerPedidoUsuario/").concat(idUsuario.toString()));
+        return lista;
+    }
+
     public Pedido obtenerPedidoPorId(Long id) {
         Pedido enti = getOneURL(url, id);
         return enti;

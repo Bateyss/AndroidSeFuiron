@@ -297,6 +297,9 @@ public class RestaurantePorCategoria extends Fragment {
                 if (user != null) {
                     if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
                         platillos.add(f);
+                        if (f.getPlatillo().getDisponible()) {
+                            platillos.add(f);
+                        }
                     }
                 }
             }

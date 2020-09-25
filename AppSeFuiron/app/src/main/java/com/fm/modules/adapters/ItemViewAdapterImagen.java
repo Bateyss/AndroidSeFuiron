@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.fm.modules.R;
 import com.fm.modules.app.commons.utils.Utilities;
@@ -235,10 +236,12 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
     public class HolderItemOption {
         public AppCompatImageView image;
         public AppCompatTextView name;
+        public ConstraintLayout itemOption;
 
         public HolderItemOption(View view) {
             image = (AppCompatImageView) view.findViewById(R.id.ivOptionIcon);
             name = (AppCompatTextView) view.findViewById(R.id.tvOptionName);
+            itemOption = (ConstraintLayout) view.findViewById(R.id.itemOptionLayout);
         }
     }
 }
