@@ -1,7 +1,6 @@
 package com.fm.modules.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class MenuItemViewAdapter extends ItemViewAdapterImagen<Menu> {
                 @Override
                 public void onClick(View view) {
                     GlobalRestaurantes.menuSeleccionado = menu;
-                    showFragment(new PlatillosActivity());
+                    showFragment(new PlatillosActivity(menu));
                     /*Intent i = new Intent(context, PlatillosActivity.class);
                     i.putExtra("idMenu", menu.getMenuId().intValue());
                     context.startActivity(i);*/

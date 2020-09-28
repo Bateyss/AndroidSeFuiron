@@ -29,6 +29,11 @@ public class PlatillosActivity extends Fragment {
     private RecyclerView rvPlatillos;
     private AppCompatImageView imagenLogo;
     private View viewGlobal;
+    private Menu menu;
+
+    public PlatillosActivity(Menu menu) {
+        this.menu = menu;
+    }
 
     /*@Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +82,7 @@ public class PlatillosActivity extends Fragment {
     }
 
     public void verPlatillos() {
-        Menu m = GlobalRestaurantes.menuSeleccionado;
+        Menu m = menu;
         int idMenu = 0;
         if (m != null) {
             idMenu = m.getMenuId().intValue();

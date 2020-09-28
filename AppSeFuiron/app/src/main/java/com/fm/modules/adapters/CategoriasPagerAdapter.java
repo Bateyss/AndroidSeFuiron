@@ -48,7 +48,7 @@ public class CategoriasPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         final HolderItemCategorias holderItemCategorias;
-        layoutInflater = LayoutInflater.from(context);
+        //layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.holder_item_category_unit, container, false);
         try {
             holderItemCategorias = new HolderItemCategorias(view);

@@ -1,5 +1,6 @@
 package com.fm.modules.app.restaurantes;
 
+import com.fm.modules.models.Categoria;
 import com.fm.modules.models.Menu;
 import com.fm.modules.models.MenxCategoria;
 import com.fm.modules.models.OpcionesDeSubMenu;
@@ -25,4 +26,5 @@ public class GlobalRestaurantes {
     public static List<Restaurante> restaurantes;
     public static Restaurante restauranteSelected;
     public static List<MenxCategoria> menxCategorias;
+    public static Menu menuSelectedInMenusTab;
 }

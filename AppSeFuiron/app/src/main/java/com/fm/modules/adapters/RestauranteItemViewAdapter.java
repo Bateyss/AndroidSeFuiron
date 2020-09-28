@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
-import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
+import com.fm.modules.app.restaurantes.MenuDeRestauranteFragment;
 import com.fm.modules.models.Restaurante;
 import com.squareup.picasso.Picasso;
 
@@ -62,13 +62,13 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
                     if (rr == null) {
                         rr = restaurante;
                         Logued.restauranteActual = restaurante;
-                        showFragment(new RestauranteMenuActivity());
+                        showFragment(new MenuDeRestauranteFragment());
                         /*Intent i = new Intent(context, RestauranteMenuActivity.class);
                         i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                         context.startActivity(i);*/
                     } else {
                         if (rr.getRestauranteId().intValue() == restaurante.getRestauranteId().intValue()) {
-                            showFragment(new RestauranteMenuActivity());
+                            showFragment(new MenuDeRestauranteFragment());
                             /*Intent i = new Intent(context, RestauranteMenuActivity.class);
                             i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                             context.startActivity(i);*/
@@ -83,7 +83,7 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
                                             Logued.restauranteActual = restaurante;
                                             Logued.platillosSeleccionadosActuales = new ArrayList<>();
                                             Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
-                                            showFragment(new RestauranteMenuActivity());
+                                            showFragment(new MenuDeRestauranteFragment());
                                             /*Intent i = new Intent(context, RestauranteMenuActivity.class);
                                             i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                                             context.startActivity(i);*/

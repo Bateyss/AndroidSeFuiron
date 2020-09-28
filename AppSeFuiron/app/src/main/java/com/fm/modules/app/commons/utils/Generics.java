@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Generics {
 
@@ -22,6 +24,17 @@ public class Generics {
             return null;
         }
         return outputStream.toByteArray();
+    }
+
+    public static Date getHour(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        int hour = calendar.get(Calendar.HOUR);
+        calendar.set(year, month, day, hour, 0, 0);
+        return calendar.getTime();
     }
 
 }

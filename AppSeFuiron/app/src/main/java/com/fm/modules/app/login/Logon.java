@@ -315,7 +315,27 @@ public class Logon extends AppCompatActivity {
                 .show();
     }
 
+    public void inhabilatBotones() {
+        buttonLogin.setEnabled(false);
+        buttonLogin.setBackgroundColor(getResources().getColor(R.color.gray));
+        buttonsing.setEnabled(false);
+        buttonsing.setBackgroundColor(getResources().getColor(R.color.gray));
+    }
+
+    public void habilatBotones() {
+        buttonLogin.setEnabled(true);
+        buttonLogin.setBackgroundColor(getResources().getColor(R.color.orange));
+        buttonsing.setEnabled(true);
+        buttonsing.setBackgroundColor(getResources().getColor(R.color.white));
+    }
+
     public class Acceder extends AsyncTask<String, String, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inhabilatBotones();
+        }
+
         @Override
         protected Integer doInBackground(String... strings) {
             int v = 0;
@@ -388,6 +408,7 @@ public class Logon extends AppCompatActivity {
                     startActivity(intent);
                 }
                 limpiar();
+                habilatBotones();
                 reiniciarAsynkProcess();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -401,6 +422,13 @@ public class Logon extends AppCompatActivity {
     }
 
     public class AccederFirebased extends AsyncTask<FirebaseUser, String, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inhabilatBotones();
+        }
+
         @Override
         protected Integer doInBackground(FirebaseUser... users) {
             int verifier = 0;
@@ -504,6 +532,7 @@ public class Logon extends AppCompatActivity {
                     startActivity(intent);
                 }
                 limpiar();
+                habilatBotones();
                 reiniciarAsynkProcess();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
