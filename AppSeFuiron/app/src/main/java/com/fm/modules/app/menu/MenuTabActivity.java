@@ -1,4 +1,4 @@
-package com.fm.modules.app.restaurantes;
+package com.fm.modules.app.menu;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -10,19 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.widget.AppCompatImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.fm.modules.R;
-import com.fm.modules.adapters.RecyclerTabMenuAdapter;
+import com.fm.modules.adapters.SectionsPagerAdapter;
 import com.fm.modules.app.commons.utils.Generics;
-import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
-import com.fm.modules.models.Image;
+import com.fm.modules.app.restaurantes.GlobalRestaurantes;
+import com.fm.modules.app.restaurantes.PlatillosActivity;
 import com.fm.modules.models.Menu;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.Platillo;
@@ -30,31 +28,26 @@ import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.OpcionesDeSubMenuService;
 import com.fm.modules.service.PlatilloService;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MenuDeRestauranteFragment extends Fragment {
+public class MenuTabActivity extends Fragment {
 
-    private FragmentContainerView framgent;
-    private CategoraisDeRestaurante categoraisDeRestaurante = new CategoraisDeRestaurante();
-    private RecyclerView tabsRV;
+    private ViewPager viewPager;
+    private TabLayout tabsRV;
     private View viewGlobal;
-    private AppCompatImageView imagenLogo;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_coordinator, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_menu_tab, container, false);
         viewGlobal = view;
-        framgent = (FragmentContainerView) view.findViewById(R.id.tabCoodFragment);
-        tabsRV = (RecyclerView) view.findViewById(R.id.tabCoodtabsRV);
-        imagenLogo = (AppCompatImageView) view.findViewById(R.id.ivRestaurantLogoPlatillo);
-        showFragmentInTabs(new PlaceholderFragment());
-        if (isNetActive()) {
-            cargarDatos();
-        }
+        viewPager = view.findViewById(R.id.view_pager);
+        tabsRV = view.findViewById(R.id.tabs);
+        cargarDatos();
         return view;
     }
 
@@ -75,6 +68,7 @@ public class MenuDeRestauranteFragment extends Fragment {
     }
 
     private void cargarDatos() {
+        CategoraisDeRestaurante categoraisDeRestaurante = new CategoraisDeRestaurante();
         final Date anteriorDate = GlobalRestaurantes.horaActualizado;
         Date actualDate = Generics.getHour(new Date());
         if (anteriorDate == null) {
@@ -84,15 +78,15 @@ public class MenuDeRestauranteFragment extends Fragment {
                 GlobalRestaurantes.horaActualizado = actualDate;
                 categoraisDeRestaurante.execute();
             } else {
-                List<Menu> menus = GlobalRestaurantes.menuList;
+                List<com.fm.modules.models.Menu> menus = GlobalRestaurantes.menuList;
                 Restaurante restaurante = Logued.restauranteActual;
                 int idRestaurante = 0;
                 if (restaurante != null) {
                     idRestaurante = restaurante.getRestauranteId().intValue();
                 }
                 if (menus != null && !menus.isEmpty()) {
-                    List<Menu> menuList = new ArrayList<>();
-                    for (Menu m : menus) {
+                    List<com.fm.modules.models.Menu> menuList = new ArrayList<>();
+                    for (com.fm.modules.models.Menu m : menus) {
                         if (m.getRestaurante().getRestauranteId().intValue() == idRestaurante) {
                             if (!menuList.contains(m)) {
                                 menuList.add(m);
@@ -107,16 +101,24 @@ public class MenuDeRestauranteFragment extends Fragment {
 
     private void verElementos(List<Menu> menus) {
         System.out.println("********* colocando elementos " + menus.size());
-        RecyclerTabMenuAdapter recyclerTabMenuAdapter = new RecyclerTabMenuAdapter(menus, viewGlobal.getContext(), getActivity());
-        tabsRV.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        tabsRV.setAdapter(recyclerTabMenuAdapter);
+        List<Fragment> tabs = new ArrayList<>();
+        if (!menus.isEmpty()) {
+            for (Menu m : menus) {
+                tabs.add(new PlatillosActivity(m));
+            }
+            if (!tabs.isEmpty()) {
+                SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(menus, tabs, getActivity().getSupportFragmentManager());
+                viewPager.setAdapter(sectionsPagerAdapter);
+                tabsRV.setupWithViewPager(viewPager, true);
+            }
+        }
     }
 
     private class CategoraisDeRestaurante extends AsyncTask<String, String, List<Menu>> {
 
 
         @Override
-        protected List<Menu> doInBackground(String... strings) {
+        protected List<com.fm.modules.models.Menu> doInBackground(String... strings) {
             List<Menu> subM = new ArrayList<>();
             try {
                 OpcionesDeSubMenuService opcionesDeSubMenuService = new OpcionesDeSubMenuService();
@@ -200,64 +202,6 @@ public class MenuDeRestauranteFragment extends Fragment {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-        }
-    }
-
-    public void reiniciarAsync() {
-        categoraisDeRestaurante.cancel(true);
-        categoraisDeRestaurante = new CategoraisDeRestaurante();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        reiniciarAsync();
-    }
-
-    private void showFragment(Fragment fragment) {
-        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
-    }
-
-    private void showFragmentInTabs(Fragment fragment) {
-        getParentFragmentManager().beginTransaction().replace(R.id.tabCoodFragment, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        verLogo();
-    }
-
-    public void verLogo() {
-        Image image = null;
-        List<Integer> integers = Logued.imagenesIDs;
-        if (integers == null) {
-            integers = new ArrayList<>();
-            Logued.imagenesIDs = integers;
-            Logued.imagenes = new ArrayList<>();
-        }
-        Restaurante res = Logued.restauranteActual;
-        if (res != null) {
-            if (!integers.isEmpty()) {
-                for (int i = 0; i < integers.size(); i++) {
-                    if (res.getLogoDeRestaurante().intValue() == integers.get(i)) {
-                        image = Logued.imagenes.get(i);
-                    }
-                }
-            }
-        } else {
-            System.out.println("restaurente selcted is null ! !!!!!!!!!!!!!!!!");
-        }
-        if (image != null) {
-            System.out.println("pushing image ! !!!!!!!!!!!!!!!!");
-            Utilities.displayAppCompatImageFromBytea(image.getContent(), imagenLogo, viewGlobal.getContext());
-        } else {
-            System.out.println("no pushing image ! !!!!!!!!!!!!!!!!");
-            Utilities.displayAppCompatImageFromBytea(null, imagenLogo, viewGlobal.getContext());
         }
     }
 }

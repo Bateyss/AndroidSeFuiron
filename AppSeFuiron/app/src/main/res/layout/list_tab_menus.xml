@@ -8,21 +8,27 @@
         android:id="@+id/cvMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_1x"
+        android:layout_marginEnd="@dimen/space_1x"
+        app:cardBackgroundColor="@color/purple"
+        app:cardElevation="@dimen/space_4x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:id="@+id/tvMenu"
-            style="@style/TextViewTitleStyle"
-            android:layout_width="200dp"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:background="@color/purple"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
             android:text="Sub Menu"
-            android:textColor="@android:color/white"
-            app:drawableEndCompat="@color/separatorColor"
-            app:drawableStartCompat="@color/separatorColor" />
+            android:textColor="@color/purple" />
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

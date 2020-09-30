@@ -15,7 +15,6 @@ import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.MenuDeRestauranteFragment;
 import com.fm.modules.models.Restaurante;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +50,10 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
 
             final Restaurante restaurante = (Restaurante) getItem(position);
             holder.ivOutstandingImage.setImageResource(R.drawable.sample_outstanding_image);
+            holder.ivRestaurantLogo.setImageResource(R.drawable.sample_outstanding_image);
             holder.tvRestaurantName.setText(restaurante.getNombreRestaurante());
             holder.tvLabelMinimalMount.setText(restaurante.getDepartamento().getNombreDepartamento());
             holder.tvMinimalMount.setText(String.valueOf(restaurante.getDepartamento().getPais().getNombrePais()));
-            Picasso.get().load("http://netlima.com/casas/negocios/Pizza_Hut_logo.svg.png").placeholder(R.drawable.ic_profile_header_background).into(holder.ivRestaurantLogo);
             holder.restauranteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

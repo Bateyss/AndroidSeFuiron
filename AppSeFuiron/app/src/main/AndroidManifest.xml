@@ -27,7 +27,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".app.usuario.MyLocations"></activity>
+        <activity
+            android:name=".app.menu.MenuTabActivity"
+            android:label="@string/title_activity_menu_tab"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".app.usuario.MyLocations" />
         <activity android:name=".app.login.ChangePassActivity" />
         <activity android:name=".app.login.RecoveredPass" />
         <activity android:name=".app.login.RecoveredPassLogued" />

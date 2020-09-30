@@ -11,7 +11,7 @@ public class TarjetasSQLite extends SqlIteServices<Tarjetas> {
     private int DB_VERSION = 1;
     private static final String TABLE_NAME = "tarjetas";
     private static final String ID_TABLE = "id_tarjeta";
-    private static final String CREATE = "CREATE TABLE tarjetas (id_tarjeta INTEGER,nombre_banco TEXT,numero TEXT);";
+    private static final String CREATE = "CREATE TABLE tarjetas (id_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,nombre_banco text,numero text,nombre text,ccv text);";
     private static final String DROP = "DROP TABLE IF EXIST tarjetas;";
 
     public TarjetasSQLite(Context context) {
@@ -20,7 +20,7 @@ public class TarjetasSQLite extends SqlIteServices<Tarjetas> {
 
     @Override
     protected String[] getColumns() {
-        return new String[]{ID_TABLE, "nombre_banco", "numero"};
+        return new String[]{ID_TABLE, "nombre_banco", "numero", "nombre", "ccv"};
     }
 
     @Override
@@ -29,6 +29,8 @@ public class TarjetasSQLite extends SqlIteServices<Tarjetas> {
         content.put(ID_TABLE, entity.getIdTarjeta());
         content.put("nombre_banco", entity.getNombreBanco());
         content.put("numero", entity.getNumero());
+        content.put("nombre", entity.getNombre());
+        content.put("ccv", entity.getCcv());
         return content;
     }
 
@@ -40,6 +42,8 @@ public class TarjetasSQLite extends SqlIteServices<Tarjetas> {
                 entty.setIdTarjeta(cursor.getInt(0));
                 entty.setNombreBanco(cursor.getString(1));
                 entty.setNumero(cursor.getString(2));
+                entty.setNombre(cursor.getString(3));
+                entty.setCcv(cursor.getString(4));
             }
         } catch (Exception e) {
         }

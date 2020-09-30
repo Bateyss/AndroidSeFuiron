@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
@@ -130,8 +131,9 @@ public class PagoActivity extends Fragment {
             public void onClick(View v) {
                 if (pedido != null) {
                     pedido.setFormaDePago("Tarjeta");
-                    btnPagar.setEnabled(true);
+                    Logued.pedidoActual = pedido;
                     btnPagar.setBackgroundColor(getResources().getColor(R.color.orange));
+                    showFragment(new PagoTargetaFragment());
                 }
                 Logued.pedidoActual = pedido;
                 btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lime));
@@ -216,6 +218,12 @@ public class PagoActivity extends Fragment {
             c = false;
         }
         return c;
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     public class GuardarPedidoAsync extends AsyncTask<String, String, Integer> {

@@ -86,6 +86,12 @@ public class SignUp extends AppCompatActivity {
         buttonSign = (MaterialButton) findViewById(R.id.btnSignUp);
         imageframeLayout = (CardView) findViewById(R.id.sgnflProfilePhoto);
         imageProfile = (AppCompatImageView) findViewById(R.id.signProfilePhoto);
+        datePickerListener();
+        btnListener();
+        enableFilesRead();
+    }
+
+    private void datePickerListener() {
         inputDateBorn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +111,9 @@ public class SignUp extends AppCompatActivity {
                 System.out.println("fecha1" + fecha1);
             }
         };
+    }
+
+    private void btnListener() {
         imageframeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +131,6 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
-        enableFilesRead();
     }
 
     public boolean isNetActive() {
@@ -287,33 +295,21 @@ public class SignUp extends AppCompatActivity {
     private void enableFilesRead() {
         // [START maps_check_location_permission]
         boolean permiso1 = false;
-        boolean permiso2 = false;
         if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
             permiso1 = true;
         }
-        if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.ACCESS_MEDIA_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            permiso2 = true;
-        }
-        if (permiso1 && permiso2) {
+        if (permiso1) {
             ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
         } else {
-            // Permission to access the location is missing. Show rationale and request permission
             PermissionUtils.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
                     Manifest.permission.READ_EXTERNAL_STORAGE, true);
-            PermissionUtils.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_MEDIA_LOCATION, true);
 
             if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
                 permiso1 = true;
             }
-            if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.ACCESS_MEDIA_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                permiso2 = true;
-            }
-            if (permiso1 && permiso2) {
+            if (permiso1) {
                 ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
             }
         }

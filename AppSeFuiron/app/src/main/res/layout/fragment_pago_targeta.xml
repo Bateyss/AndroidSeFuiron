@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".app.carrito.PagoTargetaFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_5x"
+        android:layout_marginTop="@dimen/space_5x"
+        android:layout_marginEnd="@dimen/space_5x"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginEnd="@dimen/space_5x"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_targeta" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tarjetaRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_5x" />
+
+
+        <ImageView
+            android:id="@+id/tarjetaAgregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_3x"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_plus" />
+
+        <Button
+            android:id="@+id/tarjetaUsar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_3x"
+            android:layout_marginTop="@dimen/space_5x"
+            android:layout_marginEnd="@dimen/space_3x"
+            android:background="@drawable/add_food_action_bacground_orange"
+            android:text="Usar Tarjeta"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

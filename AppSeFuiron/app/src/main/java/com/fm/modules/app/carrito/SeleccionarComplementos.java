@@ -1,6 +1,6 @@
 package com.fm.modules.app.carrito;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
@@ -28,9 +29,11 @@ import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Platillo;
+import com.fm.modules.models.PlatilloFavorito;
 import com.fm.modules.models.PlatilloSeleccionado;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.ImageService;
+import com.fm.modules.service.PlatilloFavoritoService;
 import com.fm.modules.sqlite.models.OpcionesDeSubMenuSeleccionadoSQLite;
 import com.fm.modules.sqlite.models.PedidoSQLite;
 import com.fm.modules.sqlite.models.PlatillosSeleccionadoSQLite;
@@ -127,14 +130,58 @@ public class SeleccionarComplementos extends Fragment {
                 v.setEnabled(false);
                 PlatilloSeleccionado plas = registrarPlatillo();
                 if (plas != null) {
-                    showFragment(new CarritoActivity());
-                    /*Intent i = new Intent(viewGlobal.getContext(), CarritoActivity.class);
-                    startActivity(i);*/
+                    final boolean[] ars = {false};
+                    AlertDialog dialog = new AlertDialog.Builder(viewGlobal.getContext())
+                            .setView(R.layout.dialog_save_plat_fav)
+                            .setCancelable(true)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    guardarPlatilloFavorito();
+                                }
+                            })
+                            .setNegativeButton("Nou", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    showFragment(new CarritoActivity());
+                                }
+                            })
+                            .show();
                 } else {
                     Toast.makeText(viewGlobal.getContext(), "No Pudo :(", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void guardarPlatilloFavorito() {
+        GuardarFavorito guardarFavorito = new GuardarFavorito();
+        guardarFavorito.execute();
+    }
+
+    private class GuardarFavorito extends AsyncTask<Long, String, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Long... longs) {
+            try {
+                PlatilloFavoritoService platilloFavoritoService = new PlatilloFavoritoService();
+                PlatilloFavorito platilloFavorito = new PlatilloFavorito();
+                platilloFavorito.setPlatillo(platilloActual);
+                if (Logued.usuarioLogued != null) {
+                    platilloFavorito.setUsuarios(Logued.usuarioLogued);
+                    platilloFavoritoService.crearPlatilloFavorito(platilloFavorito);
+                }
+            } catch (Exception e) {
+                System.out.println("*** error asynk imagePerfil: " + e);
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            showFragment(new CarritoActivity());
+        }
     }
 
     public PlatilloSeleccionado registrarPlatillo() {

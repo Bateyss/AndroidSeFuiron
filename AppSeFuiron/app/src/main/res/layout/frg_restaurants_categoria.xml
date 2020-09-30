@@ -20,28 +20,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_2x"
-            android:layout_weight="0">
+            android:layout_marginTop="@dimen/space_3x"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"
                 style="@style/TextViewTitleStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/space_2x"
                 android:layout_weight="1"
+                android:layout_marginStart="@dimen/space_2x"
                 android:includeFontPadding="false"
                 android:text="@string/what_will_you_eat_today"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-            <include
-                android:id="@+id/asConfigur"
-                layout="@layout/inc_profile_photo"
-                android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/flProfilePhoto"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:layout_weight="0"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:background="@drawable/ripple_circle_profile_photo_shape"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="50dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivProfilePhotoPrincipal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <EditText
@@ -50,7 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginEnd="@dimen/space_2x"
-            android:layout_weight="0"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/space_default"
             android:gravity="center"
@@ -60,8 +68,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategorias_cat"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.65" />
+            android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitleFav"
@@ -70,7 +77,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginEnd="@dimen/space_2x"
-            android:layout_weight="0"
             android:includeFontPadding="false"
             android:text="@string/favorites_option"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
@@ -79,18 +85,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlatillosFavoritos_cat"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
-            android:paddingEnd="10sp"
-            android:paddingRight="10sp" />
+            android:layout_height="wrap_content"/>
 
         <ListView
             android:id="@+id/rvRestaurants_res"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="match_parent" />
     </LinearLayout>
     <!--<ProgressBar
             android:id="@+id/progressBar"

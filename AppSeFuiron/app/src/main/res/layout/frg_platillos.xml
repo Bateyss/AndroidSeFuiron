@@ -6,86 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivBack"
-        style="@style/SelectableBorderlesStyle"
-        android:layout_width="36dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_left_arrow"
-        app:layout_constraintBottom_toBottomOf="@+id/flProfilePhoto"
-        app:layout_constraintEnd_toStartOf="@+id/flRestaurantLogo"
-        app:layout_constraintStart_toStartOf="@+id/lvMenus"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/flRestaurantLogo"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="@dimen/space_2x"
-        android:background="@drawable/ripple_circle_profile_photo_shape"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="@dimen/space_4n"
-        app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRestaurantName"
-        app:layout_constraintEnd_toStartOf="@+id/tvRestaurantName"
-        app:layout_constraintTop_toTopOf="@+id/tvRestaurantName">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivRestaurantLogoPlatillo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRestaurantName"
-        style="@style/TextViewTitleStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PLATILLOS"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivBack"
-        tools:text="PLATILLOS" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/menuTab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_default"
-        android:background="@color/opaquePurple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flRestaurantLogo"
-        app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/orange"
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="scrollable"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
-
-    <View
-        android:id="@+id/separator"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/space_5x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_5x"
-        android:background="@color/separatorColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuTab" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPlatillos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -6,11 +6,58 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBack"
+        style="@style/SelectableBorderlesStyle"
+        android:layout_width="36dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_left_arrow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_5x"
+        android:layout_marginTop="@dimen/space_3x"
+        android:layout_marginEnd="@dimen/space_5x"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/flRestaurantLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginEnd="@dimen/space_2x"
+            android:background="@drawable/ripple_circle_profile_photo_shape"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/space_4n">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRestaurantLogoPlatillo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRestaurantName"
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="PLATILLOS"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tabCoodtabsRV"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:background="@color/com_facebook_messenger_blue" />
+        android:layout_height="30sp"
+        android:layout_marginTop="@dimen/space_4x"
+        android:background="@color/white" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/tabCoodFragment"

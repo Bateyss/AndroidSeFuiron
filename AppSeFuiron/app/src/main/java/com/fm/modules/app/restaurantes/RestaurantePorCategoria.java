@@ -59,7 +59,6 @@ public class RestaurantePorCategoria extends Fragment {
     private List<MenxCategoria> menxCategoriaGlobal;
     private RecyclerView rvPlatillosFavoritos;
     private List<Categoria> categoriasSelected;
-    private View inclide;
     private AppCompatImageView fotoPerfil;
     private CargarFoto cargarFoto;
     private View viewGlobal;
@@ -79,8 +78,7 @@ public class RestaurantePorCategoria extends Fragment {
         listViewRestaurantes = (ListView) view.findViewById(R.id.rvRestaurants_res);
         rvPlatillosFavoritos = view.findViewById(R.id.rvPlatillosFavoritos_cat);
         textSearch = (EditText) view.findViewById(R.id.etSearch_rest);
-        inclide = (View) view.findViewById(R.id.asConfigur);
-        fotoPerfil = (AppCompatImageView) inclide.findViewById(R.id.ivProfilePhotoPrincipal);
+        fotoPerfil = (AppCompatImageView) view.findViewById(R.id.ivProfilePhotoPrincipal);
         if (isNetActive()) {
             favoritos.execute();
             categoriasRestaurante.execute();
@@ -292,11 +290,10 @@ public class RestaurantePorCategoria extends Fragment {
     public List<PlatilloFavorito> filtrarFavoritos(List<PlatilloFavorito> platilloFavoritoList) {
         List<PlatilloFavorito> platillos = new ArrayList<>();
         if (!platilloFavoritoList.isEmpty()) {
-            for (PlatilloFavorito f : platilloFavoritoList) {
-                Usuario user = Logued.usuarioLogued;
-                if (user != null) {
+            Usuario user = Logued.usuarioLogued;
+            if (user != null) {
+                for (PlatilloFavorito f : platilloFavoritoList) {
                     if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
-                        platillos.add(f);
                         if (f.getPlatillo().getDisponible()) {
                             platillos.add(f);
                         }

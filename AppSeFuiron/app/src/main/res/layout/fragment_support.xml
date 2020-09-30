@@ -4,63 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context=".app.menu.SupportFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/TextViewTitleStyle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_4x"
-        android:maxLines="2"
-        android:text="@string/action_pegunte" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_6x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_6x"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_support_option" />
-
-    <TextView
-        style="@style/TextViewSubTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_4x"
-        android:text="@string/for_what" />
-
-    <EditText
-        android:id="@+id/supportText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_4x"
-        android:hint="Necesito Ayuca con una orden"
-        android:textColorHint="@color/purple" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_4x"
-        app:cardCornerRadius="50dp">
-
-        <Button
-            android:id="@+id/supportRegistry"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/orange"
-            android:text="@string/messenger_send_button_text"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextViewTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_4x"
+                android:maxLines="2"
+                android:text="@string/action_pegunte" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_6x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_6x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_support_option" />
+
+            <TextView
+                style="@style/TextViewSubTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_4x"
+                android:text="@string/for_what" />
+
+            <EditText
+                android:id="@+id/supportText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_4x"
+                android:hint="Necesito Ayuca con una orden"
+                android:textColorHint="@color/purple" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_4x"
+                app:cardCornerRadius="50dp">
+
+                <Button
+                    android:id="@+id/supportRegistry"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/orange"
+                    android:text="@string/messenger_send_button_text"
+                    android:textColor="@android:color/white" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

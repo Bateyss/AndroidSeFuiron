@@ -9,6 +9,7 @@
         <item name="fontFamily">@font/comfortaa_family</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -17,14 +18,16 @@
     </style>
 
     <style name="TextViewTitleStyle">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextViewSubTitleStyle">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:includeFontPadding">false</item>
@@ -32,7 +35,8 @@
 
     <style name="DialogTitleStyle" parent="TextViewTitleStyle">
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
     </style>
 
     <style name="DialogTitleSmallAppearance" parent="TextAppearance.MaterialComponents.Headline5">
@@ -126,5 +130,7 @@
         <item name="android:maxHeight">4dp</item>
         <item name="android:scaleY">5</item>
     </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

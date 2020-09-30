@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginStart="@dimen/space_2x"
         android:layout_marginTop="@dimen/space_default"
         android:layout_marginEnd="@dimen/space_2x"
@@ -24,17 +22,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/hlItVImgFood"
-                android:layout_width="100dp"
-                android:layout_height="0dp"
-                app:cardCornerRadius="10dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_marginStart="@dimen/space_2x"
-                android:layout_marginTop="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_default"
-                app:layout_constraintBottom_toBottomOf="@+id/tvFoodPrice"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="4:3"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvFoodName"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/food_sample">
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivFoodImage"
                     android:layout_width="match_parent"
@@ -47,10 +45,10 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFoodName"
                 style="@style/TextViewTitleStyle"
-                android:layout_width="238dp"
+                android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="@dimen/space_4x"
-                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginTop="@dimen/space_1x"
                 android:layout_marginEnd="@dimen/space_default"
                 android:text="@{food.name}"
                 android:textSize="20sp"
@@ -64,7 +62,7 @@
                 android:id="@+id/tvFoodDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_4n"
+                android:layout_marginTop="@dimen/space_1x"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:maxLines="3"
@@ -79,9 +77,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFoodPrice"
                 style="@style/TextViewTitleStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_4n"
+                android:layout_marginTop="@dimen/space_1x"
                 android:layout_marginBottom="@dimen/space_default"
                 android:text="@{@string/price_x(food.price)}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"

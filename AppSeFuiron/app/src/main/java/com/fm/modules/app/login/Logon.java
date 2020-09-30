@@ -375,7 +375,6 @@ public class Logon extends AppCompatActivity {
             try {
                 switch (res) {
                     case 0:
-                        Toast.makeText(Logon.this, "Error de servidor", Toast.LENGTH_LONG).show();
                         AlertDialog dialog = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_server_err)
                                 .setCancelable(true)
@@ -383,7 +382,6 @@ public class Logon extends AppCompatActivity {
                                 .show();
                         break;
                     case -1:
-                        Toast.makeText(Logon.this, "Error de Username", Toast.LENGTH_LONG).show();
                         AlertDialog dialog1 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_user_err)
                                 .setCancelable(true)
@@ -391,7 +389,6 @@ public class Logon extends AppCompatActivity {
                                 .show();
                         break;
                     case -2:
-                        Toast.makeText(Logon.this, "Error de Password", Toast.LENGTH_LONG).show();
                         AlertDialog dialog2 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_pass_err)
                                 .setCancelable(true)
@@ -489,7 +486,6 @@ public class Logon extends AppCompatActivity {
             try {
                 switch (res) {
                     case 0:
-                        Toast.makeText(Logon.this, "Error de servidor", Toast.LENGTH_LONG).show();
                         AlertDialog dialog = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_server_err)
                                 .setCancelable(true)
@@ -497,7 +493,6 @@ public class Logon extends AppCompatActivity {
                                 .show();
                         break;
                     case -1:
-                        Toast.makeText(Logon.this, "Error de Username", Toast.LENGTH_LONG).show();
                         AlertDialog dialog1 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_user_err)
                                 .setCancelable(true)
@@ -505,7 +500,6 @@ public class Logon extends AppCompatActivity {
                                 .show();
                         break;
                     case -2:
-                        Toast.makeText(Logon.this, "Error de Password", Toast.LENGTH_LONG).show();
                         AlertDialog dialog2 = new AlertDialog.Builder(Logon.this)
                                 .setView(R.layout.dialog_pass_err)
                                 .setCancelable(true)

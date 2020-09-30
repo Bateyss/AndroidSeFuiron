@@ -3,73 +3,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".app.carrito.PedidoRegistrado">
 
-    <TextView
-        style="@style/TextViewTitleStyle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:maxLines="2"
-        android:text="@string/order_processed" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.7"
-        android:src="@drawable/motoriasta" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/order_number"
-        style="@style/TextViewTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_2x"
-        android:layout_weight="1.1"
-        android:maxLines="2"
-        android:text="Orden # 00000" />
+            <TextView
+                style="@style/TextViewTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_5x"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/order_processed" />
 
-    <TextView
-        style="@style/TextViewSubTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_2x"
-        android:layout_weight="1"
-        android:gravity="start|center_vertical"
-        android:maxLines="2"
-        android:text="@string/order_in_way" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginBottom="@dimen/space_2x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/motoriasta" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_2x"
-        android:layout_weight="1"
-        android:gravity="start|center_vertical"
-        android:maxLines="2"
-        android:text="@string/order_in_apg"
-        android:textColor="@color/purple" />
+            <TextView
+                android:id="@+id/order_number"
+                style="@style/TextViewTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:maxLines="2"
+                android:text="Orden # 00000" />
 
-    <Button
-        android:id="@+id/orderToInicio1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/space_2x"
-        android:layout_marginEnd="@dimen/space_2x"
-        android:layout_weight="1.1"
-        android:background="@color/orange"
-        android:maxLines="2"
-        android:text="@string/home"
-        android:textColor="@android:color/white" />
+            <TextView
+                style="@style/TextViewSubTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:layout_marginBottom="@dimen/space_2x"
+                android:gravity="start|center_vertical"
+                android:maxLines="2"
+                android:text="@string/order_in_way" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.1"
-        android:maxLines="2" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:layout_marginBottom="@dimen/space_2x"
+                android:gravity="start|center_vertical"
+                android:maxLines="2"
+                android:text="@string/order_in_apg"
+                android:textColor="@color/purple" />
 
+            <Button
+                android:id="@+id/orderToInicio1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:layout_marginBottom="50dp"
+                android:background="@color/orange"
+                android:maxLines="2"
+                android:text="@string/home"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

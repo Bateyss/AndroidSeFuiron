@@ -111,6 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_3x"
                 android:layout_marginTop="@dimen/space_5x"
+                android:layout_marginBottom="100dp"
                 android:layout_marginEnd="@dimen/space_3x"
                 android:background="@drawable/add_food_action_bacground_orange"
                 android:text="Agregar Direccion"

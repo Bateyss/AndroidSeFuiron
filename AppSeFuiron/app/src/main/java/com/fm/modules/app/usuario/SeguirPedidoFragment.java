@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -28,6 +29,10 @@ public class SeguirPedidoFragment extends Fragment {
     private MaterialTextView StatusTwo;
     private MaterialTextView StatusThree;
     private MaterialTextView StatusFour;
+    private ImageView pointer1;
+    private ImageView pointer2;
+    private ImageView pointer3;
+    private ImageView pointer4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +46,10 @@ public class SeguirPedidoFragment extends Fragment {
         StatusTwo = (MaterialTextView) view.findViewById(R.id.seguirPedidoStatusTwo);
         StatusThree = (MaterialTextView) view.findViewById(R.id.seguirPedidoStatusThree);
         StatusFour = (MaterialTextView) view.findViewById(R.id.seguirPedidoStatusFour);
+        pointer1 = (ImageView) view.findViewById(R.id.seguirPedidoPointer1);
+        pointer2 = (ImageView) view.findViewById(R.id.seguirPedidoPointer2);
+        pointer3 = (ImageView) view.findViewById(R.id.seguirPedidoPointer3);
+        pointer4 = (ImageView) view.findViewById(R.id.seguirPedidoPointer4);
         StatusOne.setTextColor(getResources().getColor(R.color.gray));
         StatusTwo.setTextColor(getResources().getColor(R.color.gray));
         StatusThree.setTextColor(getResources().getColor(R.color.gray));
@@ -87,21 +96,31 @@ public class SeguirPedidoFragment extends Fragment {
                         switch (pedido.getStatus()) {
                             case 1:
                                 StatusOne.setTextColor(getResources().getColor(R.color.purple));
+                                pointer1.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 break;
                             case 2:
                                 StatusOne.setTextColor(getResources().getColor(R.color.purple));
                                 StatusTwo.setTextColor(getResources().getColor(R.color.purple));
+                                pointer1.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer2.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 break;
                             case 3:
                                 StatusOne.setTextColor(getResources().getColor(R.color.purple));
                                 StatusTwo.setTextColor(getResources().getColor(R.color.purple));
                                 StatusThree.setTextColor(getResources().getColor(R.color.purple));
+                                pointer1.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer2.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer3.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 break;
                             case 4:
                                 StatusOne.setTextColor(getResources().getColor(R.color.purple));
                                 StatusTwo.setTextColor(getResources().getColor(R.color.purple));
                                 StatusThree.setTextColor(getResources().getColor(R.color.purple));
                                 StatusFour.setTextColor(getResources().getColor(R.color.purple));
+                                pointer1.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer2.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer3.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
+                                pointer4.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 break;
                         }
                     } else {

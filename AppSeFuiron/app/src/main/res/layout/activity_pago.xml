@@ -6,176 +6,182 @@
     android:layout_height="match_parent"
     tools:context=".app.carrito.PagoActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_5x"
-        android:layout_marginTop="@dimen/space_3x"
-        android:layout_marginEnd="@dimen/space_5x"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Selecciona tu forma de pago"
-            android:textColor="@color/purple" />
+            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginTop="@dimen/space_3x"
+            android:layout_marginEnd="@dimen/space_5x"
+            android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_5x"
-            app:cardCornerRadius="25dp">
-
-            <LinearLayout
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:text="Selecciona tu forma de pago"
+                android:textColor="@color/purple" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_5x"
+                app:cardCornerRadius="25dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_2x"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_platillo" />
-
-                    <TextView
-                        style="@style/TextViewSubTitleStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:maxLines="2"
-                        android:text="total de orden"
-                        android:textColor="@color/purple" />
-
-                    <TextView
-                        android:id="@+id/pagoTxtTotal"
-                        style="@style/TextAppearance.MaterialComponents.Headline6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:maxLines="1"
-                        android:text="$ 0.00"
-                        android:textAlignment="center"
-                        android:textColor="@color/purple" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_location_icon" />
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginTop="@dimen/space_2x"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_platillo" />
 
                         <TextView
-                            android:id="@+id/pagoTxtDireccion"
                             style="@style/TextViewSubTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="mapa"
+                            android:maxLines="2"
+                            android:text="total de orden"
                             android:textColor="@color/purple" />
 
                         <TextView
-                            android:id="@+id/pagoTxtDireccion2"
-                            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                            android:id="@+id/pagoTxtTotal"
+                            style="@style/TextAppearance.MaterialComponents.Headline6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="mapa"
+                            android:layout_weight="1"
+                            android:maxLines="1"
+                            android:text="$ 0.00"
+                            android:textAlignment="center"
                             android:textColor="@color/purple" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_location_icon" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/pagoTxtDireccion"
+                                style="@style/TextViewSubTitleStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="mapa"
+                                android:textColor="@color/purple" />
+
+                            <TextView
+                                android:id="@+id/pagoTxtDireccion2"
+                                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="mapa"
+                                android:textColor="@color/purple" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/pagoChangeLocation"
+                        style="@style/TextViewSubTitleStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_6x"
+                        android:layout_marginEnd="@dimen/space_6x"
+                        android:drawableEnd="@drawable/ic_action_arrow_right"
+                        android:text="@string/change_location" />
                 </LinearLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/pagoChangeLocation"
-                    style="@style/TextViewSubTitleStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_6x"
-                    android:layout_marginEnd="@dimen/space_6x"
-                    android:drawableEnd="@drawable/ic_action_arrow_right"
-                    android:text="@string/change_location" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_5x"
-            android:background="@android:color/transparent"
-            app:cardCornerRadius="20dp">
-
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/space_5x"
+                android:background="@android:color/transparent"
+                app:cardCornerRadius="20dp">
 
-                <Button
-                    android:id="@+id/pagoBtnTarjeta"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:drawableStart="@drawable/ic_payment_target"
-                    android:enabled="false"
-                    android:text="Tarjeta"
-                    android:textColor="@color/purple"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/pagoBtnEfectivo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:drawableStart="@drawable/ic_payment_money"
-                    android:text="Efectivo"
-                    android:textColor="@color/purple"
-                    android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/pagoBtnTarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:drawableStart="@drawable/ic_payment_target"
+                        android:text="Tarjeta"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/pagoBtnEfectivo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:drawableStart="@drawable/ic_payment_money"
+                        android:text="Efectivo"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_3x"
-            android:layout_marginTop="@dimen/space_5x"
-            android:layout_marginEnd="@dimen/space_3x"
-            app:cardCornerRadius="25dp">
-
-            <Button
-                android:id="@+id/pagoBtnPagar"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/add_food_action_bacground_orange"
-                android:text="Pagar"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_marginStart="@dimen/space_3x"
+                android:layout_marginTop="@dimen/space_5x"
+                android:layout_marginBottom="100dp"
+                android:layout_marginEnd="@dimen/space_3x"
+                app:cardCornerRadius="25dp">
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/pagoBtnPagar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/add_food_action_bacground_orange"
+                    android:text="Pagar"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.CarritoActivity;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.PlatilloSeleccionado;
@@ -22,10 +26,12 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
 
     private List<PlatilloSeleccionado> items;
     private Context context;
+    private FragmentActivity fragmentActivity;
 
-    public RecyclerPlatillosSeleccionadosAdapter(List<PlatilloSeleccionado> platillosSeleccionadoList, Context context) {
+    public RecyclerPlatillosSeleccionadosAdapter(List<PlatilloSeleccionado> platillosSeleccionadoList, Context context, FragmentActivity fragmentActivity) {
         this.items = platillosSeleccionadoList;
         this.context = context;
+        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -54,14 +60,14 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
                 }
                 if (!posicionesEliminar.isEmpty()) {
                     for (int indice : posicionesEliminar) {
-                        posicionesEliminar.remove(indice);
+                        opcionesModificadas.remove(indice);
                     }
                 }
-                items.remove(posicion);
+                List<PlatilloSeleccionado> nuevosItems = items;
+                nuevosItems.remove(posicion);
                 Logued.opcionesDeSubMenusEnPlatillosSeleccionados = opcionesModificadas;
-                Logued.platillosSeleccionadosActuales = items;
-                notifyItemRemoved(posicion);
-                notifyItemRangeChanged(posicion, items.size());
+                Logued.platillosSeleccionadosActuales = nuevosItems;
+                showFragment(new CarritoActivity());
             }
         });
     }
@@ -90,7 +96,6 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
 
         public void asignarDatos(final PlatilloSeleccionado platilloSeleccionado) {
             tvFoodName.setText(platilloSeleccionado.getNombre());
-
             List<OpcionesDeSubMenuSeleccionado> ll = Logued.opcionesDeSubMenusEnPlatillosSeleccionados;
             StringBuilder stb = new StringBuilder();
             stb.append("");
@@ -100,15 +105,10 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
                     for (OpcionesDeSubMenuSeleccionado op : ll) {
                         if (op.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == platilloSeleccionado.getPlatilloSeleccionadoId().intValue()) {
                             stb.append(op.getNombre());
-                            // adicionales = adicionales + op.getOpcionesDeSubMenu().getPrecio();
                         }
                     }
                 }
             }
-            /*
-             * en caso se agregue cantidad a la tabla platillo seleccionado
-             * se usara el codigo que esta como comentario en este metodo
-             * */
             String opcioness = stb.toString();
             tvFoodDescription.setText(opcioness);
             String precio = "$ " + platilloSeleccionado.getPrecio();
@@ -116,5 +116,12 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
             tvFoodPrice.setText(precio);
             tvFoodQuantity.setText(cantidad);
         }
+    }
+
+    private void showFragment(Fragment fragment) {
+        fragmentActivity.getSupportFragmentManager()
+                .beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

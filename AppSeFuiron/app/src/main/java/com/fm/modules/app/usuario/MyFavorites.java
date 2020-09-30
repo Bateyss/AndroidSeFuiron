@@ -87,11 +87,10 @@ public class MyFavorites extends Fragment {
     public List<PlatilloFavorito> filtrarFavoritos(List<PlatilloFavorito> platilloFavoritoList) {
         List<PlatilloFavorito> platillos = new ArrayList<>();
         if (!platilloFavoritoList.isEmpty()) {
-            for (PlatilloFavorito f : platilloFavoritoList) {
-                Usuario user = Logued.usuarioLogued;
-                if (user != null) {
+            Usuario user = Logued.usuarioLogued;
+            if (user != null) {
+                for (PlatilloFavorito f : platilloFavoritoList) {
                     if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
-                        platillos.add(f);
                         if (f.getPlatillo().getDisponible()) {
                             platillos.add(f);
                         }

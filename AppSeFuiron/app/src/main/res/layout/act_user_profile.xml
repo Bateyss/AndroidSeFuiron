@@ -5,118 +5,123 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivHeaderBackground"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profile_header_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/flProfilePhoto"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="@dimen/space_2x"
-            android:layout_marginBottom="@dimen/space_2x"
-            android:background="@drawable/ripple_circle_profile_photo_shape"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="@dimen/space_4n"
-            app:cardCornerRadius="50dp"
-            app:layout_constraintBottom_toBottomOf="@+id/profileProfileEmail"
-            app:layout_constraintEnd_toStartOf="@+id/profileProfileName"
-            app:layout_constraintTop_toTopOf="@+id/profileProfileName">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/profileProfilePhoto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_empty_profile_photo" />
+                android:id="@+id/ivHeaderBackground"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_header_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/flProfilePhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:layout_marginBottom="@dimen/space_2x"
+                android:background="@drawable/ripple_circle_profile_photo_shape"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/space_4n"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintBottom_toBottomOf="@+id/profileProfileEmail"
+                app:layout_constraintEnd_toStartOf="@+id/profileProfileName"
+                app:layout_constraintTop_toTopOf="@+id/profileProfileName">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/profileProfileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="@{@string/hello_x(viewModel.userFirstName)}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="@color/purple"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivHeaderBackground"
-            tools:text="Hola Luis!" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/profileProfilePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_empty_profile_photo" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/profileProfileEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="@{viewModel.userEmail}"
-            app:layout_constraintStart_toStartOf="@+id/profileProfileName"
-            app:layout_constraintTop_toBottomOf="@+id/profileProfileName"
-            tools:text="lucavelis@gmail.com" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/profileProfileChanguePassword"
-            style="@style/SelectableStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/space_4x"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:padding="@dimen/space_default"
-            android:text="@string/change_password"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_action_arrow_right"
-            app:drawableStartCompat="@drawable/ic_change_password"
-            app:layout_constraintBottom_toTopOf="@+id/profileProfileRecoveryPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flProfilePhoto" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/profileProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@{@string/hello_x(viewModel.userFirstName)}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivHeaderBackground"
+                tools:text="Hola Luis!" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/profileProfileRecoveryPassword"
-            style="@style/SelectableStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/space_3x"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:padding="@dimen/space_default"
-            android:text="@string/recover_password"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_action_arrow_right"
-            app:drawableStartCompat="@drawable/ic_recover_password"
-            app:layout_constraintBottom_toTopOf="@+id/profileProfileLogOut"
-            app:layout_constraintEnd_toEndOf="@+id/profileProfileChanguePassword"
-            app:layout_constraintStart_toStartOf="@+id/profileProfileChanguePassword"
-            app:layout_constraintTop_toBottomOf="@+id/profileProfileChanguePassword" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/profileProfileEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@{viewModel.userEmail}"
+                app:layout_constraintStart_toStartOf="@+id/profileProfileName"
+                app:layout_constraintTop_toBottomOf="@+id/profileProfileName"
+                tools:text="lucavelis@gmail.com" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/profileProfileLogOut"
-            style="@style/SecondaryButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_3x"
-            android:layout_marginEnd="@dimen/space_3x"
-            android:text="@string/log_out_option"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/profileProfileRecoveryPassword"
-            app:layout_constraintStart_toStartOf="@+id/profileProfileChanguePassword"
-            app:layout_constraintTop_toBottomOf="@+id/profileProfileRecoveryPassword" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/profileProfileChanguePassword"
+                style="@style/SelectableStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/space_4x"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="@dimen/space_default"
+                android:text="@string/change_password"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_action_arrow_right"
+                app:drawableStartCompat="@drawable/ic_change_password"
+                app:layout_constraintBottom_toTopOf="@+id/profileProfileRecoveryPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flProfilePhoto" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/profileProfileRecoveryPassword"
+                style="@style/SelectableStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/space_3x"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="@dimen/space_default"
+                android:text="@string/recover_password"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_action_arrow_right"
+                app:drawableStartCompat="@drawable/ic_recover_password"
+                app:layout_constraintBottom_toTopOf="@+id/profileProfileLogOut"
+                app:layout_constraintEnd_toEndOf="@+id/profileProfileChanguePassword"
+                app:layout_constraintStart_toStartOf="@+id/profileProfileChanguePassword"
+                app:layout_constraintTop_toBottomOf="@+id/profileProfileChanguePassword" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/profileProfileLogOut"
+                style="@style/SecondaryButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_3x"
+                android:layout_marginEnd="@dimen/space_3x"
+                android:text="@string/log_out_option"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/profileProfileRecoveryPassword"
+                app:layout_constraintStart_toStartOf="@+id/profileProfileChanguePassword"
+                app:layout_constraintTop_toBottomOf="@+id/profileProfileRecoveryPassword" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </LinearLayout>

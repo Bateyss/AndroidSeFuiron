@@ -88,7 +88,7 @@ public class CarritoActivity extends Fragment {
                     for (PlatilloSeleccionado pl : lista) {
                         total1 = total1 + pl.getPrecio();
                     }
-                    RecyclerPlatillosSeleccionadosAdapter adapter = new RecyclerPlatillosSeleccionadosAdapter(lista, viewGlobal.getContext());
+                    RecyclerPlatillosSeleccionadosAdapter adapter = new RecyclerPlatillosSeleccionadosAdapter(lista, viewGlobal.getContext(), getActivity());
                     carritoRecicler.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
                     carritoRecicler.setAdapter(adapter);
                     //descuento = lista.get(0).getPlatillo().getMenu().getRestaurante().getDescuento();
