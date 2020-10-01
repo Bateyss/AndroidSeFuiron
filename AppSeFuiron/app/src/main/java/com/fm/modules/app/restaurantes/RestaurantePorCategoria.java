@@ -294,9 +294,12 @@ public class RestaurantePorCategoria extends Fragment {
             if (user != null) {
                 for (PlatilloFavorito f : platilloFavoritoList) {
                     if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
-                        if (f.getPlatillo().getDisponible()) {
-                            platillos.add(f);
+                        if (f.getPlatillo() != null) {
+                            if (f.getPlatillo().getDisponible()) {
+                                platillos.add(f);
+                            }
                         }
+
                     }
                 }
             }

@@ -51,7 +51,7 @@ public class PlatillosActivity extends Fragment {
             for (Platillo p : GlobalRestaurantes.platilloList) {
                 if (p.getMenu().getMenuId().intValue() == idMenu) {
                     if (!ints.contains(p.getPlatilloId().intValue())) {
-                        if (p.getDisponible()) {
+                        if (p.getDisponible() != null && p.getDisponible()) {
                             platilloList.add(p);
                             ints.add(p.getPlatilloId().intValue());
                         }
