@@ -3,6 +3,8 @@ package com.fm.modules.app.localet;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -21,7 +24,6 @@ import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.PedidoService;
 import com.fm.modules.sqlite.models.Direcciones;
-import com.fm.modules.sqlite.models.DireccionesSQLite;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,18 +33,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Location extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ListView savedPlaces;
-    private PlacesClient placesClient;
-    private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private Location lastLocation;
@@ -52,6 +54,7 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
     private Button seleccionar;
     private List<Direcciones> direccionesGlobal;
     private MyLocations myLocations = new MyLocations();
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +70,25 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         savedPlaces = (ListView) findViewById(R.id.listPlacesMap);
         String apiKey = getString(R.string.google_maps_key);
         Places.initialize(getApplicationContext(), apiKey);
-        placesClient = Places.createClient(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         seleccionar.setEnabled(false);
         seleccionar.setBackgroundColor(this.getResources().getColor(R.color.colorLightGray));
         actionCancelar();
         verUbicaciones();
+        onBack();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent i = new Intent(Location.this, ProcesarCarritoActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void verUbicaciones() {
@@ -123,6 +139,30 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         Toast.makeText(Location.this, "Seleccionar Marcador", Toast.LENGTH_SHORT).show();
         Toast.makeText(Location.this, "Para Continuar", Toast.LENGTH_SHORT).show();
         enableMyLocation();
+        findLocation();
+    }
+
+    private void findLocation() {
+        if (ContextCompat.checkSelfPermission(Location.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            Task<android.location.Location> task = fusedLocationProviderClient.getLastLocation();
+            task.addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
+                @Override
+                public void onSuccess(android.location.Location location) {
+                    if (location != null) {
+                        LatLng myLatLng = new LatLng(location.getLatitude(),
+                                location.getLongitude());
+                        mMap.clear();
+                        mMap.addMarker(new MarkerOptions().position(myLatLng).title("My Location"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, DEFAULT_ZOOM));
+                        seleccionar.setEnabled(false);
+                        seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.colorLightGray));
+                    } else {
+                        System.out.println("mylocation is null !!!!!!! :( **");
+                    }
+                }
+            });
+        }
     }
 
     private void onMapClick() {
@@ -148,18 +188,66 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public boolean onMarkerClick(final Marker marker) {
                 final LatLng latLng = marker.getPosition();
+                try {
+                    Geocoder geocoder = new Geocoder(Location.this, Locale.getDefault());
+                    double latitud = (latLng != null) ? latLng.latitude : 0;
+                    double longitud = (latLng != null) ? latLng.longitude : 0;
+                    if (latitud != 0 && longitud != 0) {
+
+                        List<Address> addresses = geocoder.getFromLocation(latitud, longitud, 1);
+                        if (addresses != null && !addresses.isEmpty()) {
+                            StringBuilder stb = new StringBuilder();
+                            stb.append("");
+                            if (addresses.get(0).getCountryName() != null) {
+                                GlobalCarrito.direccion6 = addresses.get(0).getCountryName();
+                            }
+                            if (addresses.get(0).getAdminArea() != null) {
+                                GlobalCarrito.direccion7 = addresses.get(0).getAdminArea();
+                            }
+                            if (addresses.get(0).getFeatureName() != null) {
+                                stb.append(addresses.get(0).getFeatureName());
+                                stb.append(" . ");
+                            }
+                            if (addresses.get(0).getLocality() != null && !stb.toString().contains(addresses.get(0).getLocality())) {
+                                stb.append(addresses.get(0).getLocality());
+                                stb.append(" . ");
+                            }
+                            if (addresses.get(0).getSubLocality() != null && !stb.toString().contains(addresses.get(0).getSubLocality())) {
+                                stb.append(addresses.get(0).getSubLocality());
+                                stb.append(" . ");
+                            }
+                            if (!"".equals(stb.toString())) {
+                                GlobalCarrito.direccion2 = stb.toString();
+                            }
+                            if (addresses.get(0).getThoroughfare() != null && !stb.toString().contains(addresses.get(0).getThoroughfare())) {
+                                String string = stb.toString();
+                                stb = new StringBuilder();
+                                stb.append(addresses.get(0).getThoroughfare());
+                                stb.append(" . ");
+                                stb.append(string);
+                            }
+                            if (addresses.get(0).getSubThoroughfare() != null && !stb.toString().contains(addresses.get(0).getSubThoroughfare())) {
+                                String string = stb.toString();
+                                stb = new StringBuilder();
+                                stb.append(addresses.get(0).getSubThoroughfare());
+                                stb.append(" . ");
+                                stb.append(string);
+                            }
+                            if (GlobalCarrito.direccion2 != null && !"".equals(stb.toString()) && !GlobalCarrito.direccion2.equals(stb.toString())) {
+                                GlobalCarrito.direccion1 = stb.toString();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error location !!!!!!");
+                    System.out.println("location: " + e);
+                }
                 seleccionar.setEnabled(true);
                 seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.lime));
                 seleccionar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Direcciones direccion = new Direcciones();
-                        direccion.setIdDireccion(0);
-                        direccion.setNombreDireccion("coordenada");
-                        direccion.setCoordenadas(latLng.latitude + ";;" + latLng.longitude);
                         GlobalCarrito.latLngSeleccionada = latLng;
-                        DireccionesSQLite direccionesSQLite = new DireccionesSQLite(Location.this);
-                        direccionesSQLite.create(direccion);
                         Intent i = new Intent(Location.this, ProcesarCarritoActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
@@ -207,6 +295,7 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
                 if (!pedidos.isEmpty()) {
                     Direcciones direcciones;
                     int i = 0;
+                    List<String> dirs = new ArrayList<>();
                     for (Pedido pedido : pedidos) {
                         direcciones = new Direcciones();
                         direcciones.setIdDireccion(++i);
@@ -216,9 +305,19 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
                         } catch (Exception ignore) {
                         }
                         if (spliter.length > 3) {
+                            direcciones.setDireccion(pedido.getDireccion());
                             direcciones.setCoordenadas(spliter[2]);
                             direcciones.setNombreDireccion(spliter[0]);
-                            direccionesList.add(direcciones);
+                            boolean newer = true;
+                            for (String str : dirs) {
+                                if (str.equalsIgnoreCase(direcciones.getNombreDireccion())) {
+                                    newer = false;
+                                }
+                            }
+                            if (newer) {
+                                direccionesList.add(direcciones);
+                                dirs.add(direcciones.getNombreDireccion());
+                            }
                         }
                     }
                     direccionesGlobal = direccionesList;

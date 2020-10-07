@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
@@ -46,27 +47,21 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         listeneragregar();
         listenerSeleccionar();
         datosLast();
+        onBack();
     }
 
-    /*@Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_procesar_carrito, container, false);
-        direccion1 = (EditText) view.findViewById(R.id.direccionTxt1);
-        direccion2 = (EditText) view.findViewById(R.id.direccionTxt2);
-        direccion3 = (TextView) view.findViewById(R.id.direccionTxt3);
-        direccion4 = (EditText) view.findViewById(R.id.direccionTxt4);
-        direccion5 = (EditText) view.findViewById(R.id.direccionTxt5);
-        direccion6 = (EditText) view.findViewById(R.id.direccionTxt6);
-        direccion7 = (EditText) view.findViewById(R.id.direccionTxt7);
-        btnAgregar = (Button) view.findViewById(R.id.direccionBtnAdd);
-        selectLocation = (Button) view.findViewById(R.id.proceCarBtnSelecLc);
-        listeneragregar();
-        listenerSeleccionar();
-        datosLast();
-        viewGlobal = view;
-        return view;
-    }*/
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(ProcesarCarritoActivity.this, MenuBotton.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     private void datosLast() {
         String d1 = GlobalCarrito.direccion1;

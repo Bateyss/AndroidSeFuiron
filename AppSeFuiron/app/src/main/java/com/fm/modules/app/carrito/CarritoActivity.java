@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fm.modules.R;
 import com.fm.modules.adapters.RecyclerPlatillosSeleccionadosAdapter;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.restaurantes.MenuDeRestauranteFragment;
 import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.PlatilloSeleccionado;
 
@@ -36,24 +38,7 @@ public class CarritoActivity extends Fragment {
     private Button btnMas;
     private Button btnTerminate;
     private View viewGlobal;
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frg_carrito_actual);
-        carritoRecicler = (RecyclerView) findViewById(R.id.rvcarrito_compras);
-        totalOrdenTxtVw = (TextView) findViewById(R.id.carritoTotal1);
-        impuestoTxtVw = (TextView) findViewById(R.id.carritoTotal2);
-        cargoFuimonosTxtVw = (TextView) findViewById(R.id.carritoTotal3);
-        promocionTxtVw = (TextView) findViewById(R.id.carritoDescuento);
-        totalaCancelarTxtVw = (TextView) findViewById(R.id.carritoTotal4);
-        btnCodigo = (Button) findViewById(R.id.carritoBtnCodigo);
-        btnMas = (Button) findViewById(R.id.carritoBtnMas);
-        btnTerminate = (Button) findViewById(R.id.carritoBtnTerminar);
-        btnTerminate.setEnabled(false);
-        mostrarCarrito();
-        btnListeners();
-    }*/
+    private AppCompatImageView back;
 
     @Nullable
     @Override
@@ -69,10 +54,21 @@ public class CarritoActivity extends Fragment {
         btnCodigo = (Button) view.findViewById(R.id.carritoBtnCodigo);
         btnMas = (Button) view.findViewById(R.id.carritoBtnMas);
         btnTerminate = (Button) view.findViewById(R.id.carritoBtnTerminar);
+        back = (AppCompatImageView) view.findViewById(R.id.ivBack);
         btnTerminate.setEnabled(false);
         mostrarCarrito();
         btnListeners();
+        backListener();
         return view;
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new MenuDeRestauranteFragment());
+            }
+        });
     }
 
     private void mostrarCarrito() {

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,12 +33,12 @@ import com.fm.modules.app.commons.utils.RecyclerTouchListener;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.models.Categoria;
 import com.fm.modules.models.Image;
-import com.fm.modules.models.MenxCategoria;
+import com.fm.modules.models.Menu;
 import com.fm.modules.models.PlatilloFavorito;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.ImageService;
-import com.fm.modules.service.MenuxCategoriaService;
+import com.fm.modules.service.MenuService;
 import com.fm.modules.service.PlatilloFavoritoService;
 
 import java.text.SimpleDateFormat;
@@ -56,12 +57,13 @@ public class RestaurantePorCategoria extends Fragment {
     private List<Restaurante> restaurantesFiltered;
     private List<Categoria> categoriasFiltered;
     private List<Categoria> categoriasGlobal;
-    private List<MenxCategoria> menxCategoriaGlobal;
+    private List<Menu> menxCategoriaGlobal;
     private RecyclerView rvPlatillosFavoritos;
     private List<Categoria> categoriasSelected;
     private AppCompatImageView fotoPerfil;
     private CargarFoto cargarFoto;
     private View viewGlobal;
+    private AppCompatTextView tittleRestaurantes;
 
     @Nullable
     @Override
@@ -79,6 +81,7 @@ public class RestaurantePorCategoria extends Fragment {
         rvPlatillosFavoritos = view.findViewById(R.id.rvPlatillosFavoritos_cat);
         textSearch = (EditText) view.findViewById(R.id.etSearch_rest);
         fotoPerfil = (AppCompatImageView) view.findViewById(R.id.ivProfilePhotoPrincipal);
+        tittleRestaurantes = (AppCompatTextView) view.findViewById(R.id.tvTitleRes);
         if (isNetActive()) {
             favoritos.execute();
             categoriasRestaurante.execute();
@@ -88,31 +91,6 @@ public class RestaurantePorCategoria extends Fragment {
         profilePhoto();
         return view;
     }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frg_restaurants_categoria);
-        categoriasGlobal = new ArrayList<>();
-        restaurantesGlobal = new ArrayList<>();
-        categoriasFiltered = new ArrayList<>();
-        menxCategoriaGlobal = new ArrayList<>();
-        categoriasSelected = new ArrayList<>();
-        restaurantesFiltered = new ArrayList<>();
-        listViewCategorias = (RecyclerView) findViewById(R.id.rvCategorias_cat);
-        listViewRestaurantes = (ListView) findViewById(R.id.rvRestaurants_res);
-        rvPlatillosFavoritos = findViewById(R.id.rvPlatillosFavoritos_cat);
-        textSearch = (EditText) findViewById(R.id.etSearch_rest);
-        inclide = (View) findViewById(R.id.asConfigur);
-        fotoPerfil = (AppCompatImageView) inclide.findViewById(R.id.ivProfilePhotoPrincipal);
-        if (isNetActive()) {
-            favoritos.execute();
-            categoriasRestaurante.execute();
-        }
-        textChanged();
-        categoryselected();
-        profilePhoto();
-    }*/
 
 
     private void profilePhoto() {
@@ -146,16 +124,16 @@ public class RestaurantePorCategoria extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Categoria categoria = categoriasFiltered.get(position);
-                List<MenxCategoria> menxCategorias = GlobalRestaurantes.menxCategorias;
+                List<Menu> menus = GlobalRestaurantes.menuCategorias;
                 List<Restaurante> restaurantes = new ArrayList<>();
                 int idCategoria = categoria.getCategoriaId().intValue();
                 List<Integer> integers = new ArrayList<>();
-                if (menxCategorias != null && !menxCategorias.isEmpty()) {
-                    for (MenxCategoria mx : menxCategorias) {
-                        if (mx.getCategoria().getCategoriaId().intValue() == idCategoria) {
-                            if (!integers.contains(mx.getMenu().getRestaurante().getRestauranteId().intValue())) {
-                                restaurantes.add(mx.getMenu().getRestaurante());
-                                integers.add(mx.getMenu().getRestaurante().getRestauranteId().intValue());
+                if (menus != null && !menus.isEmpty()) {
+                    for (Menu menu : menus) {
+                        if (menu.getCategoria().getCategoriaId().intValue() == idCategoria) {
+                            if (!integers.contains(menu.getRestaurante().getRestauranteId().intValue())) {
+                                restaurantes.add(menu.getRestaurante());
+                                integers.add(menu.getRestaurante().getRestauranteId().intValue());
                             }
                         }
                     }
@@ -187,11 +165,11 @@ public class RestaurantePorCategoria extends Fragment {
                         listaFiltrada.add(re);
                     }
                 }
+                tittleRestaurantes.setText(R.string.restaurantes_filtrados);
                 RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(listaFiltrada, viewGlobal.getContext(), R.layout.holder_item_restaurant, getActivity());
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
                 if (listaFiltrada.isEmpty()) {
-                    Toast.makeText(viewGlobal.getContext(), "Restaurantes no Disponibles", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(viewGlobal.getContext(), "Hora de Cierre", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewGlobal.getContext(), "Sin Resultados", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
@@ -307,41 +285,40 @@ public class RestaurantePorCategoria extends Fragment {
         return platillos;
     }
 
-    public class CategoriasRestaurante extends AsyncTask<String, String, List<MenxCategoria>> {
+    public class CategoriasRestaurante extends AsyncTask<String, String, List<Menu>> {
 
         @Override
-        protected List<MenxCategoria> doInBackground(String... strings) {
-            List<MenxCategoria> lista = new ArrayList<>();
+        protected List<Menu> doInBackground(String... strings) {
+            List<Menu> lista = new ArrayList<>();
             try {
-                List<MenxCategoria> listCateg = new ArrayList<>();
-                MenuxCategoriaService menuxCategoriaService = new MenuxCategoriaService();
-                lista = menuxCategoriaService.obtenerRestaurantesxCateg();
+                List<Categoria> listCateg = new ArrayList<>();
+                MenuService menuService = new MenuService();
+                lista = menuService.obtenerMenus();
             } catch (Exception e) {
             }
             return lista;
         }
 
         @Override
-        protected void onPostExecute(List<MenxCategoria> menxCategorias) {
-            super.onPostExecute(menxCategorias);
-            if (!menxCategorias.isEmpty()) {
-                menxCategoriaGlobal = menxCategorias;
-                GlobalRestaurantes.menxCategorias = menxCategorias;
-                List<Integer> integers = new ArrayList<>();
-                for (MenxCategoria menxCategoria : menxCategorias) {
-                    if (!integers.contains(menxCategoria.getCategoria().getCategoriaId().intValue())) {
-                        categoriasGlobal.add(menxCategoria.getCategoria());
-                        integers.add(menxCategoria.getCategoria().getCategoriaId().intValue());
-                    }
-                }
+        protected void onPostExecute(List<Menu> menus) {
+            super.onPostExecute(menus);
+            if (!menus.isEmpty()) {
+                menxCategoriaGlobal = menus;
+                GlobalRestaurantes.menuCategorias = menus;
                 List<Restaurante> restauranteList = new ArrayList<>();
-                for (MenxCategoria menxCategoria : menxCategorias) {
-                    restauranteList.add(menxCategoria.getMenu().getRestaurante());
+                List<Integer> integers = new ArrayList<>();
+                for (Menu menu : menus) {
+                    restauranteList.add(menu.getRestaurante());
+                    if (!integers.contains(menu.getCategoria().getCategoriaId().intValue())) {
+                        categoriasGlobal.add(menu.getCategoria());
+                        integers.add(menu.getCategoria().getCategoriaId().intValue());
+                    }
                 }
                 restaurantesGlobal = filtrarRestaurantes(restauranteList);
                 GlobalRestaurantes.restaurantes = restaurantesGlobal;
                 restaurantesFiltered = filtrarRestaurantesDestacados(restaurantesGlobal);
                 categoriasFiltered = filtrarCategoriasPorNombre(categoriasGlobal);
+                System.out.println("*** categorias filtered : " + categoriasFiltered.size());
                 RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(restaurantesFiltered, viewGlobal.getContext(), R.layout.holder_item_restaurant, getActivity());
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
                 CategoriasRecyclerViewAdapter categoriasRecyclerViewAdapter = new CategoriasRecyclerViewAdapter(categoriasFiltered, viewGlobal.getContext());

@@ -30,7 +30,9 @@ import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.OpcionesDeSubMenuService;
 import com.fm.modules.service.PlatilloService;
+import com.google.android.material.card.MaterialCardView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,7 @@ public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<Recy
         TextView tvFoodDescription;
         TextView tvFoodPrice;
         AppCompatTextView btnAdd;
+        MaterialCardView cardView;
 
         public ViewHolder(View view) {
             super(view);
@@ -79,16 +82,18 @@ public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<Recy
             tvFoodDescription = view.findViewById(R.id.tvFoodDescription);
             tvFoodPrice = view.findViewById(R.id.tvFoodPrice);
             btnAdd = view.findViewById(R.id.btnAddPlatillo);
+            cardView = view.findViewById(R.id.cardFood);
         }
 
         public void asignarDatos(final PlatilloFavorito platillosFavorito) {
+            DecimalFormat decimalFormat = new DecimalFormat("$ #,##0.00");
             ivFoodImage.setImageResource(R.drawable.not_found);
             tvFoodName.setText(String.valueOf(platillosFavorito.getPlatillo().getNombre()));
             tvFoodDescription.setText(platillosFavorito.getPlatillo().getDescripcion());
-            tvFoodPrice.setText("$ " + String.valueOf(platillosFavorito.getPlatillo().getPrecioBase()));
+            tvFoodPrice.setText(decimalFormat.format(platillosFavorito.getPlatillo().getPrecioBase()));
             //btnAdd.setText(platillo.getOrden());
             btnAdd.setVisibility(View.INVISIBLE);
-            ivFoodImage.setOnClickListener(new View.OnClickListener() {
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     GlobalRestaurantes.platillo = platillosFavorito.getPlatillo();

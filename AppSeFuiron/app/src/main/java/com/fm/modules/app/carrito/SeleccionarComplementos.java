@@ -23,6 +23,7 @@ import com.fm.modules.adapters.RecyclerSubMenuAdapter2;
 import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
+import com.fm.modules.app.restaurantes.MenuDeRestauranteFragment;
 import com.fm.modules.models.Driver;
 import com.fm.modules.models.Image;
 import com.fm.modules.models.OpcionesDeSubMenu;
@@ -42,6 +43,7 @@ import com.travijuu.numberpicker.library.Enums.ActionEnum;
 import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
 import com.travijuu.numberpicker.library.NumberPicker;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,26 +63,7 @@ public class SeleccionarComplementos extends Fragment {
     private Platillo platilloActual;
     private CargarImagen cargarImagen = new CargarImagen();
     private View viewGlobal;
-
-    /*@Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frg_food_complements);
-        rvComplementsArea = (RecyclerView) findViewById(R.id.rvComplementsArea);
-        numberPicker = (NumberPicker) findViewById(R.id.npFoodQuantity);
-        tvFoodName = (AppCompatTextView) findViewById(R.id.tvFoodName);
-        tvFoodPrice = (AppCompatTextView) findViewById(R.id.tvFoodPrice);
-        appCompatImageView = (AppCompatImageView) findViewById(R.id.ivFoodImageAdicionales);
-        btnAddCarrito = (MaterialButton) findViewById(R.id.btnAddToShoppingCart);
-        opcionesDeSubMenusGlobal = new ArrayList<>();
-        subMenusGlobal = new ArrayList<>();
-        platillosGlobal = new ArrayList<>();
-        idPlatillo = getIntent().getIntExtra("idPlatillo", 0);
-        mostrarPlatillo();
-        mostrarComplementos(idPlatillo);
-        agregarAlCarritoListener();
-        cargarImg();
-    }*/
+    private AppCompatImageView back;
 
     @Nullable
     @Override
@@ -93,6 +76,7 @@ public class SeleccionarComplementos extends Fragment {
         tvFoodPrice = (AppCompatTextView) view.findViewById(R.id.tvFoodPrice);
         appCompatImageView = (AppCompatImageView) view.findViewById(R.id.ivFoodImageAdicionales);
         btnAddCarrito = (MaterialButton) view.findViewById(R.id.btnAddToShoppingCart);
+        back = (AppCompatImageView) view.findViewById(R.id.ivBack);
         opcionesDeSubMenusGlobal = new ArrayList<>();
         subMenusGlobal = new ArrayList<>();
         platillosGlobal = new ArrayList<>();
@@ -105,7 +89,17 @@ public class SeleccionarComplementos extends Fragment {
         }
         agregarAlCarritoListener();
         cargarImg();
+        backListener();
         return view;
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new MenuDeRestauranteFragment());
+            }
+        });
     }
 
     @Override
@@ -134,13 +128,13 @@ public class SeleccionarComplementos extends Fragment {
                     AlertDialog dialog = new AlertDialog.Builder(viewGlobal.getContext())
                             .setView(R.layout.dialog_save_plat_fav)
                             .setCancelable(true)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     guardarPlatilloFavorito();
                                 }
                             })
-                            .setNegativeButton("Nou", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     showFragment(new CarritoActivity());
@@ -300,16 +294,17 @@ public class SeleccionarComplementos extends Fragment {
     private void mostrarPlatillo() {
         Platillo platillo = GlobalRestaurantes.platilloSeleccionado;
         if (platillo != null) {
+            final DecimalFormat decimalFormat = new DecimalFormat("$ #,##0.00");
             platilloActual = platillo;
             final Platillo finalPlatillo = platillo;
             tvFoodName.setText(finalPlatillo.getNombre());
-            tvFoodPrice.setText(String.valueOf(finalPlatillo.getPrecioBase()));
+            tvFoodPrice.setText(decimalFormat.format(finalPlatillo.getPrecioBase()));
             numberPicker.setValueChangedListener(new ValueChangedListener() {
                 @Override
                 public void valueChanged(int value, ActionEnum action) {
                     double total;
-                    total = Double.parseDouble(String.valueOf(finalPlatillo.getPrecioBase() * value));
-                    tvFoodPrice.setText(String.valueOf(total));
+                    total = finalPlatillo.getPrecioBase() * value;
+                    tvFoodPrice.setText(decimalFormat.format(total));
                 }
             });
         }

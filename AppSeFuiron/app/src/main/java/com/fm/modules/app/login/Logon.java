@@ -140,6 +140,7 @@ public class Logon extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Logon.this, "Cargando ", Toast.LENGTH_SHORT).show();
+                buttonLogin.setEnabled(false);
                 if (validUserAndPass()) {
                     acceder.execute();
                 }
@@ -188,14 +189,17 @@ public class Logon extends AppCompatActivity {
         try {
             if ("".equals(usuario)) {
                 Toast.makeText(Logon.this, "Igrese usuario", Toast.LENGTH_LONG).show();
+                buttonLogin.setEnabled(true);
                 return false;
             }
             if ("".equals(passw)) {
                 Toast.makeText(Logon.this, "Igrese contraseña", Toast.LENGTH_LONG).show();
+                buttonLogin.setEnabled(true);
                 return false;
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(usuario).matches()) {
                 Toast.makeText(Logon.this, "Ingrese un Correo Valido", Toast.LENGTH_LONG).show();
+                buttonLogin.setEnabled(true);
                 return false;
             }
             return true;
@@ -319,7 +323,6 @@ public class Logon extends AppCompatActivity {
         buttonLogin.setEnabled(false);
         buttonLogin.setBackgroundColor(getResources().getColor(R.color.gray));
         buttonsing.setEnabled(false);
-        buttonsing.setBackgroundColor(getResources().getColor(R.color.gray));
     }
 
     public void habilatBotones() {

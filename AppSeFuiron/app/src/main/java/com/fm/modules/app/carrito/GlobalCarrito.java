@@ -13,5 +13,7 @@ public class GlobalCarrito {
     public static String direccion7;
     public static Pedido pedidoRegistrado;
     public static boolean toSales;
+    public static boolean toComplementos;
+    public static boolean toMenu;
     public static boolean toShopinCart;
 }

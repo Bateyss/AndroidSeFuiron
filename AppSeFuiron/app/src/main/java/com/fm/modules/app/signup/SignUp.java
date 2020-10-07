@@ -33,7 +33,8 @@ import androidx.core.content.ContextCompat;
 import com.fm.modules.R;
 import com.fm.modules.app.commons.conectivity.Conectividad;
 import com.fm.modules.app.commons.utils.Utilities;
-import com.fm.modules.app.localet.PermissionUtils;
+import com.fm.modules.app.localet.PermissionUtilsStorageRead;
+import com.fm.modules.app.localet.PermissionUtilsStorageWrite;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Image;
@@ -221,12 +222,17 @@ public class SignUp extends AppCompatActivity {
 
     public void uploadPhoto(View view) {
         if (ACCES_FILE_PERMISSION_REQUEST_GARANTED) {
-            Intent openFile = new Intent(Intent.ACTION_GET_CONTENT);
-            openFile.addCategory(Intent.CATEGORY_OPENABLE);
-            openFile.setType("image/*");
+            Intent getIntent = new Intent();
+            getIntent.setType("image/*");
+            getIntent.setAction(Intent.ACTION_GET_CONTENT);
+            getIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            Intent pickIntent = new Intent();
+            pickIntent.setAction(Intent.ACTION_PICK);
+            pickIntent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
             // request code 200 es Galeria de fotos
-            Intent i = Intent.createChooser(openFile, "file");
-            startActivityForResult(openFile, 200);
+            Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+            startActivityForResult(chooserIntent, 1);
         } else {
             Toast.makeText(SignUp.this, "No Puedes Subir Imagen", Toast.LENGTH_SHORT).show();
             Toast.makeText(SignUp.this, "Primero", Toast.LENGTH_SHORT).show();
@@ -238,31 +244,40 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
-            String[] str = {MediaStore.Images.Media.DATA};
-            Cursor cursor = SignUp.this.getContentResolver().query(data.getData(), str, null, null, null);
-            cursor.moveToFirst();
-            int id = cursor.getColumnIndex(str[0]);
-            String path = cursor.getString(id);
-            cursor.close();
-            if (path != null) {
-                fileImagenProfile = path;
-                File file = new File(path);
-                Bitmap bitmap = null;
-                try {
-                    bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                } catch (Exception ignore) {
-                }
-                if (bitmap != null) {
-                    imageProfile.setImageBitmap(bitmap);
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                String[] str = {MediaStore.Images.Media.DATA};
+                Cursor cursor = SignUp.this.getContentResolver().query(data.getData(), str, null, null, null);
+                cursor.moveToFirst();
+                int id = cursor.getColumnIndex(str[0]);
+                String path = cursor.getString(id);
+                cursor.close();
+                if (path != null) {
+                    fileImagenProfile = path;
+                    File file = new File(path);
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    } catch (Exception ignore) {
+                    }
+                    if (bitmap != null) {
+                        imageProfile.setImageBitmap(bitmap);
+                    } else {
+                        Toast.makeText(SignUp.this, "Error", Toast.LENGTH_SHORT).show();
+                        imageProfile.setImageResource(R.drawable.ic_confused_person);
+                    }
                 } else {
-                    Toast.makeText(SignUp.this, "No se puede subir la imagen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Intenta con otra Galeria", Toast.LENGTH_LONG).show();
                     imageProfile.setImageResource(R.drawable.ic_confused_person);
                 }
-            } else {
-                Toast.makeText(SignUp.this, "No se puede subir la imagen", Toast.LENGTH_SHORT).show();
-                imageProfile.setImageResource(R.drawable.ic_confused_person);
+            } catch (Exception e) {
+                System.out.println("erro open image: " + e);
             }
+        } else {
+            Toast.makeText(SignUp.this, "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Intenta con otra Galeria", Toast.LENGTH_LONG).show();
+            imageProfile.setImageResource(R.drawable.ic_confused_person);
         }
     }
 
@@ -273,7 +288,16 @@ public class SignUp extends AppCompatActivity {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                        Intent intt = new Intent(SignUp.this, MenuBotton.class);
+                        intt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intt);
+                    }
+                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        Intent intt2 = new Intent(SignUp.this, MenuBotton.class);
+                        intt2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intt2);
                     }
                 })
                 .show();
@@ -293,27 +317,21 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void enableFilesRead() {
-        // [START maps_check_location_permission]
-        boolean permiso1 = false;
-        if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            permiso1 = true;
-        }
-        if (permiso1) {
+        boolean ab1 = ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        boolean ab2 = ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        if (ab1 && ab2) {
             ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
         } else {
-            PermissionUtils.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
+            PermissionUtilsStorageWrite.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, true);
+            PermissionUtilsStorageRead.requestPermission(SignUp.this, ACCES_FILE_PERMISSION_REQUEST_CODE,
                     Manifest.permission.READ_EXTERNAL_STORAGE, true);
-
-            if (ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                permiso1 = true;
-            }
-            if (permiso1) {
+            ab1 = ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            ab2 = ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            if (ab1 && ab2) {
                 ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
             }
         }
-        // [END maps_check_location_permission]
     }
 
     public class Registrar extends AsyncTask<String, String, Boolean> {
@@ -375,10 +393,6 @@ public class SignUp extends AppCompatActivity {
                 // usuario registrado, compartir en pantalla
                 if (res) {
                     dialogo1();
-                    Intent i = new Intent(SignUp.this, MenuBotton.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Thread.sleep(4 * 1000);
-                    startActivity(i);
                 } else {
                     dialogo2();
                     buttonSign.setEnabled(true);

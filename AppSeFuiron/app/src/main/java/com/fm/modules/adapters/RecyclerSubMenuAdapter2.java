@@ -1,7 +1,6 @@
 package com.fm.modules.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
-import com.fm.modules.entities.RespuestaOpcionSubMenuPorPlatillo;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.OpcionSubMenuService;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMenuAdapter2.ViewHolder> {
 
@@ -34,7 +26,7 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
 
     private OpcionSubMenuService opcionesSubMenuService = new OpcionSubMenuService();
 
-    public RecyclerSubMenuAdapter2(List<SubMenu> subMenuList,List<OpcionesDeSubMenu> opcionesDeSubMenus, Context context) {
+    public RecyclerSubMenuAdapter2(List<SubMenu> subMenuList, List<OpcionesDeSubMenu> opcionesDeSubMenus, Context context) {
         this.context = context;
         this.subMenuList = subMenuList;
         this.opcionesDeSubMenus = opcionesDeSubMenus;
@@ -50,19 +42,19 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
     @Override
     public void onBindViewHolder(RecyclerSubMenuAdapter2.ViewHolder holder, int position) {
         //holder.asignarDatos(opcionesDeSubMenus.get(position));
-        System.out.println("POSICION: " +position);
+        System.out.println("POSICION: " + position);
 
         holder.tvSubMenu.setText(subMenuList.get(position).getTitulo());
 
         List<OpcionesDeSubMenu> opciones = new ArrayList<>();
         Long idSub = subMenuList.get(position).getSubMenuId();
-        for(OpcionesDeSubMenu listaOpcionesSubMenu : opcionesDeSubMenus){
+        for (OpcionesDeSubMenu listaOpcionesSubMenu : opcionesDeSubMenus) {
             Long id = listaOpcionesSubMenu.getSubMenu().getSubMenuId();
-            if(id.intValue() == idSub.intValue()){
+            if (id.intValue() == idSub.intValue()) {
                 opciones.add(listaOpcionesSubMenu);
             }
         }
-        RecyclerOpcionesDeSubMenuAdapter adapter = new RecyclerOpcionesDeSubMenuAdapter(opciones);
+        RecyclerOpcionesDeSubMenuAdapter adapter = new RecyclerOpcionesDeSubMenuAdapter(opciones, context);
         holder.rvOpcionesDeSubMenu.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         holder.rvOpcionesDeSubMenu.setAdapter(adapter);
     }

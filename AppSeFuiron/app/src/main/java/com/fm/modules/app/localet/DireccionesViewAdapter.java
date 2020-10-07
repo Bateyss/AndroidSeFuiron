@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.fm.modules.R;
 import com.fm.modules.adapters.ItemViewAdapterImagen;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.sqlite.models.Direcciones;
 
 import java.util.List;
@@ -48,6 +49,17 @@ public class DireccionesViewAdapter extends ItemViewAdapterImagen<Direcciones> {
                 @Override
                 public void onClick(View v) {
                     GlobalLocation.locationSelected = direccion.getCoordenadas();
+                    String[] spliter = {};
+                    try {
+                        spliter = direccion.getDireccion().split(";", 7);
+                    } catch (Exception ignore) {
+                    }
+                    if (spliter.length > 5) {
+                        GlobalCarrito.direccion1 = spliter[0];
+                        GlobalCarrito.direccion2 = spliter[1];
+                        GlobalCarrito.direccion4 = spliter[3];
+                        GlobalCarrito.direccion5 = spliter[4];
+                    }
                     Intent intent = new Intent(context, Location.class);
                     context.startActivity(intent);
                 }

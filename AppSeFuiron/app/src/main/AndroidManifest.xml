@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.fm.modules">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -13,7 +14,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
@@ -26,12 +26,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".app.menu.MenuTabActivity"
-            android:label="@string/title_activity_menu_tab"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".app.usuario.MyLocations" />
+        android:usesCleartextTraffic="true"
+        tools:targetApi="n">
+        <activity android:name=".app.restaurantes.RestauranteMenuActivity" />
         <activity android:name=".app.login.ChangePassActivity" />
         <activity android:name=".app.login.RecoveredPass" />
         <activity android:name=".app.login.RecoveredPassLogued" />

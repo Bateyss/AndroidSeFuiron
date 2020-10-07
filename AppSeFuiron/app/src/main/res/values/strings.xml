@@ -61,6 +61,8 @@
     <string name="adresses_option">Direcciones</string>
     <string name="my_orders_option">Mis órdenes</string>
     <string name="favorites_option">Tus Favoritos</string>
+    <string name="restaurantes_destacados">Restaurantes Populares</string>
+    <string name="restaurantes_filtrados">Restaurantes</string>
     <string name="support_option">Soporte</string>
     <string name="contact_us_option">Contactanos</string>
     <string name="track_your_order_option">Seguí tu pedido</string>
@@ -113,13 +115,17 @@
     <string name="order_not_in_apg">Parece haber un error con tu pago. Por favor revisa tu forma de pago e intentalo de nuevo</string>
     <!--    Permissions    -->
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
-    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
-    <string name="permission_required_toast">Location permission is required for this demo.</string>
+    <string name="location_permission_denied">This work requires location permission to enable the layer. Please try again and grant access to use the location</string>
+    <string name="storage_permission_denied">This work requires storage permission to enable the  layer. Please try again and grant access to use the storage</string>
+    <string name="permission_required_toast">Location permission is required for this work.</string>
+    <string name="permission_required_toast_storage">Storage permission is required for this work.</string>
     <string name="title_activity_menu_botton">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="texts">texto</string>
+    <string name="pago_tarjeta">Tarjeta de crédito / Débito </string>
+    <string name="pago_efectivo">Eféctivo</string>
     <string name="asociate">Socio Fuimonos</string>
     <string name="time_stimated">Hora estimada de entrega</string>
     <string name="order_new">Pedido Realizado</string>

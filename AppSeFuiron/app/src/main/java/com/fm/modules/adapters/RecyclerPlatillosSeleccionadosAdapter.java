@@ -59,8 +59,11 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
                     }
                 }
                 if (!posicionesEliminar.isEmpty()) {
-                    for (int indice : posicionesEliminar) {
-                        opcionesModificadas.remove(indice);
+                    try {
+                        for (int j = posicionesEliminar.size() - 1; j > -1; j--) {
+                            opcionesModificadas.remove(posicionesEliminar.get(j).intValue());
+                        }
+                    } catch (Exception ignore) {
                     }
                 }
                 List<PlatilloSeleccionado> nuevosItems = items;

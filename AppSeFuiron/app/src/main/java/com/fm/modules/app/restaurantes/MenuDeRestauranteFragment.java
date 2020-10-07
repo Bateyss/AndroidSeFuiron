@@ -1,6 +1,8 @@
 package com.fm.modules.app.restaurantes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,6 +31,8 @@ import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.Platillo;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.SubMenu;
+import com.fm.modules.models.Usuario;
+import com.fm.modules.service.ImageService;
 import com.fm.modules.service.OpcionesDeSubMenuService;
 import com.fm.modules.service.PlatilloService;
 
@@ -42,6 +47,9 @@ public class MenuDeRestauranteFragment extends Fragment {
     private RecyclerView tabsRV;
     private View viewGlobal;
     private AppCompatImageView imagenLogo;
+    private AppCompatTextView restauranteName;
+    private AppCompatImageView back;
+    private AppCompatImageView fotoPerfil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +59,33 @@ public class MenuDeRestauranteFragment extends Fragment {
         framgent = (FragmentContainerView) view.findViewById(R.id.tabCoodFragment);
         tabsRV = (RecyclerView) view.findViewById(R.id.tabCoodtabsRV);
         imagenLogo = (AppCompatImageView) view.findViewById(R.id.ivRestaurantLogoPlatillo);
+        restauranteName = (AppCompatTextView) view.findViewById(R.id.tvRestaurantName);
+        fotoPerfil = (AppCompatImageView) view.findViewById(R.id.ivProfilePhotoPrincipal);
+        back = (AppCompatImageView) view.findViewById(R.id.ivBack);
         showFragmentInTabs(new PlaceholderFragment());
         if (isNetActive()) {
             cargarDatos();
         }
+        backListener();
+        profilePhoto();
         return view;
+    }
+
+    private void profilePhoto() {
+        CargarFoto cargarFoto = new CargarFoto();
+        Usuario usuario = Logued.usuarioLogued;
+        if (usuario != null) {
+            cargarFoto.execute(usuario.getImagenDePerfil());
+        }
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new RestaurantePorCategoria());
+            }
+        });
     }
 
     public boolean isNetActive() {
@@ -75,6 +105,11 @@ public class MenuDeRestauranteFragment extends Fragment {
     }
 
     private void cargarDatos() {
+
+        Restaurante restaurante = Logued.restauranteActual;
+        if (restaurante != null) {
+            restauranteName.setText(restaurante.getNombreRestaurante());
+        }
         final Date anteriorDate = GlobalRestaurantes.horaActualizado;
         Date actualDate = Generics.getHour(new Date());
         if (anteriorDate == null) {
@@ -85,7 +120,6 @@ public class MenuDeRestauranteFragment extends Fragment {
                 categoraisDeRestaurante.execute();
             } else {
                 List<Menu> menus = GlobalRestaurantes.menuList;
-                Restaurante restaurante = Logued.restauranteActual;
                 int idRestaurante = 0;
                 if (restaurante != null) {
                     idRestaurante = restaurante.getRestauranteId().intValue();
@@ -258,6 +292,43 @@ public class MenuDeRestauranteFragment extends Fragment {
         } else {
             System.out.println("no pushing image ! !!!!!!!!!!!!!!!!");
             Utilities.displayAppCompatImageFromBytea(null, imagenLogo, viewGlobal.getContext());
+        }
+    }
+
+    private class CargarFoto extends AsyncTask<Long, String, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(Long... longs) {
+
+            Bitmap imagen = null;
+            try {
+                imagen = Logued.imagenPerfil;
+                if (imagen == null) {
+                    ImageService imageService = new ImageService();
+                    Image image = new Image();
+                    image = imageService.obtenerImagenPorId(longs[0]);
+                    if (image != null) {
+                        byte[] b = image.getContent();
+                        if (b != null) {
+                            imagen = BitmapFactory.decodeByteArray(b, 0, b.length);
+                            Logued.imagenPerfil = imagen;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("*** error asynk imagePerfil: " + e);
+            }
+            return imagen;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            super.onPostExecute(image);
+            if (image != null) {
+                fotoPerfil.setImageBitmap(image);
+            } else {
+                fotoPerfil.setImageResource(R.drawable.ic_empty_profile_photo);
+            }
         }
     }
 }

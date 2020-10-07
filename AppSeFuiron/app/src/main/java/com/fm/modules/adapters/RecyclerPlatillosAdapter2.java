@@ -1,6 +1,7 @@
 package com.fm.modules.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
-import com.fm.modules.app.carrito.SeleccionarComplementos;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.Image;
 import com.fm.modules.models.Platillo;
@@ -28,13 +30,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerPlatillosAdapter extends RecyclerView.Adapter<RecyclerPlatillosAdapter.ViewHolder> {
+public class RecyclerPlatillosAdapter2 extends RecyclerView.Adapter<RecyclerPlatillosAdapter2.ViewHolder> {
 
     private List<Platillo> items;
     private Context context;
     private FragmentActivity fragmentActivity;
 
-    public RecyclerPlatillosAdapter(List<Platillo> platillos, Context context, FragmentActivity fragmentActivity) {
+    public RecyclerPlatillosAdapter2(List<Platillo> platillos, Context context, FragmentActivity fragmentActivity) {
         this.items = platillos;
         this.context = context;
         this.fragmentActivity = fragmentActivity;
@@ -86,10 +88,10 @@ public class RecyclerPlatillosAdapter extends RecyclerView.Adapter<RecyclerPlati
                 public void onClick(View view) {
                     GlobalRestaurantes.platillo = platillo;
                     GlobalRestaurantes.platilloSeleccionado = platillo;
-                    showFragment(new SeleccionarComplementos());
-                    /*Intent i = new Intent(context, SeleccionarComplementos.class);
-                    i.putExtra("idPlatillo", platillo.getPlatilloId().intValue());
-                    context.startActivity(i);*/
+                    //showFragment(new SeleccionarComplementos());
+                    GlobalCarrito.toComplementos = true;
+                    Intent i = new Intent(context, MenuBotton.class);
+                    context.startActivity(i);
                 }
             });
             verImagen(platillo.getImagen());

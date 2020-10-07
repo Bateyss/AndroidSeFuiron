@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBack"
+        style="@style/SelectableBorderlesStyle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_3x"
+        android:src="@drawable/ic_left_arrow" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginStart="@dimen/space_2x"
-            android:layout_marginTop="@dimen/space_4x"
             android:layout_marginEnd="@dimen/space_2x"
             android:gravity="center"
             android:includeFontPadding="false"
@@ -28,7 +35,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -47,10 +54,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_5x"
             android:layout_marginEnd="@dimen/space_5x"
-            android:layout_weight="3"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView

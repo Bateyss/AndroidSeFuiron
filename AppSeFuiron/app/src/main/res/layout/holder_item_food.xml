@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFood"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/space_2x"
@@ -25,6 +26,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginTop="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_default"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fm.modules.R;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.Categoria;
-import com.fm.modules.models.MenxCategoria;
+import com.fm.modules.models.Menu;
 import com.fm.modules.models.Restaurante;
 
 import java.util.ArrayList;
@@ -43,16 +43,16 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     public void onBindViewHolder(@NonNull HolderItemCategorias holder, int position) {
         holder.catImage.setImageResource(R.drawable.ic_flan);
         holder.catName.setText(categorias.get(position).getNombreCategoria());
-        List<MenxCategoria> menxCategorias = GlobalRestaurantes.menxCategorias;
+        List<Menu> menus = GlobalRestaurantes.menuCategorias;
         List<Restaurante> restaurantes = new ArrayList<>();
         int idCategoria = categorias.get(position).getCategoriaId().intValue();
         List<Integer> integers = new ArrayList<>();
-        if (menxCategorias != null && !menxCategorias.isEmpty()) {
-            for (MenxCategoria mx : menxCategorias) {
-                if (mx.getCategoria().getCategoriaId().intValue() == idCategoria) {
-                    if (!integers.contains(mx.getMenu().getRestaurante().getRestauranteId().intValue())) {
-                        restaurantes.add(mx.getMenu().getRestaurante());
-                        integers.add(mx.getMenu().getRestaurante().getRestauranteId().intValue());
+        if (menus != null && !menus.isEmpty()) {
+            for (Menu menu : menus) {
+                if (menu.getCategoria().getCategoriaId().intValue() == idCategoria) {
+                    if (!integers.contains(menu.getRestaurante().getRestauranteId().intValue())) {
+                        restaurantes.add(menu.getRestaurante());
+                        integers.add(menu.getRestaurante().getRestauranteId().intValue());
                     }
                 }
             }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.fm.modules.service.DriverService;
 import com.fm.modules.service.OpcionSubMenuSeleccionadoService;
 import com.fm.modules.service.PedidoService;
 import com.fm.modules.service.PlatilloSeleccionadoService;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.DecimalFormat;
@@ -41,8 +43,8 @@ public class PagoActivity extends Fragment {
     private TextView txtTotal;
     private TextView txtDireccion1;
     private TextView txtDireccion2;
-    private Button btnTarjeta;
-    private Button btnEfectivo;
+    private MaterialCardView btnTarjeta;
+    private MaterialCardView btnEfectivo;
     private Button btnPagar;
     private Pedido pedido;
     private List<PlatilloSeleccionado> platilloSeleccionados;
@@ -50,6 +52,8 @@ public class PagoActivity extends Fragment {
     private GuardarPedidoAsync guardarPedidoAsync = new GuardarPedidoAsync();
     private View viewGlobal;
     private MaterialTextView changueLocation;
+    private ImageView checkTarjeta;
+    private ImageView checkEfectivo;
 
     @Override
     public void onPause() {
@@ -62,27 +66,6 @@ public class PagoActivity extends Fragment {
         guardarPedidoAsync = new GuardarPedidoAsync();
     }
 
-   /* @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pago);
-        txtTotal = (TextView) findViewById(R.id.pagoTxtTotal);
-        txtDireccion1 = (TextView) findViewById(R.id.pagoTxtDireccion);
-        txtDireccion2 = (TextView) findViewById(R.id.pagoTxtDireccion2);
-        btnTarjeta = (Button) findViewById(R.id.pagoBtnTarjeta);
-        btnEfectivo = (Button) findViewById(R.id.pagoBtnEfectivo);
-        btnPagar = (Button) findViewById(R.id.pagoBtnPagar);
-        btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        pedido = Logued.pedidoActual;
-        btnPagar.setEnabled(false);
-        btnPagar.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        platilloSeleccionados = new ArrayList<>();
-        opcionesSeleccionadas = new ArrayList<>();
-        mostrarDatos();
-        listenerBotones();
-    }*/
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,12 +74,12 @@ public class PagoActivity extends Fragment {
         txtTotal = (TextView) view.findViewById(R.id.pagoTxtTotal);
         txtDireccion1 = (TextView) view.findViewById(R.id.pagoTxtDireccion);
         txtDireccion2 = (TextView) view.findViewById(R.id.pagoTxtDireccion2);
-        btnTarjeta = (Button) view.findViewById(R.id.pagoBtnTarjeta);
-        btnEfectivo = (Button) view.findViewById(R.id.pagoBtnEfectivo);
+        btnTarjeta = (MaterialCardView) view.findViewById(R.id.pagoBtnTarjeta);
+        btnEfectivo = (MaterialCardView) view.findViewById(R.id.pagoBtnEfectivo);
         btnPagar = (Button) view.findViewById(R.id.pagoBtnPagar);
         changueLocation = (MaterialTextView) view.findViewById(R.id.pagoChangeLocation);
-        btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        checkTarjeta = (ImageView) view.findViewById(R.id.pagoBtnTarjetaCheck);
+        checkEfectivo = (ImageView) view.findViewById(R.id.pagoBtnEfectivoCheck);
         pedido = Logued.pedidoActual;
         btnPagar.setEnabled(false);
         btnPagar.setBackgroundColor(getResources().getColor(R.color.lightGray));
@@ -136,8 +119,8 @@ public class PagoActivity extends Fragment {
                     showFragment(new PagoTargetaFragment());
                 }
                 Logued.pedidoActual = pedido;
-                btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lime));
-                btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lightGray));
+                checkTarjeta.setImageResource(R.drawable.ic_checked_round_lime);
+                checkEfectivo.setImageResource(R.drawable.ic_checked_round_white);
             }
         });
         btnEfectivo.setOnClickListener(new View.OnClickListener() {
@@ -149,8 +132,8 @@ public class PagoActivity extends Fragment {
                     btnPagar.setBackgroundColor(getResources().getColor(R.color.orange));
                 }
                 Logued.pedidoActual = pedido;
-                btnTarjeta.setBackgroundColor(getResources().getColor(R.color.lightGray));
-                btnEfectivo.setBackgroundColor(getResources().getColor(R.color.lime));
+                checkTarjeta.setImageResource(R.drawable.ic_checked_round_white);
+                checkEfectivo.setImageResource(R.drawable.ic_checked_round_lime);
             }
         });
         btnPagar.setOnClickListener(new View.OnClickListener() {

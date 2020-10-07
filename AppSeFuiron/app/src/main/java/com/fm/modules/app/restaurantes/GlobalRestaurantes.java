@@ -15,6 +15,7 @@ public class GlobalRestaurantes {
 
     public static Menu menuSeleccionado;
     public static List<Menu> menuList;
+    public static List<Menu> menuCategorias;
     public static List<Platillo> platilloList;
     public static List<SubMenu> subMenuList;
     public static List<OpcionesDeSubMenu> opcionesDeSubMenuList;

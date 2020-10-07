@@ -59,17 +59,14 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
                 public void onClick(View view) {
                     Restaurante rr = Logued.restauranteActual;
                     if (rr == null) {
-                        rr = restaurante;
                         Logued.restauranteActual = restaurante;
                         showFragment(new MenuDeRestauranteFragment());
                         /*Intent i = new Intent(context, RestauranteMenuActivity.class);
-                        i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                         context.startActivity(i);*/
                     } else {
                         if (rr.getRestauranteId().intValue() == restaurante.getRestauranteId().intValue()) {
                             showFragment(new MenuDeRestauranteFragment());
                             /*Intent i = new Intent(context, RestauranteMenuActivity.class);
-                            i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                             context.startActivity(i);*/
                         } else {
                             AlertDialog dialog = new AlertDialog.Builder(context)
@@ -84,7 +81,6 @@ public class RestauranteItemViewAdapter extends ItemViewAdapterImagen<Restaurant
                                             Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
                                             showFragment(new MenuDeRestauranteFragment());
                                             /*Intent i = new Intent(context, RestauranteMenuActivity.class);
-                                            i.putExtra("idRestaurante", restaurante.getRestauranteId().intValue());
                                             context.startActivity(i);*/
                                         }
                                     })
