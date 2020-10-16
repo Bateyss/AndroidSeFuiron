@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_2n"
+        android:layout_marginTop="@dimen/space_1x"
+        android:layout_marginEnd="@dimen/space_2n"
+        android:layout_marginBottom="@dimen/space_2x"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemOptionLayout"
+            style="@style/SelectableStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivOptionIcon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="@dimen/space_3x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginBottom="@dimen/space_2x"
+                android:src="@drawable/ic_location_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_location_icon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_2x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ivOptionIcon"
+                app:layout_constraintStart_toEndOf="@+id/ivOptionIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivOptionIcon"
+                tools:text="Mi perfil" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/separatorColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

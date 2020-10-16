@@ -4,21 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.menu.MenuBotton;
 import com.google.android.material.button.MaterialButton;
 
 public class RecoveredPassLogued extends AppCompatActivity {
 
     private MaterialButton btnNext;
+    private AppCompatImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recovered_pass);
         btnNext = (MaterialButton) findViewById(R.id.recoveredBtnNext);
+        back = (AppCompatImageView) findViewById(R.id.ivBack);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -27,5 +32,31 @@ public class RecoveredPassLogued extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        onBack();
+        backListener();
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(RecoveredPassLogued.this, MenuBotton.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(RecoveredPassLogued.this, MenuBotton.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

@@ -9,15 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.ChangePassActivity;
 import com.fm.modules.app.login.Logon;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.login.RecoveryPasswordLogued;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Usuario;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +56,7 @@ public class UserProfileFragment extends Fragment {
         signOut();
         recoveryListener();
         changueListener();
+        onBack();
         return view;
     }
 
@@ -113,5 +117,21 @@ public class UserProfileFragment extends Fragment {
         }
     }
 
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
+    }
 
 }

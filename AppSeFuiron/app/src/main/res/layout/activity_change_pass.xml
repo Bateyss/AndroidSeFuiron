@@ -16,9 +16,20 @@
             android:layout_marginEnd="@dimen/space_5x"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                style="@style/SelectableBorderlesStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginTop="@dimen/space_3x"
+                android:src="@drawable/ic_left_arrow" />
+
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_3x"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:src="@drawable/change_password_act_icon" />

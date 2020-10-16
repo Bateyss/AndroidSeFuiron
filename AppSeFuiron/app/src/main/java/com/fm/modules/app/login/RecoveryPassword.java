@@ -11,10 +11,11 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
-import com.fm.modules.app.commons.utils.Utilities;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.UsuarioService;
 import com.google.android.material.button.MaterialButton;
@@ -43,6 +44,20 @@ public class RecoveryPassword extends AppCompatActivity {
             }
         });
         // end logon
+        onBack();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(RecoveryPassword.this, Logon.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void enviarEmail() {

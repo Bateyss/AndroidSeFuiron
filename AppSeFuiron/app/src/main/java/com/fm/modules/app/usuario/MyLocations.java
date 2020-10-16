@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.localet.DireccionesViewAdapter2;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.PedidoService;
@@ -34,6 +37,7 @@ public class MyLocations extends Fragment {
         viewGlobal = view;
         locationsRecyViw = (ListView) view.findViewById(R.id.mylocationrecyclerviwe);
         verLocations();
+        onBack();
         return view;
     }
 
@@ -101,5 +105,21 @@ public class MyLocations extends Fragment {
     public void reiniciarMyLocations() {
         myLocationes.cancel(true);
         myLocationes = new MyLocationes();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+    }
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

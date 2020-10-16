@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -90,6 +91,7 @@ public class SeleccionarComplementos extends Fragment {
         agregarAlCarritoListener();
         cargarImg();
         backListener();
+        onBack();
         return view;
     }
 
@@ -100,6 +102,17 @@ public class SeleccionarComplementos extends Fragment {
                 showFragment(new MenuDeRestauranteFragment());
             }
         });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new MenuDeRestauranteFragment());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
     }
 
     @Override

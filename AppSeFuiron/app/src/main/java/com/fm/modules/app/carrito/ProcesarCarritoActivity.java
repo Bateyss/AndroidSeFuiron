@@ -1,6 +1,8 @@
 package com.fm.modules.app.carrito;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,14 +11,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
+import com.fm.modules.adapters.MunicipioItemViewAdapter;
 import com.fm.modules.app.localet.Location;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.MenuBotton;
+import com.fm.modules.models.Departamento;
+import com.fm.modules.models.Municipio;
+import com.fm.modules.models.Pais;
 import com.fm.modules.models.Pedido;
+import com.fm.modules.service.DepartamentoService;
+import com.fm.modules.service.MunicipioService;
+import com.fm.modules.service.PaisService;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProcesarCarritoActivity extends AppCompatActivity {
 
@@ -27,6 +40,7 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
     private EditText direccion5;
     private EditText direccion6;
     private EditText direccion7;
+    private EditText direccion8;
     private Button btnAgregar;
     private Button selectLocation;
     //private View viewGlobal;
@@ -42,12 +56,14 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         direccion5 = (EditText) findViewById(R.id.direccionTxt5);
         direccion6 = (EditText) findViewById(R.id.direccionTxt6);
         direccion7 = (EditText) findViewById(R.id.direccionTxt7);
+        direccion8 = (EditText) findViewById(R.id.direccionTxt8);
         btnAgregar = (Button) findViewById(R.id.direccionBtnAdd);
         selectLocation = (Button) findViewById(R.id.proceCarBtnSelecLc);
         listeneragregar();
         listenerSeleccionar();
         datosLast();
         onBack();
+        cargarMunicipios();
     }
 
     public void onBack() {
@@ -62,6 +78,7 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
 
     private void datosLast() {
         String d1 = GlobalCarrito.direccion1;
@@ -87,6 +104,9 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         }
         if (d7 != null) {
             direccion7.setText(d7);
+        }
+        if (GlobalCarrito.direccion8 != null) {
+            direccion8.setText(GlobalCarrito.direccion8);
         }
     }
 
@@ -166,6 +186,11 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    private void cargarMunicipios() {
+        MunicipiosAsync municipiosAsync = new MunicipiosAsync();
+        municipiosAsync.execute();
+    }
+
     private boolean validar() {
         boolean b = false;
         if ("".equals(direccion1.getText().toString())) {
@@ -201,6 +226,106 @@ public class ProcesarCarritoActivity extends AppCompatActivity {
             Toast.makeText(ProcesarCarritoActivity.this, "Ingrese un Departamento", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (GlobalCarrito.municipioSelected == null) {
+            Toast.makeText(ProcesarCarritoActivity.this, "Seleccione un Municipio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
+    }
+
+    private class MunicipiosAsync extends AsyncTask<String, String, List<Municipio>> {
+
+        @Override
+        protected List<Municipio> doInBackground(String... strings) {
+            List<Municipio> list = new ArrayList<>();
+            System.out.println("asynck municipios !!!!!!!!!!!!!!!!");
+            try {
+                MunicipioService municipioService = new MunicipioService();
+                DepartamentoService departamentoService = new DepartamentoService();
+                PaisService paisService = new PaisService();
+                if (GlobalCarrito.direccion6 != null) {
+                    List<Pais> paises = paisService.obtenerPaises();
+                    if (!paises.isEmpty()) {
+                        Long idPais = null;
+                        if (!"".equals(GlobalCarrito.direccion6)) {
+                            for (Pais pais : paises) {
+                                if (pais.getNombrePais() != null) {
+                                    if (GlobalCarrito.direccion6.toUpperCase().contains(pais.getNombrePais().toUpperCase())) {
+                                        idPais = pais.getPaisId();
+                                    }
+                                }
+                            }
+                        }
+                        if (idPais != null) {
+                            List<Departamento> departamentos = departamentoService.obtenerDepartamentosPorIdPais(idPais);
+                            if (!departamentos.isEmpty()) {
+                                Long idDepartamento = null;
+                                if (GlobalCarrito.direccion7 != null && !"".equals(GlobalCarrito.direccion7)) {
+                                    for (Departamento departamento : departamentos) {
+                                        if (departamento.getNombreDepartamento() != null) {
+                                            if (departamento.getNombreDepartamento().toUpperCase().contains(GlobalCarrito.direccion7.toUpperCase())) {
+                                                idDepartamento = departamento.getDepartamentoId();
+                                            }
+                                        }
+                                    }
+                                }
+                                if (idDepartamento != null) {
+                                    list = municipioService.obtenerMunicipiosPorIdDepartamento(idDepartamento);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!list.isEmpty()) {
+                    GlobalCarrito.municipioList = list;
+                } else {
+                    list = municipioService.obtenerMunicipios();
+                    GlobalCarrito.municipioList = list;
+                }
+            } catch (Exception ignore) {
+            }
+            System.out.println("asynck municipios FN !!!!!!!!!!!!!!!!");
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(final List<Municipio> municipios) {
+            super.onPostExecute(municipios);
+            if (!municipios.isEmpty()) {
+                direccion8.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final AlertDialog.Builder aBuilder = new AlertDialog.Builder(ProcesarCarritoActivity.this);
+                        aBuilder.setTitle("Seleccionar Municipio");
+                        MunicipioItemViewAdapter adapter = new MunicipioItemViewAdapter(municipios, ProcesarCarritoActivity.this, R.layout.holder_item_municipios);
+                        aBuilder.setSingleChoiceItems(adapter, -1, null);
+                        /*System.out.println("click opcion municipio !!!!!!!!!!!!!!!!");
+                        System.out.println("click opcion numero: " + position);*/
+                        /*System.out.println("click opcion municipio !!!!!!!!!!!!!!!!");
+                        direccion8.setText(municipios.get(which).getNombreMunicipio());
+                        GlobalCarrito.municipioSelected = municipios.get(which);*/
+                        aBuilder.setNeutralButton("Seleccionar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (GlobalCarrito.direccion8 != null) {
+                                    direccion8.setText(GlobalCarrito.direccion8);
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog mAlertDialog = aBuilder.create();
+                        mAlertDialog.show();
+                    }
+                });
+            } else {
+                direccion8.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(ProcesarCarritoActivity.this, "Ubicacion no disponible", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.fm.modules.service;
 
+import androidx.annotation.NonNull;
+
 import com.fm.modules.models.Municipio;
 
 import java.io.Serializable;
@@ -22,6 +24,10 @@ public class MunicipioService extends RestTemplateEntity<Municipio> implements S
     public List<Municipio> obtenerMunicipios() {
         List<Municipio> lista = getListURL(url);
         return lista;
+    }
+
+    public List<Municipio> obtenerMunicipiosPorIdDepartamento(@NonNull Long id) {
+        return getListURL(Constantes.DOMINIO.concat("/municipioPorDepartamento/").concat(id.toString()));
     }
 
     public Municipio obtenerMunicipiosPorId(Long id) {

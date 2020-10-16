@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fm.modules.R;
@@ -27,5 +28,19 @@ public class PedidoNoRegistrado extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        onBack();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent i = new Intent(PedidoNoRegistrado.this, MenuBotton.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

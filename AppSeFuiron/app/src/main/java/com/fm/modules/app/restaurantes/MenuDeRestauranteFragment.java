@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
@@ -68,6 +69,7 @@ public class MenuDeRestauranteFragment extends Fragment {
         }
         backListener();
         profilePhoto();
+        onBack();
         return view;
     }
 
@@ -86,6 +88,17 @@ public class MenuDeRestauranteFragment extends Fragment {
                 showFragment(new RestaurantePorCategoria());
             }
         });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
     }
 
     public boolean isNetActive() {

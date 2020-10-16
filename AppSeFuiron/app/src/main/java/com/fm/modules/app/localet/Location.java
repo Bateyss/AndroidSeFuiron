@@ -119,6 +119,11 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
         onMarckClike();
         mMap.addMarker(new MarkerOptions().position(defaulLocation).title("Marker in San Salvador"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaulLocation, DEFAULT_ZOOM));
+        Toast.makeText(Location.this, "Elegir Ubicacion o", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Location.this, "Seleccionar Marcador", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Location.this, "Para Continuar", Toast.LENGTH_SHORT).show();
+        enableMyLocation();
+        findLocation();
         String direccionSelected = GlobalLocation.locationSelected;
         if (direccionSelected != null) {
             String[] strings1 = {};
@@ -129,17 +134,12 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
             if (strings1.length == 2) {
                 try {
                     LatLng selectedCoords = new LatLng(Double.parseDouble(strings1[0]), Double.parseDouble(strings1[1]));
-                    mMap.addMarker(new MarkerOptions().position(selectedCoords).title("Marker in Selected"));
+                    mMap.addMarker(new MarkerOptions().position(selectedCoords).title("Selected"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedCoords, DEFAULT_ZOOM));
                 } catch (Exception e) {
                 }
             }
         }
-        Toast.makeText(Location.this, "Elegir Ubicacion o", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Location.this, "Seleccionar Marcador", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Location.this, "Para Continuar", Toast.LENGTH_SHORT).show();
-        enableMyLocation();
-        findLocation();
     }
 
     private void findLocation() {
@@ -150,15 +150,18 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
                 @Override
                 public void onSuccess(android.location.Location location) {
                     if (location != null) {
-                        LatLng myLatLng = new LatLng(location.getLatitude(),
-                                location.getLongitude());
-                        mMap.clear();
-                        mMap.addMarker(new MarkerOptions().position(myLatLng).title("My Location"));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, DEFAULT_ZOOM));
-                        seleccionar.setEnabled(false);
-                        seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.colorLightGray));
-                    } else {
-                        System.out.println("mylocation is null !!!!!!! :( **");
+                        String direccionSelected = GlobalLocation.locationSelected;
+                        if (direccionSelected == null) {
+                            LatLng myLatLng = new LatLng(location.getLatitude(),
+                                    location.getLongitude());
+                            mMap.clear();
+                            mMap.addMarker(new MarkerOptions().position(myLatLng).title("My Location"));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, DEFAULT_ZOOM));
+                            seleccionar.setEnabled(false);
+                            seleccionar.setBackgroundColor(Location.this.getResources().getColor(R.color.colorLightGray));
+                        } else {
+                            GlobalLocation.locationSelected = null;
+                        }
                     }
                 }
             });
@@ -208,6 +211,12 @@ public class Location extends AppCompatActivity implements OnMapReadyCallback {
                                 stb.append(addresses.get(0).getFeatureName());
                                 stb.append(" . ");
                             }
+                            try {
+                                System.out.println("getLocality"+addresses.get(0).getLocality());
+                                System.out.println("getSubLocality"+addresses.get(0).getLocality());
+                                System.out.println("getThoroughfare"+addresses.get(0).getThoroughfare());
+                                System.out.println("getSubThoroughfare"+addresses.get(0).getSubThoroughfare());
+                            }catch (Exception ignored){}
                             if (addresses.get(0).getLocality() != null && !stb.toString().contains(addresses.get(0).getLocality())) {
                                 stb.append(addresses.get(0).getLocality());
                                 stb.append(" . ");

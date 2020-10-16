@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.app.restaurantes.PlatillosActivity;
 import com.fm.modules.models.Menu;
 import com.fm.modules.service.OpcionSubMenuService;
@@ -47,12 +48,26 @@ public class RecyclerTabMenuAdapter extends RecyclerView.Adapter<RecyclerTabMenu
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalRestaurantes.menuTabPosition = position;
+                GlobalRestaurantes.menuTabSelected = menus.get(position);
+                notifyDataSetChanged();
                 showFragment(new PlatillosActivity(menus.get(position)));
             }
         });
         if (position == 0) {
             showFragment(new PlatillosActivity(menus.get(position)));
         }
+        if (GlobalRestaurantes.menuTabPosition == null && position == 0) {
+            holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.orange));
+        }
+        if (GlobalRestaurantes.menuTabPosition != null) {
+            if (GlobalRestaurantes.menuTabPosition == position) {
+                holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.orange));
+            } else {
+                holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.opaquePurple));
+            }
+        }
+
     }
 
     @Override
@@ -63,11 +78,13 @@ public class RecyclerTabMenuAdapter extends RecyclerView.Adapter<RecyclerTabMenu
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         CardView cardView;
+        View bottonMarker;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvMenu);
             cardView = (CardView) itemView.findViewById(R.id.cvMenu);
+            bottonMarker = (View) itemView.findViewById(R.id.separator);
         }
     }
 

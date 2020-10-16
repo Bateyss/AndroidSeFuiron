@@ -8,10 +8,10 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivBack"
         style="@style/SelectableBorderlesStyle"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="@dimen/space_2x"
-        android:layout_marginTop="@dimen/space_3x"
+        android:layout_marginTop="@dimen/space_2x"
         android:src="@drawable/ic_left_arrow" />
 
     <LinearLayout
@@ -22,35 +22,32 @@
             android:id="@+id/tvTitle"
             style="@style/TextViewTitleStyle"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2x"
             android:layout_marginEnd="@dimen/space_2x"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="@string/shopping_cart"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
-
-
     </LinearLayout>
 
-    <LinearLayout
+    <View
+        android:id="@+id/separators"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
+        android:layout_height="2dp"
+        android:layout_marginStart="@dimen/space_10x"
+        android:layout_marginTop="@dimen/space_2x"
+        android:layout_marginBottom="@dimen/space_2x"
+        android:layout_marginEnd="@dimen/space_10x"
+        android:background="@color/separatorColor" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvcarrito_compras"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
-            android:paddingEnd="10sp"
-            android:paddingRight="10sp" />
-    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,13 +56,31 @@
             android:layout_marginEnd="@dimen/space_5x"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvcarrito_compras"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10sp"
+                    android:paddingTop="10sp"
+                    android:paddingEnd="10sp"
+                    android:paddingRight="10sp" />
+            </LinearLayout>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginBottom="@dimen/space_2x"
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp">
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,6 +92,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/carritoTxtCodigo"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -106,7 +122,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/TextViewSubTitleStyle"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -115,7 +132,7 @@
 
                 <TextView
                     android:id="@+id/carritoTotal1"
-                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -129,7 +146,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/TextViewSubTitleStyle"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -138,7 +156,7 @@
 
                 <TextView
                     android:id="@+id/carritoTotal2"
-                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -152,7 +170,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/TextViewSubTitleStyle"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -161,7 +180,7 @@
 
                 <TextView
                     android:id="@+id/carritoTotal3"
-                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -175,7 +194,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/TextViewSubTitleStyle"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -184,7 +204,7 @@
 
                 <TextView
                     android:id="@+id/carritoDescuento"
-                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -213,12 +233,12 @@
                     android:layout_weight="2"
                     android:maxLines="1"
                     android:text="Total a Cancelar"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textStyle="bold"
                     android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/carritoTotal4"
-                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

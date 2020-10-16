@@ -8,10 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 
 public class SupportFragment extends Fragment {
 
@@ -27,6 +29,7 @@ public class SupportFragment extends Fragment {
         message = (EditText) view.findViewById(R.id.supportText);
         sendBtn = (Button) view.findViewById(R.id.supportRegistry);
         sendMessaje();
+        onBack();
         return view;
     }
 
@@ -49,5 +52,16 @@ public class SupportFragment extends Fragment {
         getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
     }
 }

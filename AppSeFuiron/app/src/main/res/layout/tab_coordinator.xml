@@ -39,7 +39,7 @@
             android:background="@drawable/ripple_circle_profile_photo_shape"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="50dp">
+            app:cardCornerRadius="25dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivProfilePhotoPrincipal"
@@ -66,6 +66,7 @@
             android:layout_marginEnd="@dimen/space_2x"
             android:background="@drawable/ripple_circle_profile_photo_shape"
             android:clickable="true"
+            app:cardCornerRadius="25dp"
             android:focusable="true"
             android:padding="@dimen/space_4n">
 

@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fm.modules.R;
 import com.fm.modules.app.carrito.CarritoActivity;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.usuario.GlobalUsuario;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.PlatilloSeleccionado;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                GlobalUsuario.descuento = null;
                 List<OpcionesDeSubMenuSeleccionado> opcionesModificadas = Logued.opcionesDeSubMenusEnPlatillosSeleccionados;
 
                 List<Integer> posicionesEliminar = new ArrayList<>();
@@ -98,6 +101,7 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
         }
 
         public void asignarDatos(final PlatilloSeleccionado platilloSeleccionado) {
+            DecimalFormat decimalFormat = new DecimalFormat("$ ##,###,##0.00");
             tvFoodName.setText(platilloSeleccionado.getNombre());
             List<OpcionesDeSubMenuSeleccionado> ll = Logued.opcionesDeSubMenusEnPlatillosSeleccionados;
             StringBuilder stb = new StringBuilder();
@@ -114,7 +118,7 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
             }
             String opcioness = stb.toString();
             tvFoodDescription.setText(opcioness);
-            String precio = "$ " + platilloSeleccionado.getPrecio();
+            String precio = decimalFormat.format(platilloSeleccionado.getPrecio());
             String cantidad = "x" + platilloSeleccionado.getCantidad();
             tvFoodPrice.setText(precio);
             tvFoodQuantity.setText(cantidad);

@@ -1,21 +1,23 @@
 package com.fm.modules.app.commons.conectivity;
 
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 public class Conectividad {
-    public static boolean isNetActive(Object getSystemService_ContextConnectivity) {
+    public static boolean isNetActive(@NonNull FragmentActivity activity) {
         boolean c = false;
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService_ContextConnectivity;
+            ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
                 c = true;
             }
         } catch (Exception e) {
-            Log.e("error", "" + "error al comprobar conexion");
-            Log.e("error", "" + e);
+            System.out.println("error isNetActive: " + e);
             c = false;
         }
         return c;

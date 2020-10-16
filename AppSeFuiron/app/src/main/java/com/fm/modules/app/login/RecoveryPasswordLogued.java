@@ -11,10 +11,15 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
+import com.fm.modules.app.carrito.ProcesarCarritoActivity;
+import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.UsuarioService;
 import com.google.android.material.button.MaterialButton;
@@ -32,6 +37,7 @@ public class RecoveryPasswordLogued extends AppCompatActivity {
     private Recovery recovery = new Recovery();
     private boolean isFirebased = false;
     private Usuario usuario = null;
+    private AppCompatImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,7 @@ public class RecoveryPasswordLogued extends AppCompatActivity {
         Logued.imagenPerfil = null;
         email = (MaterialTextView) findViewById(R.id.recoveryEmail_logued);
         recoveryBtn = (MaterialButton) findViewById(R.id.recoveryBtnPassword_logued);
+        back = (AppCompatImageView) findViewById(R.id.ivBack);
         usuario = Logued.usuarioLogued;
         if (usuario != null) {
             email.setText(usuario.getCorreoElectronico());
@@ -65,6 +72,31 @@ public class RecoveryPasswordLogued extends AppCompatActivity {
             }
         });
         // end logon
+        backListener();
+        onBack();
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(RecoveryPasswordLogued.this, MenuBotton.class);
+                startActivity(i);
+            }
+        });
+    }
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(RecoveryPasswordLogued.this, MenuBotton.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void enviarEmail() {

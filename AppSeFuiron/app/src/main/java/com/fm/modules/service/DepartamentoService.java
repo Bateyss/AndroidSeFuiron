@@ -1,5 +1,7 @@
 package com.fm.modules.service;
 
+import androidx.annotation.NonNull;
+
 import com.fm.modules.models.Departamento;
 
 import java.io.Serializable;
@@ -17,6 +19,11 @@ public class DepartamentoService extends RestTemplateEntity<Departamento> implem
 
     public List<Departamento> obtenerDepartamentos() {
         List<Departamento> lista = getListURL(url);
+        return lista;
+    }
+
+    public List<Departamento> obtenerDepartamentosPorIdPais(@NonNull Long id) {
+        List<Departamento> lista = getListURL(Constantes.DOMINIO.concat("/departamentosByPaisId/").concat(id.toString()));
         return lista;
     }
 

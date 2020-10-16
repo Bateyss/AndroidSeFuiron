@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Direccion"
+                android:hint="Direccion*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Colonia,Calle,Residencia"
+                android:hint="Colonia,Calle,Residencia*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/quantum_googblue50"
-                    android:text="Seleccionar" />
+                    android:text="Seleccionar*" />
             </LinearLayout>
 
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Numero de casa"
+                android:hint="Numero de casa*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Numero de Referencia"
+                android:hint="Numero de Referencia*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -91,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Pais"
+                android:enabled="false"
+                android:hint="Pais*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -101,7 +102,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:autofillHints="asd"
-                android:hint="Departamento"
+                android:enabled="false"
+                android:hint="Departamento*"
+                android:inputType="text"
+                android:textColorHint="@color/purple" />
+
+            <EditText
+                android:id="@+id/direccionTxt8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autofillHints="asd"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Municipio*"
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
@@ -111,8 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_3x"
                 android:layout_marginTop="@dimen/space_5x"
-                android:layout_marginBottom="100dp"
                 android:layout_marginEnd="@dimen/space_3x"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/add_food_action_bacground_orange"
                 android:text="Agregar Direccion"
                 android:textColor="@android:color/white"

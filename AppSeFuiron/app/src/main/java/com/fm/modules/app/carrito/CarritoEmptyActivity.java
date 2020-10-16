@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 
 public class CarritoEmptyActivity extends Fragment {
 
@@ -21,6 +23,7 @@ public class CarritoEmptyActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_empty_shopping_cart, container, false);
         viewGlobal = view;
+        onBack();
         return view;
     }
 
@@ -30,4 +33,14 @@ public class CarritoEmptyActivity extends Fragment {
                 .commit();
     }
 
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+    }
 }

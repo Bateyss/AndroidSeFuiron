@@ -247,4 +247,14 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
             itemOption = (ConstraintLayout) view.findViewById(R.id.itemOptionLayout);
         }
     }
+
+    public class HolderItemMunicipio {
+        public AppCompatTextView itemOption;
+        public ConstraintLayout iteCardView;
+
+        public HolderItemMunicipio(View view) {
+            itemOption = (AppCompatTextView) view.findViewById(R.id.tvOptionName);
+            iteCardView = (ConstraintLayout) view.findViewById(R.id.itemOptionLayout);
+        }
+    }
 }

@@ -121,7 +121,7 @@ public class SignUp extends AppCompatActivity {
                 uploadPhoto(view);
             }
         });
-        networking = Conectividad.isNetActive(getSystemService(CONNECTIVITY_SERVICE));
+        networking = Conectividad.isNetActive(SignUp.this);
         buttonSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

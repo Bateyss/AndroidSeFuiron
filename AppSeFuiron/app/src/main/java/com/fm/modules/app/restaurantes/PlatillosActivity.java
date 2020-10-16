@@ -63,11 +63,17 @@ public class PlatillosActivity extends Fragment {
             rvPlatillos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
             rvPlatillos.setAdapter(recyclerPlatillosAdapter);
         }
+        if (GlobalRestaurantes.menuTabSelected != null) {
+            final Menu mm = GlobalRestaurantes.menuTabSelected;
+            GlobalRestaurantes.menuTabSelected = null;
+            showFragment(new PlatillosActivity(mm));
+        }
     }
 
     private void showFragment(Fragment fragment) {
-        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+        getParentFragmentManager().beginTransaction().replace(R.id.tabCoodFragment, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
     }
+
 }

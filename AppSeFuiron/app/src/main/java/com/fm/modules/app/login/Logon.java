@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +29,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.commons.utils.Utilities;
 import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.app.signup.SignUp;
@@ -111,6 +113,20 @@ public class Logon extends AppCompatActivity {
         forgotListener();
         sharedListener();
         // end logon
+        onBack();
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(Logon.this, Logon.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void sharedListener() {

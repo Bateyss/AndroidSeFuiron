@@ -11,5 +11,6 @@
     <color name="lightGray">#EAEAEA</color>
     <color name="rosa">#F33B79</color>
     <color name="lime">#3BF363</color>
+    <color name="opaqueLime">#93FFAB</color>
     <color name="white">#FFFFFF</color>
 </resources>

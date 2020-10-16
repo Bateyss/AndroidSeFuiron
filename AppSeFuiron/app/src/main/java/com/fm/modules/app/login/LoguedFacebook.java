@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
 import com.fm.modules.app.menu.MenuBotton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +46,19 @@ public class LoguedFacebook extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        onBack();
+    }
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                GlobalCarrito.toShopinCart = true;
+                Intent i = new Intent(LoguedFacebook.this, MenuBotton.class);
+                startActivity(i);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     public void authStateFirebase() {

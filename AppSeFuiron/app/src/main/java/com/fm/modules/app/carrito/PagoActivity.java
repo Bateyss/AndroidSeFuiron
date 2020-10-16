@@ -14,14 +14,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.usuario.GlobalUsuario;
 import com.fm.modules.models.Driver;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.Pedido;
@@ -54,6 +57,7 @@ public class PagoActivity extends Fragment {
     private MaterialTextView changueLocation;
     private ImageView checkTarjeta;
     private ImageView checkEfectivo;
+    private AppCompatImageView back;
 
     @Override
     public void onPause() {
@@ -80,6 +84,7 @@ public class PagoActivity extends Fragment {
         changueLocation = (MaterialTextView) view.findViewById(R.id.pagoChangeLocation);
         checkTarjeta = (ImageView) view.findViewById(R.id.pagoBtnTarjetaCheck);
         checkEfectivo = (ImageView) view.findViewById(R.id.pagoBtnEfectivoCheck);
+        back = (AppCompatImageView) view.findViewById(R.id.ivBack);
         pedido = Logued.pedidoActual;
         btnPagar.setEnabled(false);
         btnPagar.setBackgroundColor(getResources().getColor(R.color.lightGray));
@@ -88,7 +93,29 @@ public class PagoActivity extends Fragment {
         mostrarDatos();
         listenerBotones();
         changueLocationlistener();
+        backListener();
+        onBack();
         return view;
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new CarritoActivity());
+            }
+        });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new CarritoActivity());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
     }
 
     private void changueLocationlistener() {
@@ -162,7 +189,6 @@ public class PagoActivity extends Fragment {
                     for (PlatilloSeleccionado pl : lista) {
                         total1 = total1 + pl.getPrecio();
                     }
-                    //descuento = lista.get(0).getPlatillo().getMenu().getRestaurante().getDescuento();
                     direccion = lista.get(0).getPedido().getDireccion();
                 }
             }
@@ -172,8 +198,13 @@ public class PagoActivity extends Fragment {
                 String dir2 = strings[1] + " , " + strings[3];
                 txtDireccion2.setText(dir2);
             }
-            total2 = total1 * 0.13;
-            total3 = total1 * 0.05;
+            //total2 = total1 * 0.13;
+            if (GlobalCarrito.municipioSelected != null && GlobalCarrito.municipioSelected.getTarifa() != null) {
+                total3 = GlobalCarrito.municipioSelected.getTarifa().doubleValue();
+            }
+            if (GlobalUsuario.descuento != null) {
+                descuento = GlobalUsuario.descuento;
+            }
             // descuento = descuento * total1;
             total4 = total1 + total2 + total3 - descuento;
             pedido.setTotalDePedido(total1);
@@ -229,6 +260,7 @@ public class PagoActivity extends Fragment {
                         if (isNetActive()) {
                             Pedido per = pedidoService.crearPedido(pedido);
                             if (per != null) {
+                                GlobalUsuario.descuento = null;
                                 b = 1;
                                 GlobalCarrito.pedidoRegistrado = per;
                             } else {

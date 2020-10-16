@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fm.modules.R;
 import com.fm.modules.app.login.Logued;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Pedido;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.PedidoService;
@@ -55,6 +58,7 @@ public class SeguirPedidoFragment extends Fragment {
         StatusThree.setTextColor(getResources().getColor(R.color.gray));
         StatusFour.setTextColor(getResources().getColor(R.color.gray));
         obtenerUltimoPedido();
+        onBack();
         return view;
     }
 
@@ -76,7 +80,13 @@ public class SeguirPedidoFragment extends Fragment {
                     pedidos = pedidoService.obtenerMyPedidos(usuario.getUsuarioId());
                 }
                 if (!pedidos.isEmpty()) {
-                    pedido = pedidos.get(pedidos.size() - 1);
+                    int ultimoPedido = 0;
+                    for (Pedido pr : pedidos) {
+                        if (pr.getPedidoId().intValue() > ultimoPedido) {
+                            ultimoPedido = pr.getPedidoId().intValue();
+                            pedido = pr;
+                        }
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error en MyOrdenes:" + e);
@@ -91,9 +101,11 @@ public class SeguirPedidoFragment extends Fragment {
                 if (pedido != null) {
                     if (pedido.getDrivers() != null) {
                         driverName.setText(pedido.getDrivers().getNombreDriver());
-                        driverId.setText(String.valueOf(pedido.getDrivers().getDriverId()));
+                        String driverNumber = "# " + pedido.getDrivers().getDriverId().toString();
+                        driverId.setText(driverNumber);
                         timeStimate.setText(pedido.getTiempoPromedioEntrega());
                         switch (pedido.getStatus()) {
+                            case 0:
                             case 1:
                                 StatusOne.setTextColor(getResources().getColor(R.color.purple));
                                 pointer1.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
@@ -141,5 +153,22 @@ public class SeguirPedidoFragment extends Fragment {
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+    }
+
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 }

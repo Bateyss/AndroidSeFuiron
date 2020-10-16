@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
 import com.fm.modules.adapters.RecyclerMenuOtionsAdapter;
+import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class OptionsFragment extends Fragment {
         viewGlobal = view;
         recyclerView = (RecyclerView) view.findViewById(R.id.menufgOptions);
         cargarOptions();
+        onBack();
         return view;
     }
 
@@ -45,5 +49,19 @@ public class OptionsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
-
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                showFragment(new RestaurantePorCategoria());
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+    }
+    private void showFragment(Fragment fragment) {
+        getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
+    }
 }
