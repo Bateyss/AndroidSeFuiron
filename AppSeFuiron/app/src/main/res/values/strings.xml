@@ -23,7 +23,7 @@
     <string name="val_empty_password">Necesitamos tu contraseña</string>
     <string name="val_empty_phone_number">Necesitamos tu número de celular</string>
     <string name="recover_your_password">Recuperá\ntu contraseña</string>
-    <string name="recovery_description">Confirmá tu Usuario y te enviaremos una nueva contraseña al correo.</string>
+    <string name="recovery_description">Confirmá tu correo y te enviaremos una nueva contraseña.</string>
     <string name="recover_password">Recuperar contraseña</string>
     <string name="ready">¡Listo!</string>
     <string name="correooo">¡Correoooo!</string>
@@ -39,6 +39,7 @@
     <string name="unknown_error_dialog_secondaryDescription">Ocurrió un error inesperado, contáctese con nosotros para darle soporte</string>
     <string name="what_will_you_eat_today">¿Qué vas\na comer hoy?</string>
     <string name="search">Buscar</string>
+    <string name="send">Enviar</string>
     <string name="home">Inicio</string>
     <string name="shopping_cart">Carrito de compra</string>
     <string name="options">Opciones</string>
@@ -50,6 +51,8 @@
     <string name="select_complements">Seleccioná complementos</string>
     <string name="minus_sign">—</string>
     <string name="plus_sign">+</string>
+    <string name="yess">Si</string>
+    <string name="nop">no</string>
     <string name="initial_number_picker_value">1</string>
     <string name="add_to_shopping_cart">Agregar a carrito</string>
     <string name="empty_shopping_cart_title">Aquí no hay nada,\ncreí que teníamos hambre...</string>
@@ -71,7 +74,7 @@
     <string name="change_location">Cambiar Dirección</string>
     <string name="bad_pasword">Contraseña incorrecta</string>
     <string name="bad_username">Este correo es incorrecto o no esta registrado</string>
-    <string name="bad_signin">El nombre de usaurio/correo ya esta registrado, intentalo de nuevo</string>
+    <string name="bad_signin">El nombre de usuario/correo ya esta registrado, intentalo de nuevo</string>
     <string name="hello_x">Hola %s!</string>
     <string name="huy_x">¡Huy!</string>
     <string name="uhh_x">Uhhh...</string>
@@ -128,6 +131,12 @@
     <string name="pago_efectivo">Eféctivo</string>
     <string name="asociate">Socio Fuimonos</string>
     <string name="time_stimated">Hora estimada de entrega</string>
+    <string name="empty_orders">No haz registrado pedidos</string>
+    <string name="order_cancelled">Tu orden ha sido rechazada</string>
+    <string name="order_cancelled_motive_title">Te explicamos los posibles motivos:</string>
+    <string name="order_cancelled_motive1"> - El restaurante esta cerrado en la hora actual</string>
+    <string name="order_cancelled_motive2"> - El restaurante esta muy lejos</string>
+    <string name="order_cancelled_motive3"> - Uno de los platillos no esta disponible</string>
     <string name="order_new">Pedido Realizado</string>
     <string name="order_prepared">Tu orden se esta preparando</string>
     <string name="order_in_comming">Recibido por fuimonos</string>

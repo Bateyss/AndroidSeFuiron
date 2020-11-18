@@ -7,12 +7,22 @@
     android:orientation="vertical"
     tools:context=".app.menu.SupportSendFragment">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBack"
+        style="@style/SelectableBorderlesStyle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_weight="0"
+        android:src="@drawable/ic_left_arrow" />
+
     <com.google.android.material.textview.MaterialTextView
         style="@style/TextViewTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_4x"
-        android:layout_marginTop="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_default"
         android:layout_marginEnd="@dimen/space_4x"
         android:maxLines="2"
         android:text="@string/correooo" />
@@ -24,7 +34,7 @@
         android:layout_marginTop="@dimen/space_2x"
         android:layout_marginEnd="@dimen/space_6x"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_ready_secure" />
+        android:src="@drawable/id_correo" />
 
     <TextView
         style="@style/TextViewSubTitleStyle"
@@ -51,7 +61,7 @@
         android:layout_marginStart="@dimen/space_4x"
         android:layout_marginTop="@dimen/space_2x"
         android:layout_marginEnd="@dimen/space_4x"
-        app:cardCornerRadius="50dp">
+        app:cardCornerRadius="20dp">
 
         <Button
             android:id="@+id/supportSendNext"
@@ -59,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/orange"
-            android:text="@string/messenger_send_button_text"
+            android:text="Inicio"
             android:textColor="@android:color/white" />
     </com.google.android.material.card.MaterialCardView>
 

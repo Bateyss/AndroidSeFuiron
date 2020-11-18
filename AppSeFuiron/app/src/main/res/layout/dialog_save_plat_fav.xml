@@ -30,7 +30,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="@dimen/space_10x"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_favorites_option" />
+        android:src="@drawable/ic_favorite_happy" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecoverySuccessDescription"
@@ -45,19 +45,35 @@
         android:textColor="@color/purple"
         android:textStyle="bold" />
 
-    <!--<com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPassErr"
-        style="@style/PrimaryButtonStyle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/space_4x"
-        android:paddingEnd="@dimen/space_4x"
-        android:text="@string/come_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.622" />-->
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialog"
+            style="@style/PrimaryButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_2x"
+            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_2x"
+            android:padding="@dimen/space_2x"
+            android:text="@string/nop" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialog2"
+            style="@style/PrimaryButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_2x"
+            android:layout_marginBottom="@dimen/space_2x"
+            android:padding="@dimen/space_2x"
+            android:text="@string/yess" />
+    </LinearLayout>
 
 </LinearLayout>

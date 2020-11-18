@@ -14,15 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:defaultNavHost="true"
-        />
+        app:defaultNavHost="true" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
-        android:background="?android:attr/windowBackground"
+        android:background="@drawable/bottom_navigation_background"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/app_navigator_menu" />

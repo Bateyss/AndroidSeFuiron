@@ -30,7 +30,7 @@
 
 
 
-    <View
+    <ImageView
         android:id="@+id/separator"
         android:layout_width="0dp"
         android:layout_height="4dp"
@@ -38,7 +38,7 @@
         android:layout_marginTop="@dimen/space_default"
         android:layout_marginBottom="@dimen/space_default"
         android:layout_marginEnd="@dimen/space_default"
-        android:background="@color/opaquePurple"
+        android:src="@drawable/tab_indicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cvMenu"
         app:layout_constraintHorizontal_bias="0.0"

@@ -53,9 +53,9 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="23dp"
                 android:layout_height="38dp"
+                android:src="@drawable/ic_plus"
                 app:layout_constraintCircle="@id/sgnflProfilePhoto"
                 app:layout_constraintCircleAngle="140"
-                android:src="@drawable/ic_plus"
                 app:layout_constraintCircleRadius="48dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -84,8 +84,9 @@
                         style="@style/EditTextCompactSpacingStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:imeOptions="actionNext"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName|text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,8 +105,9 @@
                         style="@style/EditTextCompactSpacingStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:imeOptions="actionNext"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName|text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,7 +191,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="phone" />
+                        android:inputType="phone|number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,7 +211,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="text" />
+                        android:inputType="textPersonName|text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

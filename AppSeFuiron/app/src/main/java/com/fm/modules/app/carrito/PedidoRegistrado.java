@@ -52,6 +52,10 @@ public class PedidoRegistrado extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
+                Logued.platillosSeleccionadosActuales = new ArrayList<>();
+                Logued.pedidoActual = null;
+                Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+                Logued.restauranteActual = null;
                 Intent i = new Intent(PedidoRegistrado.this, MenuBotton.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);

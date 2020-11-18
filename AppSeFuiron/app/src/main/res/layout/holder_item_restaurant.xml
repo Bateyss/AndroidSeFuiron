@@ -29,11 +29,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="4:2"
+                app:layout_constraintDimensionRatio="10:4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/sample_outstanding_image" />
+                tools:src="@drawable/ic_app_logo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/flRestaurantLogo"
@@ -43,11 +43,10 @@
                 android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_4x"
                 android:layout_marginBottom="@dimen/space_2x"
-                android:background="@drawable/ripple_circle_profile_photo_shape"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/space_4n"
-                app:cardCornerRadius="50dp"
+                app:cardCornerRadius="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivOutstandingImage">
@@ -56,42 +55,47 @@
                     android:id="@+id/ivRestaurantLogo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_app_logo" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvRestaurantName"
-                style="@style/TextViewTitleStyle"
+                style="@style/DialogTitleSmallAppearance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_2x"
                 android:maxLines="2"
                 android:text="@{restaurant.name}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textColor="@color/purple"
                 app:layout_constraintBottom_toBottomOf="@+id/flRestaurantLogo"
                 app:layout_constraintEnd_toStartOf="@+id/tvLabelMinimalMount"
                 app:layout_constraintStart_toEndOf="@+id/flRestaurantLogo"
                 app:layout_constraintTop_toTopOf="@+id/flRestaurantLogo"
+                app:layout_constraintVertical_bias="0.0"
                 tools:text="Que brava! Que brava!" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMinimalMount"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:text="@{restaurant.minimumMount}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tvLabelMinimalMount"
+                app:layout_constraintEnd_toEndOf="@+id/tvLabelMinimalMount"
                 app:layout_constraintStart_toStartOf="@+id/tvLabelMinimalMount"
                 app:layout_constraintTop_toTopOf="@+id/tvRestaurantName"
                 tools:text="$8.50" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLabelMinimalMount"
-                android:layout_width="wrap_content"
+                android:layout_width="47dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_2x"
+                android:maxLines="2"
                 android:text="@string/minimal_mount"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvRestaurantName"

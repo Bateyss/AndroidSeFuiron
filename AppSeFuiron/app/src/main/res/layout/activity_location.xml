@@ -5,38 +5,78 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mapBtnSeleccionar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/quantum_googblue50"
-        android:text="@string/select_pos" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBack"
+        style="@style/SelectableBorderlesStyle"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_default"
+        android:src="@drawable/ic_left_arrow" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mapBtncancelar"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/quantum_googblue50"
-        android:text="@string/action_cancel" />
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:text="@string/select_pos_tittle"
+        android:textColor="@color/purple"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/space_5x"
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_marginEnd="@dimen/space_5x"
+        android:layout_marginBottom="@dimen/space_default"
+        android:background="@color/separatorColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
             tools:context=".app.localet.Location" />
-
-        <ListView
-            android:id="@+id/listPlacesMap"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:clickable="true"
-            android:focusable="true" />
     </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_navigation_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/where_you_are"
+                android:textColor="@color/purple"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/mapBtnSeleccionar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/space_2x"
+                android:background="@drawable/add_food_action_bacground_orange"
+                android:text="@string/select_pos"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>

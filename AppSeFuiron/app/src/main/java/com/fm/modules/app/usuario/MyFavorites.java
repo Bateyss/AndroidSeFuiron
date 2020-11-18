@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ public class MyFavorites extends Fragment {
     private View viewGlobal;
     private RecyclerView favoritesRecyView;
     private MyFavoritesData favorites = new MyFavoritesData();
+    private ImageView leftArrow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,9 +38,38 @@ public class MyFavorites extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_favorites, container, false);
         viewGlobal = view;
         favoritesRecyView = (RecyclerView) view.findViewById(R.id.myFavoritesRecyclerviwe);
+        leftArrow = (ImageView) view.findViewById(R.id.leftArrowChoicer);
         verFavoritos();
         onBack();
+        leftArrowListener();
         return view;
+    }
+
+    private void leftArrowListener() {
+        leftArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new RestaurantePorCategoria());
+            }
+        });
+    }
+
+    public List<PlatilloFavorito> filtrarFavoritos2(List<PlatilloFavorito> platilloFavoritoList) {
+        List<PlatilloFavorito> filtro = new ArrayList<>();
+        List<Integer> registreds = new ArrayList<>();
+        if (platilloFavoritoList.size() == 1) {
+            return platilloFavoritoList;
+        }
+        for (PlatilloFavorito platillo : platilloFavoritoList) {
+            try {
+                if (!registreds.contains(platillo.getPlatillo().getPlatilloId().intValue())) {
+                    registreds.add(platillo.getPlatillo().getPlatilloId().intValue());
+                    filtro.add(platillo);
+                }
+            } catch (Exception e) {
+            }
+        }
+        return filtro;
     }
 
     private void verFavoritos() {
@@ -53,6 +84,12 @@ public class MyFavorites extends Fragment {
             try {
                 PlatilloFavoritoService platilloFavoritoService = new PlatilloFavoritoService();
                 platilloFavoritoList = platilloFavoritoService.obtenerPlatilloFavoritos();
+                if (!platilloFavoritoList.isEmpty()) {
+                    platilloFavoritoList = filtrarFavoritos(platilloFavoritoList);
+                }
+                if (!platilloFavoritoList.isEmpty()) {
+                    platilloFavoritoList = filtrarFavoritos2(platilloFavoritoList);
+                }
             } catch (Exception e) {
                 System.out.println("Error en UnderThreash:" + e.getMessage() + " " + e.getClass());
             }
@@ -69,12 +106,9 @@ public class MyFavorites extends Fragment {
             super.onPostExecute(platilloFavorito);
             try {
                 if (!platilloFavorito.isEmpty()) {
-                    List<PlatilloFavorito> listaPlatillos = filtrarFavoritos(platilloFavorito);
-                    if (!listaPlatillos.isEmpty()) {
-                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext(), getActivity());
-                        favoritesRecyView.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
-                        favoritesRecyView.setAdapter(rvAdapter);
-                    }
+                    RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(platilloFavorito, viewGlobal.getContext(), getActivity());
+                    favoritesRecyView.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
+                    favoritesRecyView.setAdapter(rvAdapter);
                 }
             } catch (Throwable throwable) {
                 System.out.println("Error Activity: " + throwable.getMessage());
@@ -104,6 +138,7 @@ public class MyFavorites extends Fragment {
         }
         return platillos;
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
@@ -114,6 +149,7 @@ public class MyFavorites extends Fragment {
         };
         getActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
     }
+
     private void showFragment(Fragment fragment) {
         getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

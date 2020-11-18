@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,38 +26,34 @@
         android:id="@+id/ivLock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:adjustViewBounds="true"
         android:layout_marginStart="@dimen/space_10x"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="@dimen/space_10x"
+        android:adjustViewBounds="true"
         android:src="@drawable/ic_confused_person" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRecoverySuccessDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
         android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="@dimen/space_2x"
+        android:gravity="center"
         android:text="@string/bad_username"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/purple"
         android:textStyle="bold" />
 
-    <!--<com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPassErr"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDialog"
         style="@style/PrimaryButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/space_4x"
-        android:paddingEnd="@dimen/space_4x"
-        android:text="@string/come_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.622" />-->
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_2x"
+        android:layout_marginBottom="@dimen/space_2x"
+        android:padding="@dimen/space_2x"
+        android:text="@string/come_back" />
 
 </LinearLayout>

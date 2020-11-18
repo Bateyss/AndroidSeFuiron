@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -33,7 +34,9 @@ import com.fm.modules.service.PlatilloService;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<RecyclerPlatillosFavoritosAdapter.ViewHolder> {
@@ -41,7 +44,6 @@ public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<Recy
     private List<PlatilloFavorito> items;
     private Context context;
     private FragmentActivity fragmentActivity;
-    private PlatillosDataThread platillosDataThread = new PlatillosDataThread();
 
     public RecyclerPlatillosFavoritosAdapter(List<PlatilloFavorito> platillosFavorito, Context context, FragmentActivity fragmentActivity) {
         this.items = platillosFavorito;
@@ -96,14 +98,49 @@ public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<Recy
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GlobalRestaurantes.platillo = platillosFavorito.getPlatillo();
-                    GlobalRestaurantes.platilloSeleccionado = platillosFavorito.getPlatillo();
-                    GlobalRestaurantes.restauranteSelected = platillosFavorito.getPlatillo().getMenu().getRestaurante();
-                    platillosDataThread.execute();
-                    /*Intent i = new Intent(context, Platillo.class);
-                    i.putExtra("idRestaurante", platillo.getPlatilloId());
-                    System.out.println("ID RESTAURANTE: " + platillo.getPlatilloId());
-                    context.startActivity(i);*/
+                    cardView.setEnabled(false);
+                    if (platillosFavorito.getPlatillo().getMenu().getRestaurante() != null
+                            && platillosFavorito.getPlatillo().getMenu().getRestaurante().getHorarioDeApertura() != null
+                            && platillosFavorito.getPlatillo().getMenu().getRestaurante().getHorarioDeCierre() != null
+                            && platillosFavorito.getPlatillo().getMenu().getRestaurante().getDisponible()) {
+                        try {
+                            SimpleDateFormat sp = new SimpleDateFormat("HH:mm:ss");
+                            Date actualDate = new Date();
+                            String actualHuorString = sp.format(actualDate);
+                            Date actualHour = sp.parse(actualHuorString);
+                            Date restaurantCloseHour = sp.parse(platillosFavorito.getPlatillo().getMenu().getRestaurante().getHorarioDeCierre());
+                            Date restaurantOpenHour = sp.parse(platillosFavorito.getPlatillo().getMenu().getRestaurante().getHorarioDeApertura());
+                            if (restaurantCloseHour.getTime() < actualHour.getTime() || actualHour.getTime() < restaurantOpenHour.getTime()) {
+                                Toast.makeText(context, "Restaurante Cerrado", Toast.LENGTH_SHORT).show();
+                                cardView.setEnabled(true);
+                                return;
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Ocurrio un error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Selecciona otro platillo", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (Logued.restauranteActual != null) {
+                            if (Logued.restauranteActual.getRestauranteId() != null && platillosFavorito.getPlatillo().getMenu().getRestaurante().getRestauranteId() != null) {
+                                if (Logued.restauranteActual.getRestauranteId().intValue() != platillosFavorito.getPlatillo().getMenu().getRestaurante().getRestauranteId().intValue()) {
+                                    Logued.restauranteActual = platillosFavorito.getPlatillo().getMenu().getRestaurante();
+                                    Logued.platillosSeleccionadosActuales = new ArrayList<>();
+                                    Logued.opcionesDeSubMenusEnPlatillosSeleccionados = new ArrayList<>();
+                                } else {
+                                    Logued.restauranteActual = platillosFavorito.getPlatillo().getMenu().getRestaurante();
+                                }
+                            } else {
+                                Logued.restauranteActual = platillosFavorito.getPlatillo().getMenu().getRestaurante();
+                            }
+                        } else {
+                            Logued.restauranteActual = platillosFavorito.getPlatillo().getMenu().getRestaurante();
+                        }
+                        GlobalRestaurantes.platillo = platillosFavorito.getPlatillo();
+                        GlobalRestaurantes.platilloSeleccionado = platillosFavorito.getPlatillo();
+                        GlobalRestaurantes.restauranteSelected = platillosFavorito.getPlatillo().getMenu().getRestaurante();
+                        PlatillosDataThread platillosDataThread = new PlatillosDataThread();
+                        platillosDataThread.execute();
+                    }
                 }
             });
             verImagen(platillosFavorito.getPlatillo().getImagen());
@@ -152,10 +189,8 @@ public class RecyclerPlatillosFavoritosAdapter extends RecyclerView.Adapter<Recy
                 super.onPostExecute(image);
                 if (image != null) {
                     Utilities.displayAppCompatImageFoodFromBytea(image.getContent(), ivFoodImage, context);
-                    System.out.println("asynk display image 21 ! !!!!!!!!!!!!!!!!");
                 } else {
                     Utilities.displayAppCompatImageFoodFromBytea(null, ivFoodImage, context);
-                    System.out.println("asynk display image 12 ! !!!!!!!!!!!!!!!!");
                 }
             }
         }

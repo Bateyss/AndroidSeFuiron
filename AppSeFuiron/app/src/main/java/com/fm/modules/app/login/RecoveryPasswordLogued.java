@@ -18,7 +18,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.fm.modules.R;
 import com.fm.modules.app.carrito.GlobalCarrito;
-import com.fm.modules.app.carrito.ProcesarCarritoActivity;
 import com.fm.modules.app.menu.MenuBotton;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.UsuarioService;

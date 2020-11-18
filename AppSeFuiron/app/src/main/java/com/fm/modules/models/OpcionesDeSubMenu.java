@@ -8,6 +8,7 @@ public class OpcionesDeSubMenu {
     private double precio;
     private int orden;
     private boolean seleccionadoPorDefecto;
+    public Boolean cobrado;
 
     public OpcionesDeSubMenu() {
     }

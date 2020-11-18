@@ -21,4 +21,6 @@ public class Logued {
     public static Bitmap imagenPerfil;
     public static List<Image> imagenes;
     public static List<Integer> imagenesIDs;
+    public static Long idTarjetaSeleccionada;
+    public static Integer idDireccion;
 }

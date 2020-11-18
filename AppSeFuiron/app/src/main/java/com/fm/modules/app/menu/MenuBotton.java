@@ -49,13 +49,12 @@ import java.util.List;
 
 public class MenuBotton extends FragmentActivity {
 
-    private FirebaseAuth firebaseAuth;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_botton);
-        firebaseAuth = FirebaseAuth.getInstance();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -65,6 +64,7 @@ public class MenuBotton extends FragmentActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        queue = Volley.newRequestQueue(this);
 
         showFragment(new RestaurantePorCategoria());
 
@@ -130,14 +130,12 @@ public class MenuBotton extends FragmentActivity {
     }
 
     public void volleyMethod() {
-        RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constantes.URL_PROMOCION.concat("/countDay");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("!!!!!!!!! dess response: " + response);
                         if (response != null) {
                             try {
                                 int respuesta = Integer.parseInt(response);
@@ -152,13 +150,12 @@ public class MenuBotton extends FragmentActivity {
                             } catch (Exception ignore) {
                             }
                         }
-                        contarPromociones();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //none
-                contarPromociones();
             }
         });
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -212,7 +209,7 @@ public class MenuBotton extends FragmentActivity {
                 int x = 0;
                 for (Promociones promocion : promociones) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        CharSequence name = "Notification"+ x;
+                        CharSequence name = "Notification" + x;
                         NotificationChannel channel = new NotificationChannel("NOTIFICACION" + x, name, NotificationManager.IMPORTANCE_DEFAULT);
                         NotificationManager notificationManager = (NotificationManager) MenuBotton.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.createNotificationChannel(channel);

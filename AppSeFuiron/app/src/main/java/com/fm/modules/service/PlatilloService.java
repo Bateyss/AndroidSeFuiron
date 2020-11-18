@@ -1,8 +1,8 @@
 package com.fm.modules.service;
 
-import com.fm.modules.entities.RespuestaMenuPorRestaurantes;
 import com.fm.modules.entities.RespuestaPlatilloPorMenu;
 import com.fm.modules.models.Platillo;
+import com.fm.modules.models.PlatillosNames;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -51,15 +51,26 @@ public class PlatilloService extends RestTemplateEntity<Platillo> implements Ser
         deleteURL(url, id);
     }
 
-    public List<RespuestaPlatilloPorMenu> platilloPorMenu(String idMenu){
+    public List<RespuestaPlatilloPorMenu> platilloPorMenu(String idMenu) {
         List<RespuestaPlatilloPorMenu> list = new LinkedList<>();
-        System.out.println("URL: " +url.concat("/").concat(idMenu.toString()));
         try {
             RestTemplate restTemplat = new RestTemplate();
-            ResponseEntity<RespuestaPlatilloPorMenu[]> response = restTemplat.getForEntity(Constantes.DOMINIO.concat("/").concat("platilloPorMenu/").concat(idMenu.toString()), RespuestaPlatilloPorMenu[].class);
+            ResponseEntity<RespuestaPlatilloPorMenu[]> response = restTemplat.getForEntity(Constantes.DOMINIO.concat("/platilloPorMenu/").concat(idMenu), RespuestaPlatilloPorMenu[].class);
             list = Arrays.asList(response.getBody());
         } catch (Exception e) {
-            System.out.println("error absRest getListURL: " + e.getMessage() +" " +e.getClass());
+            System.out.println("error eliminarPlatilloPorId: " + e.getMessage() + " " + e.getClass());
+        }
+        return list;
+    }
+
+    public List<PlatillosNames> platilloNombres() {
+        List<PlatillosNames> list = new LinkedList<>();
+        try {
+            RestTemplate restTemplat = new RestTemplate();
+            ResponseEntity<PlatillosNames[]> response = restTemplat.getForEntity(url.concat("/names"), PlatillosNames[].class);
+            list = Arrays.asList(response.getBody());
+        } catch (Exception e) {
+            System.out.println("error platilloNombres: " + e.getMessage() + " " + e.getClass());
         }
         return list;
     }

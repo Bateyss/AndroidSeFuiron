@@ -23,7 +23,7 @@ public class Restaurante {
     private String correo;
     private boolean destacado;
     private int orden;
-    private Boolean disponible;
+    private boolean disponible;
 
 
     public Restaurante() {
@@ -208,11 +208,11 @@ public class Restaurante {
         return destacado;
     }
 
-    public Boolean getDisponible() {
+    public boolean getDisponible() {
         return disponible;
     }
 
-    public void setDisponible(Boolean disponible) {
+    public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
 

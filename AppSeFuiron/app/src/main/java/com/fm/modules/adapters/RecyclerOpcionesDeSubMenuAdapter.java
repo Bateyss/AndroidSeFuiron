@@ -4,17 +4,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
+import com.fm.modules.app.carrito.HabiliarAddMap;
 import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.OpcionesDeSubMenu;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,10 +26,14 @@ public class RecyclerOpcionesDeSubMenuAdapter extends RecyclerView.Adapter<Recyc
 
     private List<OpcionesDeSubMenu> opcioneSubMenus;
     private Context context;
+    MaterialButton materialButton;
+    RecyclerSubMenuAdapter2 recycler;
 
-    public RecyclerOpcionesDeSubMenuAdapter(List<OpcionesDeSubMenu> opcionesSubMenus, Context context) {
+    public RecyclerOpcionesDeSubMenuAdapter(List<OpcionesDeSubMenu> opcionesSubMenus, Context context, MaterialButton materialButton, RecyclerSubMenuAdapter2 recycler) {
         this.opcioneSubMenus = opcionesSubMenus;
         this.context = context;
+        this.materialButton = materialButton;
+        this.recycler = recycler;
     }
 
     @NonNull
@@ -38,46 +44,94 @@ public class RecyclerOpcionesDeSubMenuAdapter extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerOpcionesDeSubMenuAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerOpcionesDeSubMenuAdapter.ViewHolder holder, final int position) {
         holder.tvOpcionSubMenu.setText(opcioneSubMenus.get(position).getNombre());
         DecimalFormat decimalFormat = new DecimalFormat("$ #,##0.00");
         String price = "+ " + decimalFormat.format(opcioneSubMenus.get(position).getPrecio());
         holder.precio.setText(price);
-        final RecyclerOpcionesDeSubMenuAdapter.ViewHolder sc = holder;
-        holder.rdbOpcionSubMenuSelec.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                List<OpcionesDeSubMenu> list = GlobalRestaurantes.opcionesDeSubMenusSeleccionados;
-                if (list == null) {
-                    list = new ArrayList<>();
-                }
-                boolean agregado = false;
-                int addedPos = 0;
-                for (int x = 0; x < list.size(); x++) {
-                    if (list.get(x).getOpcionesDeSubmenuId().intValue() == opcioneSubMenus.get(position).getOpcionesDeSubmenuId().intValue()) {
-                        agregado = true;
-                        addedPos = x;
+
+        final OpcionesDeSubMenu opcion = opcioneSubMenus.get(position);
+        final List<OpcionesDeSubMenu> ff = new ArrayList<>();
+        if (!GlobalRestaurantes.opcionesDeSubMenusSeleccionados.isEmpty()) {
+            for (OpcionesDeSubMenu op : GlobalRestaurantes.opcionesDeSubMenusSeleccionados) {
+                try {
+                    if (op.getSubMenu().getSubMenuId().intValue() == opcion.getSubMenu().getSubMenuId().intValue()) {
+                        ff.add(op);
                     }
+                } catch (Exception ignore) {
                 }
-                if (agregado) {
-                    list.remove(addedPos);
-                    sc.rdbOpcionSubMenuSelec.setChecked(false);
-                } else {
-                    List<OpcionesDeSubMenu> ll = new ArrayList<>();
-                    for (OpcionesDeSubMenu op : list) {
-                        if (op.getSubMenu().getSubMenuId().intValue() == opcioneSubMenus.get(position).getSubMenu().getSubMenuId().intValue()) {
-                            ll.add(op);
+            }
+        }
+        System.out.println("ff size : " + ff.size() + " de: " + opcion.getSubMenu().getMinimoOpcionesAEscoger());
+        boolean enable = ff.size() >= opcion.getSubMenu().getMinimoOpcionesAEscoger();
+        int x = 0;
+        int y = -1;
+        for (HabiliarAddMap hb : GlobalCarrito.habilitarAdd) {
+            try {
+                if (hb.getId().intValue() == opcion.getSubMenu().getSubMenuId().intValue()) {
+                    y = x;
+                }
+            } catch (Exception ignore) {
+            }
+            x++;
+        }
+        if (y > -1) {
+            GlobalCarrito.habilitarAdd.set(y, new HabiliarAddMap(opcion.getSubMenu().getSubMenuId(), enable));
+        }
+        boolean habil = true;
+        for (HabiliarAddMap hb : GlobalCarrito.habilitarAdd) {
+            if (!hb.isHabilitar()) {
+                habil = false;
+            }
+            //System.out.println("habilitacion " + hb.isHabilitar() + " id sub menu: " + hb.getId());
+        }
+        materialButton.setEnabled(habil);
+        holder.rdbOpcionSubMenuSelec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.checked) {
+                    holder.rdbOpcionSubMenuSelec.setChecked(false);
+                    holder.checked = false;
+                    int x = -1;
+                    for (int i = 0; i < GlobalRestaurantes.opcionesDeSubMenusSeleccionados.size(); i++) {
+                        if (GlobalRestaurantes.opcionesDeSubMenusSeleccionados.get(i).getOpcionesDeSubmenuId().intValue() == opcioneSubMenus.get(position).getOpcionesDeSubmenuId().intValue()) {
+                            x = i;
                         }
                     }
-                    if (ll.size() <= opcioneSubMenus.get(position).getSubMenu().getMaximoOpcionesAEscoger()) {
-                        list.add(opcioneSubMenus.get(position));
-                        sc.rdbOpcionSubMenuSelec.setChecked(true);
+                    if (x > -1) {
+                        GlobalRestaurantes.opcionesDeSubMenusSeleccionados.remove(x);
+                    }
+                    notifyDataSetChanged();
+                } else {
+                    List<OpcionesDeSubMenu> ffff = new ArrayList<>();
+                    for (OpcionesDeSubMenu op : GlobalRestaurantes.opcionesDeSubMenusSeleccionados) {
+                        try {
+                            if (op.getSubMenu().getSubMenuId().intValue() == opcion.getSubMenu().getSubMenuId().intValue()) {
+                                ffff.add(op);
+                            }
+                        } catch (Exception ignore) {
+                        }
+                    }
+
+                    try {
+                        int tamanio = ffff.size() + 1;
+                        opcion.cobrado = opcion.getSubMenu().isMenuCobrado() && tamanio >= opcion.getSubMenu().getCobrarAPartirDe();
+                        System.out.println("opcion: " + opcion.getNombre() + " tamanio de lista? :" + tamanio + " sera cobrada? :" + opcion.cobrado);
+                    } catch (Exception ignore) {
+                        System.out.println(" error opcion: " + opcion.getNombre());
+                        opcion.cobrado = false;
+                    }
+                    if (opcion.getSubMenu().getMaximoOpcionesAEscoger() > ffff.size()) {
+                        GlobalRestaurantes.opcionesDeSubMenusSeleccionados.add(opcion);
+                        holder.rdbOpcionSubMenuSelec.setChecked(true);
+                        holder.checked = true;
+                        notifyDataSetChanged();
                     } else {
-                        Toast.makeText(context, "No se puede agregar mas opciones", Toast.LENGTH_SHORT).show();
-                        sc.rdbOpcionSubMenuSelec.setChecked(false);
+                        holder.rdbOpcionSubMenuSelec.setChecked(false);
+                        holder.checked = false;
+                        Toast.makeText(context, "Maximo de Opciones", Toast.LENGTH_SHORT).show();
                     }
                 }
-                GlobalRestaurantes.opcionesDeSubMenusSeleccionados = list;
             }
         });
     }
@@ -91,7 +145,8 @@ public class RecyclerOpcionesDeSubMenuAdapter extends RecyclerView.Adapter<Recyc
 
         TextView tvOpcionSubMenu;
         TextView precio;
-        RadioButton rdbOpcionSubMenuSelec;
+        AppCompatRadioButton rdbOpcionSubMenuSelec;
+        boolean checked;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +154,7 @@ public class RecyclerOpcionesDeSubMenuAdapter extends RecyclerView.Adapter<Recyc
             tvOpcionSubMenu = itemView.findViewById(R.id.tvOpcionSubMenu);
             rdbOpcionSubMenuSelec = itemView.findViewById(R.id.rdbOpcionSubMenuSelec);
             precio = itemView.findViewById(R.id.tvOpcionSubMenuPrecio);
+            checked = false;
         }
     }
 

@@ -130,10 +130,22 @@ public class Utilities {
         }
     }
 
+    private static Bitmap ShrinkBitmap(byte[] byteA, int width, int height) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeByteArray(byteA, 0, byteA.length);
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        } catch (Exception ignore) {
+            bitmap = null;
+        }
+        return bitmap;
+    }
+
     public static void displayImageFromBytea(byte[] bytea, ImageView view, Context context) {
         try {
-            if (bytea != null) {
-                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+            Bitmap imag = ShrinkBitmap(bytea, 300, 300);
+            if (imag != null) {
+                // Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
                 view.setImageBitmap(imag);
             } else {
                 view.setImageResource(R.drawable.ic_logo_splash);
@@ -147,8 +159,9 @@ public class Utilities {
 
     public static void displayAppCompatImageFromBytea(byte[] bytea, AppCompatImageView view, Context context) {
         try {
-            if (bytea != null) {
-                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+            Bitmap imag = ShrinkBitmap(bytea, 300, 300);
+            if (imag != null) {
+                //Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
                 view.setImageBitmap(imag);
             } else {
                 view.setImageResource(R.drawable.ic_logo_splash);
@@ -162,8 +175,9 @@ public class Utilities {
 
     public static void displayAppCompatImageFoodFromBytea(byte[] bytea, AppCompatImageView view, Context context) {
         try {
-            if (bytea != null) {
-                Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
+            Bitmap imag = ShrinkBitmap(bytea, 300, 300);
+            if (imag != null) {
+                //Bitmap imag = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
                 view.setImageBitmap(imag);
             } else {
                 view.setImageResource(R.drawable.ic_hamburger);

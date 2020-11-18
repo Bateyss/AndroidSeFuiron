@@ -15,8 +15,12 @@ import com.fm.modules.app.restaurantes.GlobalRestaurantes;
 import com.fm.modules.models.Categoria;
 import com.fm.modules.models.Menu;
 import com.fm.modules.models.Restaurante;
+import com.google.android.material.card.MaterialCardView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import com.fm.modules.app.restaurantes.RestauranteMenuActivity;
@@ -48,11 +52,23 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         int idCategoria = categorias.get(position).getCategoriaId().intValue();
         List<Integer> integers = new ArrayList<>();
         if (menus != null && !menus.isEmpty()) {
+            SimpleDateFormat sp = new SimpleDateFormat("HH:mm:ss");
+            Date actualDate = new Date();
+            String actualHuorString = sp.format(actualDate);
+            Date actualHour = null;
             for (Menu menu : menus) {
                 if (menu.getCategoria().getCategoriaId().intValue() == idCategoria) {
                     if (!integers.contains(menu.getRestaurante().getRestauranteId().intValue())) {
-                        restaurantes.add(menu.getRestaurante());
-                        integers.add(menu.getRestaurante().getRestauranteId().intValue());
+                        try {
+                            actualHour = sp.parse(actualHuorString);
+                            Date restaurantCloseHour = sp.parse(menu.getRestaurante().getHorarioDeCierre());
+                            Date restaurantOpenHour = sp.parse(menu.getRestaurante().getHorarioDeApertura());
+                            if (restaurantCloseHour.getTime() > actualHour.getTime() && actualHour.getTime() > restaurantOpenHour.getTime()) {
+                                restaurantes.add(menu.getRestaurante());
+                                integers.add(menu.getRestaurante().getRestauranteId().intValue());
+                            }
+                        } catch (ParseException ignore) {
+                        }
                     }
                 }
             }
@@ -61,7 +77,15 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         if (!restaurantes.isEmpty()) {
             cantidad = restaurantes.size();
         }
-        holder.catCountRestaurants.setText(String.valueOf(cantidad));
+        String srt = cantidad + " restaurantes";
+        if (cantidad == 1) {
+            srt = cantidad + " restaurante" ;
+        }
+        holder.catCountRestaurants.setText(srt);
+        if (cantidad == 0) {
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+        }
     }
 
     @Override
@@ -73,12 +97,14 @@ public class CategoriasRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         AppCompatImageView catImage;
         AppCompatTextView catName;
         AppCompatTextView catCountRestaurants;
+        MaterialCardView material1;
 
         public HolderItemCategorias(View view) {
             super(view);
             catImage = view.findViewById(R.id.ivCategoryIcon1);
             catName = view.findViewById(R.id.tvCategoryName1);
             catCountRestaurants = view.findViewById(R.id.tvRestaurantsCount1);
+            material1 = view.findViewById(R.id.material1);
         }
     }
 

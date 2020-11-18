@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:includeFontPadding="false"
                 android:text="@string/what_will_you_eat_today"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/flProfilePhoto"
@@ -100,8 +100,18 @@
         <ListView
             android:id="@+id/rvRestaurants_res"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/texts"
+            android:textColor="@android:color/transparent"
+            android:layout_marginBottom="1dp"/>
+
     </LinearLayout>
+
     <!--<ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

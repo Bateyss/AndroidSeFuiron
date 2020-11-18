@@ -3,9 +3,11 @@ package com.fm.modules.app.signup;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,6 +44,7 @@ import com.fm.modules.models.Usuario;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.UsuarioService;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.springframework.util.FileCopyUtils;
@@ -66,11 +69,12 @@ public class SignUp extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener datePickerDialogListener;
     private CardView imageframeLayout;
     private Date fecha1 = null;
-    private Registrar registrar = new Registrar();
     private String fileImagenProfile = null;
     private AppCompatImageView imageProfile;
     private static final int ACCES_FILE_PERMISSION_REQUEST_CODE = 1;
     private boolean ACCES_FILE_PERMISSION_REQUEST_GARANTED = false;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -128,7 +132,7 @@ public class SignUp extends AppCompatActivity {
                 if (isNetActive()) {
                     validadRegistro();
                 } else {
-                    Toast.makeText(SignUp.this, "No hay Conexion", Toast.LENGTH_SHORT).show();
+                    dialog1();
                 }
             }
         });
@@ -171,36 +175,55 @@ public class SignUp extends AppCompatActivity {
         String b = "";
         if (b.equals(inputNombre.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese Nombre", Toast.LENGTH_LONG).show();
+            inputNombre.setHintTextColor(Color.RED);
             return;
         }
         if (b.equals(inputApellido.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese Apellido", Toast.LENGTH_LONG).show();
+            inputApellido.setHintTextColor(Color.RED);
             return;
         }
         if (b.equals(inputUsename.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese Usuario", Toast.LENGTH_LONG).show();
+            inputUsename.setHintTextColor(Color.RED);
             return;
         }
         if (b.equals(inputPass.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese contraseña", Toast.LENGTH_LONG).show();
+            inputPass.setHintTextColor(Color.RED);
             return;
         }
         if (b.equals(inputCorreo.getText().toString())) {
+            inputCorreo.setHintTextColor(Color.RED);
             return;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(inputCorreo.getText().toString()).matches()) {
             Toast.makeText(SignUp.this, "Ingrese un Correo Valido", Toast.LENGTH_LONG).show();
+            inputCorreo.setTextColor(Color.RED);
             return;
         }
         if (b.equals(inputTelph.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese Telefono", Toast.LENGTH_LONG).show();
+            inputTelph.setHintTextColor(Color.RED);
             return;
         }
         if (b.equals(inputDateBorn.getText().toString())) {
             Toast.makeText(SignUp.this, "Ingrese Fecha de Nacimiento", Toast.LENGTH_LONG).show();
+            inputDateBorn.setHintTextColor(Color.RED);
+            return;
+        }
+        if (fecha1 == null) {
+            inputDateBorn.setHintTextColor(Color.RED);
+            inputDateBorn.setTextColor(Color.RED);
+            return;
+        }
+        Date d = new Date();
+        if (fecha1.getTime() >= d.getTime()) {
+            inputDateBorn.setTextColor(Color.RED);
             return;
         }
         buttonSign.setEnabled(false);
+        Registrar registrar = new Registrar();
         registrar.execute();
     }
 
@@ -209,15 +232,11 @@ public class SignUp extends AppCompatActivity {
         inputApellido.setText("");
         inputCorreo.setText("");
         inputPass.setText("");
-        fecha1 = new Date();
+        fecha1 = null;
+        inputDateBorn.setText("");
         inputTelph.setText("");
         inputUsename.setText("");
         buttonSign.setText("");
-    }
-
-    public void reiniciarAsynkProcess() {
-        registrar.cancel(true);
-        registrar = new Registrar();
     }
 
     public void uploadPhoto(View view) {
@@ -234,11 +253,24 @@ public class SignUp extends AppCompatActivity {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
             startActivityForResult(chooserIntent, 1);
         } else {
-            Toast.makeText(SignUp.this, "No Puedes Subir Imagen", Toast.LENGTH_SHORT).show();
-            Toast.makeText(SignUp.this, "Primero", Toast.LENGTH_SHORT).show();
-            Toast.makeText(SignUp.this, "Concede Permisos", Toast.LENGTH_SHORT).show();
             enableFilesRead();
         }
+    }
+
+    public void dialog1() {
+        final Dialog dialog = new AlertDialog.Builder(SignUp.this)
+                .setView(R.layout.dialog_server_err)
+                .setCancelable(true)
+                .create();
+        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_shape));
+        dialog.show();
+        MaterialButton materialButton = dialog.findViewById(R.id.btnDialog);
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -264,6 +296,7 @@ public class SignUp extends AppCompatActivity {
                         imageProfile.setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(SignUp.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp.this, "Intenta con otra Galeria", Toast.LENGTH_LONG).show();
                         imageProfile.setImageResource(R.drawable.ic_confused_person);
                     }
                 } else {
@@ -282,17 +315,10 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void dialogo1() {
-        AlertDialog dialog = new AlertDialog.Builder(SignUp.this)
+        final Dialog dialog1 = new MaterialAlertDialogBuilder(SignUp.this)
                 .setView(R.layout.dialog_user_regstd)
                 .setCancelable(true)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intt = new Intent(SignUp.this, MenuBotton.class);
-                        intt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intt);
-                    }
-                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
                         Intent intt2 = new Intent(SignUp.this, MenuBotton.class);
@@ -300,20 +326,34 @@ public class SignUp extends AppCompatActivity {
                         startActivity(intt2);
                     }
                 })
-                .show();
+                .create();
+        dialog1.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_shape));
+        dialog1.show();
+        MaterialButton materialButton = dialog1.findViewById(R.id.btnDialog);
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intt = new Intent(SignUp.this, MenuBotton.class);
+                intt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intt);
+            }
+        });
     }
 
     public void dialogo2() {
-        AlertDialog dialog = new AlertDialog.Builder(SignUp.this)
+        final Dialog dialog1 = new MaterialAlertDialogBuilder(SignUp.this)
                 .setView(R.layout.dialog_user_no_regstd)
                 .setCancelable(true)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
+                .create();
+        dialog1.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_shape));
+        dialog1.show();
+        MaterialButton materialButton = dialog1.findViewById(R.id.btnDialog);
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
     }
 
     private void enableFilesRead() {
@@ -330,6 +370,8 @@ public class SignUp extends AppCompatActivity {
             ab2 = ContextCompat.checkSelfPermission(SignUp.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
             if (ab1 && ab2) {
                 ACCES_FILE_PERMISSION_REQUEST_GARANTED = true;
+                Intent intent = new Intent(SignUp.this, SignUp.class);
+                startActivity(intent);
             }
         }
     }
@@ -342,7 +384,6 @@ public class SignUp extends AppCompatActivity {
             boolean v = false;
             try {
                 Usuario u = new Usuario();
-                System.out.println("comienza a leer vistas");
                 u.setNombre(inputNombre.getText().toString());
                 u.setApellido(inputApellido.getText().toString());
                 u.setUsername(inputUsename.getText().toString());
@@ -371,6 +412,11 @@ public class SignUp extends AppCompatActivity {
                 UsuarioService usuarioService = new UsuarioService();
                 Usuario registrado = usuarioService.crearUsuario(u);
                 if (registrado != null) {
+                    sharedPreferences = getSharedPreferences("LogonData", MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString("email", registrado.getCorreoElectronico());
+                    editor.putString("password", inputPass.getText().toString());
+                    editor.apply();
                     Logued.usuarioLogued = registrado;
                     v = true;
                 }
@@ -379,11 +425,6 @@ public class SignUp extends AppCompatActivity {
                 ex.printStackTrace();
             }
             return v;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -397,16 +438,9 @@ public class SignUp extends AppCompatActivity {
                     dialogo2();
                     buttonSign.setEnabled(true);
                 }
-                limpiar();
-                reiniciarAsynkProcess();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
         }
     }
 }

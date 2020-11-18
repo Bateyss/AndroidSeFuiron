@@ -18,14 +18,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.TargetasFragment;
 import com.fm.modules.app.login.Logon;
 import com.fm.modules.app.login.Logued;
 import com.fm.modules.app.menu.OptionsEntity;
 import com.fm.modules.app.menu.SupportFragment;
 import com.fm.modules.app.menu.UserProfileFragment;
 import com.fm.modules.app.usuario.MyFavorites;
-import com.fm.modules.app.usuario.MyLocations;
 import com.fm.modules.app.usuario.MyOrders;
+import com.fm.modules.app.usuario.MyUbicacionesActivity;
 import com.fm.modules.app.usuario.SeguirPedidoFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -66,9 +67,10 @@ public class RecyclerMenuOtionsAdapter extends RecyclerView.Adapter<RecyclerMenu
                         showFragment(new UserProfileFragment());
                         break;
                     case 2:
+                        showFragment(new TargetasFragment());
                         break;
                     case 3:
-                        showFragment(new MyLocations());
+                        showFragment(new MyUbicacionesActivity());
                         break;
                     case 4:
                         showFragment(new MyOrders());

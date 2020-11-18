@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fm.modules.R;
+import com.fm.modules.app.carrito.GlobalCarrito;
+import com.fm.modules.app.carrito.HabiliarAddMap;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.SubMenu;
-import com.fm.modules.service.OpcionSubMenuService;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,14 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
     private Context context;
     private List<SubMenu> subMenuList;
     private List<OpcionesDeSubMenu> opcionesDeSubMenus;
+    MaterialButton materialButton;
 
-    private OpcionSubMenuService opcionesSubMenuService = new OpcionSubMenuService();
 
-    public RecyclerSubMenuAdapter2(List<SubMenu> subMenuList, List<OpcionesDeSubMenu> opcionesDeSubMenus, Context context) {
+    public RecyclerSubMenuAdapter2(List<SubMenu> subMenuList, List<OpcionesDeSubMenu> opcionesDeSubMenus, Context context, MaterialButton materialButton) {
         this.context = context;
         this.subMenuList = subMenuList;
         this.opcionesDeSubMenus = opcionesDeSubMenus;
+        this.materialButton = materialButton;
     }
 
     @NonNull
@@ -41,22 +44,23 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
 
     @Override
     public void onBindViewHolder(RecyclerSubMenuAdapter2.ViewHolder holder, int position) {
-        //holder.asignarDatos(opcionesDeSubMenus.get(position));
-        System.out.println("POSICION: " + position);
 
         holder.tvSubMenu.setText(subMenuList.get(position).getTitulo());
 
         List<OpcionesDeSubMenu> opciones = new ArrayList<>();
         Long idSub = subMenuList.get(position).getSubMenuId();
+        GlobalCarrito.habilitarAdd.add(new HabiliarAddMap(idSub, true));
         for (OpcionesDeSubMenu listaOpcionesSubMenu : opcionesDeSubMenus) {
             Long id = listaOpcionesSubMenu.getSubMenu().getSubMenuId();
             if (id.intValue() == idSub.intValue()) {
                 opciones.add(listaOpcionesSubMenu);
             }
         }
-        RecyclerOpcionesDeSubMenuAdapter adapter = new RecyclerOpcionesDeSubMenuAdapter(opciones, context);
+        RecyclerOpcionesDeSubMenuAdapter adapter = new RecyclerOpcionesDeSubMenuAdapter(opciones, context, materialButton, this);
         holder.rvOpcionesDeSubMenu.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         holder.rvOpcionesDeSubMenu.setAdapter(adapter);
+        String tct = "min: " + subMenuList.get(position).getMinimoOpcionesAEscoger() + " max: " + subMenuList.get(position).getMaximoOpcionesAEscoger();
+        holder.tvSubMenu2.setText(tct);
     }
 
     @Override
@@ -67,12 +71,13 @@ public class RecyclerSubMenuAdapter2 extends RecyclerView.Adapter<RecyclerSubMen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvSubMenu;
+        TextView tvSubMenu2;
         RecyclerView rvOpcionesDeSubMenu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvSubMenu = itemView.findViewById(R.id.tvSubMenu2);
+            tvSubMenu2 = itemView.findViewById(R.id.tvSubMenu3);
             rvOpcionesDeSubMenu = itemView.findViewById(R.id.rvOpcionesDeSubMenu);
         }
 

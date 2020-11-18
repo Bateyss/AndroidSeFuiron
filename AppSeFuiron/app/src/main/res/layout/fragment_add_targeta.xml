@@ -17,6 +17,14 @@
             android:layout_marginEnd="@dimen/space_5x"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/pagoProgress"
+                style="@style/HorizontalProgressBarStyle"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
             <ImageView
                 android:id="@+id/leftArrowChoice"
                 android:layout_width="@dimen/space_4x"
@@ -31,9 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/space_5x"
+                android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_5x"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_targeta" />
+                android:src="@drawable/tarjeta" />
 
             <EditText
                 android:id="@+id/targetaAddName"
@@ -54,7 +63,7 @@
                 android:layout_marginTop="@dimen/space_3x"
                 android:autofillHints="asd"
                 android:hint="Numero de Tarjeta"
-                android:inputType="numberPassword"
+                android:inputType="number"
                 android:maxLength="16"
                 android:textColorHint="@color/purple" />
 

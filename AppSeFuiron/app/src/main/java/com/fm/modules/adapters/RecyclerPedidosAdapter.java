@@ -22,6 +22,7 @@ import com.fm.modules.app.usuario.GlobalUsuario;
 import com.fm.modules.models.Driver;
 import com.fm.modules.models.OpcionesDeSubMenuSeleccionado;
 import com.fm.modules.models.Pedido;
+import com.fm.modules.models.PedidoDos;
 import com.fm.modules.models.PlatilloSeleccionado;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.service.DriverService;
@@ -30,6 +31,7 @@ import com.fm.modules.service.PlatilloSeleccionadoService;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,11 +39,11 @@ import java.util.List;
 
 public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidosAdapter.ViewHolder> {
 
-    private List<Pedido> items;
+    private List<PedidoDos> items;
     private Context context;
     private FragmentActivity fragmentActivity;
 
-    public RecyclerPedidosAdapter(List<Pedido> pedidos, Context context, FragmentActivity fragmentActivity) {
+    public RecyclerPedidosAdapter(List<PedidoDos> pedidos, Context context, FragmentActivity fragmentActivity) {
         this.items = pedidos;
         this.context = context;
         this.fragmentActivity = fragmentActivity;
@@ -73,7 +75,6 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
         MaterialCardView cardViewItem;
         Driver driver = new Driver();
         private Long orderId = 0L;
-        private MyPlatilloOrdered myPlatilloOrdered = new MyPlatilloOrdered();
 
         public ViewHolder(View view) {
             super(view);
@@ -84,12 +85,21 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
             cardViewItem = (MaterialCardView) view.findViewById(R.id.myorderCardItem);
         }
 
-        public void asignarDatos(final Pedido pedido) {
+        public void asignarDatos(final PedidoDos pedido) {
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            final SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
             final DecimalFormat decimalFormat = new java.text.DecimalFormat("#,##0.00");
             String titulo = "Orden #" + pedido.getPedidoId();
             String precio = "$ " + decimalFormat.format(pedido.getTotalEnRestautante());
-            String fecha = simpleDateFormat.format(pedido.getFechaOrdenado());
+            String fecha = pedido.getFechaOrdenado();
+            try {
+                Date d = simpleDateFormat2.parse(pedido.getFechaOrdenado());
+                if (d != null) {
+                    fecha = simpleDateFormat.format(d);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             checkBox.setChecked(pedido.isPedidoEntregado());
             checkBox.setEnabled(false);
             title.setText(titulo);
@@ -99,9 +109,14 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
             cardViewItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (orderId.intValue() != 0) {
-                        cardViewItem.setEnabled(false);
-                        myPlatilloOrdered.execute();
+                    if (pedido.getRestaurante() != null && pedido.getRestaurante().getDisponible()) {
+                        if (orderId.intValue() != 0) {
+                            cardViewItem.setEnabled(false);
+                            MyPlatilloOrdered myPlatilloOrdered = new MyPlatilloOrdered();
+                            myPlatilloOrdered.execute();
+                        }
+                    } else {
+                        Toast.makeText(context, "Restaurante no disponible", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -118,9 +133,7 @@ public class RecyclerPedidosAdapter extends RecyclerView.Adapter<RecyclerPedidos
                     PlatilloSeleccionadoService platilloSeleccionadoService = new PlatilloSeleccionadoService();
                     if (orderId.intValue() != 0) {
                         platilloSeleccionados = platilloSeleccionadoService.obtenerPlatilloSeleccionadosPorPedido(orderId);
-                        System.out.println("Platillos seleccionados por pedido " + platilloSeleccionados.size());
                     }
-                    System.out.println("Platillos seleccionados por pedido");
                     if (!platilloSeleccionados.isEmpty()) {
                         GlobalUsuario.platilloSeleccionadosEnMyOrdenes = platilloSeleccionados;
                         cargarComplementos(platilloSeleccionados);

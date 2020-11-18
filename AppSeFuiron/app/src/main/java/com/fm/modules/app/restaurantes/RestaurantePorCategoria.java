@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -58,9 +57,7 @@ public class RestaurantePorCategoria extends Fragment {
     private List<Restaurante> restaurantesFiltered;
     private List<Categoria> categoriasFiltered;
     private List<Categoria> categoriasGlobal;
-    private List<Menu> menxCategoriaGlobal;
     private RecyclerView rvPlatillosFavoritos;
-    private List<Categoria> categoriasSelected;
     private AppCompatImageView fotoPerfil;
     private AppCompatTextView favoritosText;
     private CargarFoto cargarFoto;
@@ -75,8 +72,6 @@ public class RestaurantePorCategoria extends Fragment {
         categoriasGlobal = new ArrayList<>();
         restaurantesGlobal = new ArrayList<>();
         categoriasFiltered = new ArrayList<>();
-        menxCategoriaGlobal = new ArrayList<>();
-        categoriasSelected = new ArrayList<>();
         restaurantesFiltered = new ArrayList<>();
         listViewCategorias = (RecyclerView) view.findViewById(R.id.rvCategorias_cat);
         listViewRestaurantes = (ListView) view.findViewById(R.id.rvRestaurants_res);
@@ -125,7 +120,7 @@ public class RestaurantePorCategoria extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String s = charSequence.toString();
-                filtrarBusquedaList(s);
+                showFragment(new BusquedaFragment(s));
             }
 
             @Override
@@ -147,8 +142,10 @@ public class RestaurantePorCategoria extends Fragment {
                     for (Menu menu : menus) {
                         if (menu.getCategoria().getCategoriaId().intValue() == idCategoria) {
                             if (!integers.contains(menu.getRestaurante().getRestauranteId().intValue())) {
-                                restaurantes.add(menu.getRestaurante());
-                                integers.add(menu.getRestaurante().getRestauranteId().intValue());
+                                if (menu.getRestaurante().getDisponible()) {
+                                    restaurantes.add(menu.getRestaurante());
+                                    integers.add(menu.getRestaurante().getRestauranteId().intValue());
+                                }
                             }
                         }
                     }
@@ -183,9 +180,6 @@ public class RestaurantePorCategoria extends Fragment {
                 }
                 RestauranteItemViewAdapter restauranteItemViewAdapter = new RestauranteItemViewAdapter(listaFiltrada, viewGlobal.getContext(), R.layout.holder_item_restaurant, getActivity());
                 listViewRestaurantes.setAdapter(restauranteItemViewAdapter);
-                if (listaFiltrada.isEmpty()) {
-                    Toast.makeText(viewGlobal.getContext(), "Sin Resultados", Toast.LENGTH_SHORT).show();
-                }
             }
         } catch (Exception e) {
             System.out.println("error consultar restaurantes abiertos " + e);
@@ -205,8 +199,6 @@ public class RestaurantePorCategoria extends Fragment {
             if (!lista.isEmpty()) {
                 tittleRestaurantes.setText(R.string.restaurantes_filtrados);
                 verRestaurantesAbiertos(lista);
-            } else {
-                Toast.makeText(viewGlobal.getContext(), "sin resultados", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -244,10 +236,11 @@ public class RestaurantePorCategoria extends Fragment {
         if (!restauranteList.isEmpty()) {
             List<Integer> integers = new ArrayList<>();
             for (Restaurante restaurante : restauranteList) {
-                System.out.println("filtro restaurante: " + restaurante.getNombreRestaurante());
-                if (!integers.contains(restaurante.getRestauranteId().intValue())) {
-                    list.add(restaurante);
-                    integers.add(restaurante.getRestauranteId().intValue());
+                if (restaurante.getDisponible()) {
+                    if (!integers.contains(restaurante.getRestauranteId().intValue())) {
+                        list.add(restaurante);
+                        integers.add(restaurante.getRestauranteId().intValue());
+                    }
                 }
             }
         }
@@ -260,7 +253,9 @@ public class RestaurantePorCategoria extends Fragment {
             for (Restaurante restaurante : restauranteList) {
                 System.out.println("destav: " + restaurante.getDestacado());
                 if (restaurante.getDestacado()) {
-                    list.add(restaurante);
+                    if (restaurante.getDisponible()) {
+                        list.add(restaurante);
+                    }
                 }
             }
         }
@@ -283,17 +278,14 @@ public class RestaurantePorCategoria extends Fragment {
 
     public List<PlatilloFavorito> filtrarFavoritos(List<PlatilloFavorito> platilloFavoritoList) {
         List<PlatilloFavorito> platillos = new ArrayList<>();
-        if (!platilloFavoritoList.isEmpty()) {
-            Usuario user = Logued.usuarioLogued;
-            if (user != null) {
-                for (PlatilloFavorito f : platilloFavoritoList) {
-                    if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
-                        if (f.getPlatillo() != null) {
-                            if (f.getPlatillo().getDisponible()) {
-                                platillos.add(f);
-                            }
+        Usuario user = Logued.usuarioLogued;
+        if (user != null) {
+            for (PlatilloFavorito f : platilloFavoritoList) {
+                if (user.getUsuarioId().intValue() == f.getUsuarios().getUsuarioId().intValue()) {
+                    if (f.getPlatillo() != null) {
+                        if (f.getPlatillo().getDisponible()) {
+                            platillos.add(f);
                         }
-
                     }
                 }
             }
@@ -319,7 +311,6 @@ public class RestaurantePorCategoria extends Fragment {
         protected void onPostExecute(List<Menu> menus) {
             super.onPostExecute(menus);
             if (!menus.isEmpty()) {
-                menxCategoriaGlobal = menus;
                 GlobalRestaurantes.menuCategorias = menus;
                 List<Restaurante> restauranteList = new ArrayList<>();
                 List<Integer> integers = new ArrayList<>();
@@ -345,6 +336,24 @@ public class RestaurantePorCategoria extends Fragment {
         }
     }
 
+    public List<PlatilloFavorito> filtrarFavoritos2(List<PlatilloFavorito> platilloFavoritoList) {
+        List<PlatilloFavorito> filtro = new ArrayList<>();
+        List<Integer> registreds = new ArrayList<>();
+        if (platilloFavoritoList.size() == 1) {
+            return platilloFavoritoList;
+        }
+        for (PlatilloFavorito platillo : platilloFavoritoList) {
+            try {
+                if (!registreds.contains(platillo.getPlatillo().getPlatilloId().intValue())) {
+                    registreds.add(platillo.getPlatillo().getPlatilloId().intValue());
+                    filtro.add(platillo);
+                }
+            } catch (Exception e) {
+            }
+        }
+        return filtro;
+    }
+
     public class Favoritos extends AsyncTask<String, String, List<PlatilloFavorito>> {
 
         @Override
@@ -353,6 +362,12 @@ public class RestaurantePorCategoria extends Fragment {
             try {
                 PlatilloFavoritoService platilloFavoritoService = new PlatilloFavoritoService();
                 platilloFavoritoList = platilloFavoritoService.obtenerPlatilloFavoritos();
+                if (!platilloFavoritoList.isEmpty()) {
+                    platilloFavoritoList = filtrarFavoritos(platilloFavoritoList);
+                }
+                if (!platilloFavoritoList.isEmpty()) {
+                    platilloFavoritoList = filtrarFavoritos2(platilloFavoritoList);
+                }
             } catch (Exception e) {
                 System.out.println("Error en UnderThreash:" + e.getMessage() + " " + e.getClass());
             }
@@ -369,15 +384,10 @@ public class RestaurantePorCategoria extends Fragment {
             super.onPostExecute(platilloFavorito);
             try {
                 if (!platilloFavorito.isEmpty()) {
-                    List<PlatilloFavorito> listaPlatillos = filtrarFavoritos(platilloFavorito);
-                    if (!listaPlatillos.isEmpty()) {
-                        RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(listaPlatillos, viewGlobal.getContext(), getActivity());
-                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
-                        rvPlatillosFavoritos.setAdapter(rvAdapter);
-                    } else {
-                        rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
-                    }
-                }else{
+                    RecyclerPlatillosFavoritosAdapter rvAdapter = new RecyclerPlatillosFavoritosAdapter(platilloFavorito, viewGlobal.getContext(), getActivity());
+                    rvPlatillosFavoritos.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                    rvPlatillosFavoritos.setAdapter(rvAdapter);
+                } else {
                     String nule = "";
                     favoritosText.setText(null);
                 }

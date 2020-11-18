@@ -34,7 +34,7 @@
                 android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_6x"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_support_option" />
+                android:src="@drawable/id_support" />
 
             <TextView
                 style="@style/TextViewSubTitleStyle"
@@ -52,7 +52,7 @@
                 android:layout_marginStart="@dimen/space_4x"
                 android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_4x"
-                android:hint="Necesito Ayuca con una orden"
+                android:hint="Necesito Ayuda con una orden"
                 android:textColorHint="@color/purple" />
 
             <com.google.android.material.card.MaterialCardView
@@ -61,7 +61,8 @@
                 android:layout_marginStart="@dimen/space_4x"
                 android:layout_marginTop="@dimen/space_2x"
                 android:layout_marginEnd="@dimen/space_4x"
-                app:cardCornerRadius="50dp">
+                android:layout_marginBottom="100dp"
+                app:cardCornerRadius="20dp">
 
                 <Button
                     android:id="@+id/supportRegistry"
@@ -69,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/orange"
-                    android:text="@string/messenger_send_button_text"
+                    android:text="@string/send"
                     android:textColor="@android:color/white" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

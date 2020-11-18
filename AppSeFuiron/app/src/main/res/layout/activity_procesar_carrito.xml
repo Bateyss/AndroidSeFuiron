@@ -20,7 +20,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_track_order_option" />
+                android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_lication_track" />
 
             <EditText
                 android:id="@+id/direccionTxt1"
@@ -46,22 +49,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="66dp">
 
-                <TextView
-                    android:id="@+id/direccionTxt3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:maxLines="1"
-                    android:text="Ubicacion" />
-
                 <Button
                     android:id="@+id/proceCarBtnSelecLc"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/quantum_googblue50"
-                    android:text="Seleccionar*" />
+                    android:text="Seleccionar Ubicacion*" />
             </LinearLayout>
 
 
@@ -85,38 +79,34 @@
                 android:inputType="text"
                 android:textColorHint="@color/purple" />
 
-            <EditText
-                android:id="@+id/direccionTxt6"
+            <Spinner
+                android:id="@+id/direccionSpn6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:autofillHints="asd"
-                android:enabled="false"
-                android:hint="Pais*"
-                android:inputType="text"
+                android:backgroundTint="@color/rosa"
+                android:enabled="true"
+                android:spinnerMode="dropdown"
                 android:textColorHint="@color/purple" />
 
-            <EditText
-                android:id="@+id/direccionTxt7"
+            <Spinner
+                android:id="@+id/direccionSpn7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:autofillHints="asd"
-                android:enabled="false"
-                android:hint="Departamento*"
-                android:inputType="text"
+                android:backgroundTint="@color/rosa"
+                android:enabled="true"
+                android:spinnerMode="dropdown"
                 android:textColorHint="@color/purple" />
 
-            <EditText
-                android:id="@+id/direccionTxt8"
+            <Spinner
+                android:id="@+id/direccionSpn8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:autofillHints="asd"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="Municipio*"
-                android:inputType="text"
+                android:backgroundTint="@color/rosa"
+                android:enabled="true"
+                android:spinnerMode="dropdown"
                 android:textColorHint="@color/purple" />
 
             <Button

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,17 +58,25 @@ public class RecyclerTabMenuAdapter extends RecyclerView.Adapter<RecyclerTabMenu
         if (position == 0) {
             showFragment(new PlatillosActivity(menus.get(position)));
         }
-        if (GlobalRestaurantes.menuTabPosition == null && position == 0) {
-            holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.orange));
-        }
-        if (GlobalRestaurantes.menuTabPosition != null) {
-            if (GlobalRestaurantes.menuTabPosition == position) {
+        if (GlobalRestaurantes.menuTabPosition == null) {
+            if (position == 0){
+                holder.bottonMarker.setBackground(context.getResources().getDrawable(R.drawable.tab_indicator));
                 holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.orange));
-            } else {
+            }else{
+                holder.bottonMarker.setBackground(context.getResources().getDrawable(R.drawable.tab_indicator2));
                 holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.opaquePurple));
             }
         }
-
+        if (GlobalRestaurantes.menuTabPosition != null) {
+            if (GlobalRestaurantes.menuTabPosition == position) {
+                GlobalRestaurantes.menuTabPosition = null;
+                holder.bottonMarker.setBackground(context.getResources().getDrawable(R.drawable.tab_indicator));
+                holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.orange));
+            } else {
+                holder.bottonMarker.setBackground(context.getResources().getDrawable(R.drawable.tab_indicator2));
+                holder.bottonMarker.setBackgroundColor(context.getResources().getColor(R.color.opaquePurple));
+            }
+        }
     }
 
     @Override
@@ -78,13 +87,13 @@ public class RecyclerTabMenuAdapter extends RecyclerView.Adapter<RecyclerTabMenu
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         CardView cardView;
-        View bottonMarker;
+        ImageView bottonMarker;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvMenu);
             cardView = (CardView) itemView.findViewById(R.id.cvMenu);
-            bottonMarker = (View) itemView.findViewById(R.id.separator);
+            bottonMarker = (ImageView) itemView.findViewById(R.id.separator);
         }
     }
 

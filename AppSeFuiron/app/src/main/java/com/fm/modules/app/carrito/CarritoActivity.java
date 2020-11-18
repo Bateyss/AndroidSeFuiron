@@ -127,6 +127,9 @@ public class CarritoActivity extends Fragment {
             double total3 = 0;
             double descuento = 0;
             double total4 = 0;
+            if (lista == null || lista.isEmpty()) {
+                showFragment(new CarritoEmptyActivity());
+            }
             if (lista != null) {
                 if (!lista.isEmpty()) {
                     for (PlatilloSeleccionado pl : lista) {
@@ -135,7 +138,6 @@ public class CarritoActivity extends Fragment {
                     RecyclerPlatillosSeleccionadosAdapter adapter = new RecyclerPlatillosSeleccionadosAdapter(lista, viewGlobal.getContext(), getActivity());
                     carritoRecicler.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
                     carritoRecicler.setAdapter(adapter);
-                    //descuento = lista.get(0).getPlatillo().getMenu().getRestaurante().getDescuento();
                     btnTerminate.setEnabled(true);
                 } else {
                     showFragment(new CarritoEmptyActivity());
@@ -152,10 +154,25 @@ public class CarritoActivity extends Fragment {
             total4 = total1 + total2 + total3 - descuento;
             DecimalFormat decimalFormat = new DecimalFormat("$ #,##0.00");
             totalOrdenTxtVw.setText(String.valueOf(decimalFormat.format(total1)));
-            impuestoTxtVw.setText(String.valueOf(decimalFormat.format(total2)));
-            cargoFuimonosTxtVw.setText(String.valueOf(decimalFormat.format(total3)));
-            promocionTxtVw.setText(String.valueOf(decimalFormat.format(descuento)));
-            totalaCancelarTxtVw.setText(String.valueOf(decimalFormat.format(total4)));
+            if (total2 == 0) {
+                String ss = "--";
+                impuestoTxtVw.setText(ss);
+            } else {
+                impuestoTxtVw.setText(decimalFormat.format(total2));
+            }
+            if (total3 == 0) {
+                String ss = "--";
+                cargoFuimonosTxtVw.setText(ss);
+            } else {
+                cargoFuimonosTxtVw.setText(decimalFormat.format(total3));
+            }
+            if (descuento == 0) {
+                String ss = "--";
+                promocionTxtVw.setText(ss);
+            } else {
+                promocionTxtVw.setText(decimalFormat.format(descuento));
+            }
+            totalaCancelarTxtVw.setText(decimalFormat.format(total4));
         } catch (Exception e) {
             System.out.println("error carrito: " + e);
         }
@@ -179,7 +196,7 @@ public class CarritoActivity extends Fragment {
         btnTerminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(viewGlobal.getContext(), ProcesarCarritoActivity.class);
+                Intent i = new Intent(viewGlobal.getContext(), UbicacionesActivity.class);
                 startActivity(i);
             }
         });

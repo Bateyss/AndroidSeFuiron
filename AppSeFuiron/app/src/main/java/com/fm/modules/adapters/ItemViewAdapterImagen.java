@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -255,6 +256,14 @@ public abstract class ItemViewAdapterImagen<T> extends BaseAdapter {
         public HolderItemMunicipio(View view) {
             itemOption = (AppCompatTextView) view.findViewById(R.id.tvOptionName);
             iteCardView = (ConstraintLayout) view.findViewById(R.id.itemOptionLayout);
+        }
+    }
+
+    public class HolderItemSpinner {
+        public CheckedTextView itemOption;
+
+        public HolderItemSpinner(View view) {
+            itemOption = (CheckedTextView) view.findViewById(android.R.id.text1);
         }
     }
 }

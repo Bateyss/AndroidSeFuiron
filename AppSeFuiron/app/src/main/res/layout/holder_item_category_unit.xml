@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/material1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_default"
@@ -23,8 +24,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivCategoryIcon1"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="@dimen/space_default"
                     android:layout_marginTop="@dimen/space_default"
                     android:layout_marginBottom="@dimen/space_default"
@@ -39,8 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_default"
                     android:layout_marginEnd="@dimen/space_default"
-                    android:text="@{category.categoryName}"
-                    app:layout_constraintBottom_toTopOf="@+id/tvRestaurantsCount"
+                    android:text="@string/texts"
+                    app:layout_constraintBottom_toTopOf="@+id/tvRestaurantsCount1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon1"
                     app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_default"
                     android:layout_marginEnd="@dimen/space_default"
-                    android:text="@{@string/x_restaurants(category.restaurantsCount)}"
+                    android:text="@string/texts"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

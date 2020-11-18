@@ -14,13 +14,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-feature android:name="android.hardware.screen.portrait" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -28,20 +30,62 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".app.restaurantes.RestauranteMenuActivity" />
-        <activity android:name=".app.login.ChangePassActivity" />
-        <activity android:name=".app.login.RecoveredPass" />
-        <activity android:name=".app.login.RecoveredPassLogued" />
-        <activity android:name=".app.login.RecoveryPassword" />
-        <activity android:name=".app.login.ChangedPassLogued" />
-        <activity android:name=".app.login.RecoveryPasswordLogued" />
-        <activity android:name=".app.login.LoguedFacebook" />
-        <activity android:name=".app.carrito.PedidoNoRegistrado" />
-        <activity android:name=".app.carrito.PedidoRegistrado" />
+
+        <activity android:name=".ComprobarSharedPreferencesActivity"></activity>
+        <activity
+            android:name=".ComprobarLoginActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.carrito.UbicacionesActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.restaurantes.RestauranteMenuActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.ChangePassActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.RecoveredPass"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.RecoveredPassLogued"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.RecoveryPassword"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.ChangedPassLogued"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.RecoveryPasswordLogued"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.LoguedFacebook"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.carrito.PedidoNoRegistrado"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.carrito.PedidoRegistrado"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".app.menu.MenuBotton"
-            android:label="@string/title_activity_menu_botton" />
-        <activity android:name=".app.carrito.ProcesarCarritoActivity" />
+            android:label="@string/title_activity_menu_botton"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".app.carrito.NuevaUbicacionActivity" />
         <activity
             android:name=".ui.login.LoginFacebook"
             android:label="@string/title_activity_login_facebook" />
@@ -59,22 +103,32 @@
 
         <activity
             android:name=".app.localet.Location"
-            android:label="@string/title_activity_location" />
+            android:label="@string/title_activity_location"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".app.restaurantes.RestaurantesActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:screenOrientation="portrait"
+            android:value="@string/facebook_app_id"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -84,11 +138,26 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.signup.SignUp" />
-        <activity android:name=".PedidosActivity" />
-        <activity android:name=".Inicio" />
-        <activity android:name=".app.login.Logon" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".app.signup.SignUp"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".PedidosActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".Inicio"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".app.login.Logon"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

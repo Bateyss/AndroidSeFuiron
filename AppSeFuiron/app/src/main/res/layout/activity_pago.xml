@@ -19,6 +19,14 @@
             android:layout_marginEnd="@dimen/space_5x"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/pagoProgress"
+                style="@style/HorizontalProgressBarStyle"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivBack"
                 style="@style/SelectableBorderlesStyle"
@@ -66,29 +74,103 @@
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_platillo" />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/space_2x"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:text="total de orden"
-                            android:textColor="@color/purple"
-                            android:textStyle="bold" />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/pagoTxtTotal"
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:maxLines="1"
-                            android:text="$ 0.00"
-                            android:textAlignment="center"
-                            android:textColor="@color/purple" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/space_2x"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:maxLines="2"
+                                    android:text="total de orden"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/pagoTxtTotal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:maxLines="1"
+                                    android:text="$ 0.00"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/space_2x"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:maxLines="2"
+                                    android:text="Cargo Fuimonos"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/pagoRecargo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:maxLines="1"
+                                    android:text="$ 0.00"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/space_2x"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:maxLines="2"
+                                    android:text="Total a Pagar"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/pagoTotal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:maxLines="1"
+                                    android:text="$ 0.00"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/purple"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                     <LinearLayout

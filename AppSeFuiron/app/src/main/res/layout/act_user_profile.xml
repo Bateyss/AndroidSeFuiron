@@ -34,7 +34,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/space_4n"
-                app:cardCornerRadius="50dp"
+                app:cardCornerRadius="40dp"
                 app:layout_constraintBottom_toBottomOf="@+id/profileProfileEmail"
                 app:layout_constraintEnd_toStartOf="@+id/profileProfileName"
                 app:layout_constraintTop_toTopOf="@+id/profileProfileName">

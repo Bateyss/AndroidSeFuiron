@@ -18,9 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/space_2x"
         android:layout_weight="0"
-        android:text="@string/texts" />
+        android:text="@string/texts"
+        android:textColor="@color/purple" />
 
-    <RadioButton
+    <androidx.appcompat.widget.AppCompatRadioButton
         android:id="@+id/rdbOpcionSubMenuSelec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

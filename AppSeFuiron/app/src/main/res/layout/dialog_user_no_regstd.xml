@@ -38,6 +38,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRecoverySuccessDescription"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4x"
@@ -45,9 +46,18 @@
             android:layout_marginEnd="@dimen/space_4x"
             android:gravity="center"
             android:text="@string/bad_signin"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="@color/purple"
-            android:textStyle="bold" />
+            android:textColor="@color/purple" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialog"
+            style="@style/PrimaryButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_2x"
+            android:layout_marginBottom="@dimen/space_2x"
+            android:padding="@dimen/space_2x"
+            android:text="@string/come_back" />
 
     </LinearLayout>
 </LinearLayout>

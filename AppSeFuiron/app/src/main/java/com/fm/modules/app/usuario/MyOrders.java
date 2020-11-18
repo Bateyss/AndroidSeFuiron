@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,11 +24,12 @@ import com.fm.modules.app.restaurantes.RestaurantePorCategoria;
 import com.fm.modules.models.Menu;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.Pedido;
+import com.fm.modules.models.PedidoDos;
 import com.fm.modules.models.Platillo;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.models.Usuario;
 import com.fm.modules.service.OpcionesDeSubMenuService;
-import com.fm.modules.service.PedidoService;
+import com.fm.modules.service.PedidoDosService;
 import com.fm.modules.service.PlatilloService;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class MyOrders extends Fragment {
     private View viewGlobal;
     private RecyclerView recyclerViewMyOrders;
     private MyOrdenes myOrdenes = new MyOrdenes();
+    private AppCompatImageView back;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +48,20 @@ public class MyOrders extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_orders, container, false);
         viewGlobal = view;
         recyclerViewMyOrders = (RecyclerView) view.findViewById(R.id.myordersRecycler);
+        back = (AppCompatImageView) view.findViewById(R.id.ivBack);
         verMyOrders();
         onBack();
+        backListener();
         return view;
+    }
+
+    private void backListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new RestaurantePorCategoria());
+            }
+        });
     }
 
     private void verMyOrders() {
@@ -71,13 +85,13 @@ public class MyOrders extends Fragment {
         return c;
     }
 
-    private class MyOrdenes extends AsyncTask<String, String, List<Pedido>> {
+    private class MyOrdenes extends AsyncTask<String, String, List<PedidoDos>> {
 
         @Override
-        protected List<Pedido> doInBackground(String... strings) {
-            List<Pedido> pedidos = new ArrayList<>();
+        protected List<PedidoDos> doInBackground(String... strings) {
+            List<PedidoDos> pedidos = new ArrayList<>();
             try {
-                PedidoService pedidoService = new PedidoService();
+                PedidoDosService pedidoService = new PedidoDosService();
                 Usuario usuario = Logued.usuarioLogued;
                 if (usuario != null) {
                     pedidos = pedidoService.obtenerMyPedidos(usuario.getUsuarioId());
@@ -140,7 +154,7 @@ public class MyOrders extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Pedido> pedidos) {
+        protected void onPostExecute(List<PedidoDos> pedidos) {
             super.onPostExecute(pedidos);
             try {
                 if (!pedidos.isEmpty()) {

@@ -1,12 +1,12 @@
 package com.fm.modules.app.carrito;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -36,9 +36,6 @@ import com.fm.modules.models.PlatilloSeleccionado;
 import com.fm.modules.models.SubMenu;
 import com.fm.modules.service.ImageService;
 import com.fm.modules.service.PlatilloFavoritoService;
-import com.fm.modules.sqlite.models.OpcionesDeSubMenuSeleccionadoSQLite;
-import com.fm.modules.sqlite.models.PedidoSQLite;
-import com.fm.modules.sqlite.models.PlatillosSeleccionadoSQLite;
 import com.google.android.material.button.MaterialButton;
 import com.travijuu.numberpicker.library.Enums.ActionEnum;
 import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
@@ -56,10 +53,6 @@ public class SeleccionarComplementos extends Fragment {
     private NumberPicker numberPicker;
     private AppCompatTextView tvFoodName, tvFoodPrice;
     private AppCompatImageView appCompatImageView;
-
-    private List<OpcionesDeSubMenu> opcionesDeSubMenusGlobal;
-    private List<SubMenu> subMenusGlobal;
-    private List<Platillo> platillosGlobal;
     private MaterialButton btnAddCarrito;
     private Platillo platilloActual;
     private CargarImagen cargarImagen = new CargarImagen();
@@ -78,9 +71,8 @@ public class SeleccionarComplementos extends Fragment {
         appCompatImageView = (AppCompatImageView) view.findViewById(R.id.ivFoodImageAdicionales);
         btnAddCarrito = (MaterialButton) view.findViewById(R.id.btnAddToShoppingCart);
         back = (AppCompatImageView) view.findViewById(R.id.ivBack);
-        opcionesDeSubMenusGlobal = new ArrayList<>();
-        subMenusGlobal = new ArrayList<>();
-        platillosGlobal = new ArrayList<>();
+        GlobalRestaurantes.opcionesDeSubMenusSeleccionados = new ArrayList<>();
+        GlobalCarrito.habilitarAdd = new ArrayList<>();
         mostrarPlatillo();
         Platillo p = GlobalRestaurantes.platilloSeleccionado;
         int idPlatillo = 0;
@@ -137,26 +129,36 @@ public class SeleccionarComplementos extends Fragment {
                 v.setEnabled(false);
                 PlatilloSeleccionado plas = registrarPlatillo();
                 if (plas != null) {
-                    final boolean[] ars = {false};
-                    AlertDialog dialog = new AlertDialog.Builder(viewGlobal.getContext())
-                            .setView(R.layout.dialog_save_plat_fav)
-                            .setCancelable(true)
-                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    guardarPlatilloFavorito();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    showFragment(new CarritoActivity());
-                                }
-                            })
-                            .show();
+                    dialog1();
                 } else {
-                    Toast.makeText(viewGlobal.getContext(), "No Pudo :(", Toast.LENGTH_SHORT).show();
+                    v.setEnabled(true);
                 }
+            }
+        });
+    }
+
+    public void dialog1() {
+        final Dialog dialog = new AlertDialog.Builder(viewGlobal.getContext())
+                .setView(R.layout.dialog_save_plat_fav)
+                .setCancelable(true)
+                .create();
+        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_shape));
+        dialog.show();
+        MaterialButton materialButton = dialog.findViewById(R.id.btnDialog);
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                showFragment(new CarritoActivity());
+            }
+        });
+        MaterialButton materialButton2 = dialog.findViewById(R.id.btnDialog2);
+        materialButton2.setBackgroundColor(getResources().getColor(R.color.orange));
+        materialButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                guardarPlatilloFavorito();
             }
         });
     }
@@ -192,26 +194,15 @@ public class SeleccionarComplementos extends Fragment {
     }
 
     public PlatilloSeleccionado registrarPlatillo() {
-        /*
-         * en caso se agregue cantidad a la tabla platillo seleccionado
-         * se usara el codigo que esta como comentario en este metodo
-         * */
         final int cantidad = numberPicker.getValue();
         Pedido pedido = registrarPedido();
-        System.out.println("*********************************************************************");
-        System.out.println("pedido registrado :D");
-        System.out.println("*********************************************************************");
         PlatilloSeleccionado platilloSeleccionado = new PlatilloSeleccionado();
-        platilloSeleccionado.setPlatilloSeleccionadoId(platilloActual.getPlatilloId());
-        System.out.println("platillo actual en platillo seleccionado");
         platilloSeleccionado.setPlatillo(platilloActual);
         platilloSeleccionado.setPedido(pedido);
         platilloSeleccionado.setNombre(platilloActual.getNombre());
         platilloSeleccionado.setCantidad(cantidad);
         platilloSeleccionado.setPrecio(platilloActual.getPrecioBase() * cantidad);
-        PlatillosSeleccionadoSQLite platillosSeleccionadoSQLite = new PlatillosSeleccionadoSQLite(viewGlobal.getContext());
-        Long idd = platillosSeleccionadoSQLite.create(platilloSeleccionado);
-        platilloSeleccionado.setPlatilloSeleccionadoId(idd);
+        platilloSeleccionado.setPlatilloSeleccionadoId((long) ++GlobalCarrito.NumeroPlatilloSeleccionadp);
         List<PlatilloSeleccionado> list = Logued.platillosSeleccionadosActuales;
         if (list == null) {
             list = new ArrayList<>();
@@ -225,9 +216,6 @@ public class SeleccionarComplementos extends Fragment {
         }
         list.add(platilloSeleccionado);
         Logued.platillosSeleccionadosActuales = list;
-        System.out.println("*********************************************************************");
-        System.out.println("platillo seleccionado registrado :D");
-        System.out.println("*********************************************************************");
         return platilloSeleccionado;
     }
 
@@ -237,36 +225,30 @@ public class SeleccionarComplementos extends Fragment {
         if (opcionesSeleccionadas == null) {
             opcionesSeleccionadas = new ArrayList<>();
         }
-        /*
-         * en caso se agregue cantidad a la tabla platillo seleccionado
-         * se usara el codigo que esta como comentario en este metodo
-         * */
         final int cantidad = numberPicker.getValue();
         double adicional = 0;
         for (OpcionesDeSubMenu opcione : listOpcionesExtra) {
             OpcionesDeSubMenuSeleccionado op = new OpcionesDeSubMenuSeleccionado();
-            op.setOpcionesDeSubMenuSeleccionadoId(opcione.getOpcionesDeSubmenuId());
             op.setOpcionesDeSubMenu(opcione);
             op.setPlatilloSeleccionado(platilloSeleccionado);
             op.setNombre(opcione.getNombre());
-            OpcionesDeSubMenuSeleccionadoSQLite opcionesDeSubMenuSeleccionadoSQLite = new OpcionesDeSubMenuSeleccionadoSQLite(viewGlobal.getContext());
-            Long opid = opcionesDeSubMenuSeleccionadoSQLite.create(op);
-            op.setOpcionesDeSubMenuSeleccionadoId(opid);
+            op.setOpcionesDeSubMenuSeleccionadoId((long) ++GlobalCarrito.NumeroComplementoSeleccionado);
             opcionesSeleccionadas.add(op);
-            adicional = adicional + (opcione.getPrecio() * cantidad);
-            System.out.println("*********************************************************************");
-            System.out.println("opcion de sub menu seleccioado registrado :D");
-            System.out.println("*********************************************************************");
+            System.out.println(" * **** ***** ***** *");
+            System.out.println(" * cobrado en add platillo: * " + opcione.cobrado + " opcion: " + opcione.getNombre());
+            if (opcione.cobrado) {
+                adicional = adicional + (opcione.getPrecio() * cantidad);
+            }
         }
         Logued.opcionesDeSubMenusEnPlatillosSeleccionados = opcionesSeleccionadas;
         double precioActual = platilloSeleccionado.getPrecio();
+
         platilloSeleccionado.setPrecio(precioActual + adicional);
         return platilloSeleccionado;
     }
 
     public Pedido registrarPedido() {
         Pedido pedido = Logued.pedidoActual;
-        PedidoSQLite pedidoSQLite = new PedidoSQLite(viewGlobal.getContext());
         if (pedido == null) {
             pedido = new Pedido();
             pedido.setPedidoId(platilloActual.getMenu().getRestaurante().getRestauranteId());
@@ -343,7 +325,7 @@ public class SeleccionarComplementos extends Fragment {
             if (!opcionesDeSubMenus.isEmpty()) {
                 GlobalRestaurantes.opcionesDeSubMenusSeleccionados = new ArrayList<>();
             }
-            RecyclerSubMenuAdapter2 recyclerSubMenuAdapter = new RecyclerSubMenuAdapter2(subMenus, opcionesDeSubMenus, viewGlobal.getContext());
+            RecyclerSubMenuAdapter2 recyclerSubMenuAdapter = new RecyclerSubMenuAdapter2(subMenus, opcionesDeSubMenus, viewGlobal.getContext(), btnAddCarrito);
             rvComplementsArea.setLayoutManager(new LinearLayoutManager(viewGlobal.getContext(), LinearLayoutManager.VERTICAL, false));
             rvComplementsArea.setAdapter(recyclerSubMenuAdapter);
         }

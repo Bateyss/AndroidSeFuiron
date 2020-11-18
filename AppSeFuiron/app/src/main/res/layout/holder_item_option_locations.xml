@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_2n"
+        android:layout_marginTop="@dimen/space_1x"
+        android:layout_marginEnd="@dimen/space_2n"
+        android:layout_marginBottom="@dimen/space_2x"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemOptionLayout"
+            style="@style/SelectableStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivOptionIcon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginBottom="@dimen/space_default"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_profile_option" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginEnd="@dimen/space_default"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvOptionDescription"
+                app:layout_constraintEnd_toStartOf="@+id/pagoBtnTarjetaCheck"
+                app:layout_constraintStart_toEndOf="@+id/ivOptionIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivOptionIcon"
+                tools:text="Mi perfil" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_default"
+                android:layout_marginEnd="@dimen/space_default"
+                android:layout_marginBottom="@dimen/space_default"
+                android:maxLength="35"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/purple"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/ivOptionIcon"
+                app:layout_constraintEnd_toStartOf="@+id/pagoBtnTarjetaCheck"
+                app:layout_constraintStart_toStartOf="@+id/tvOptionName"
+                app:layout_constraintTop_toBottomOf="@id/tvOptionName"
+                tools:text="Mi perfil" />
+
+            <ImageView
+                android:id="@+id/pagoBtnTarjetaCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_2x"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_checked_round"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOptionDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOptionName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

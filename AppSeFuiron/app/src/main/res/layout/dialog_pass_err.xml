@@ -58,20 +58,15 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="@color/purple" />
 
-    <!--<com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPassErr"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDialog"
         style="@style/PrimaryButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        android:paddingStart="@dimen/space_4x"
-        android:paddingEnd="@dimen/space_4x"
-        android:text="@string/come_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.939" />-->
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_2x"
+        android:layout_marginBottom="@dimen/space_2x"
+        android:padding="@dimen/space_2x"
+        android:text="@string/come_back" />
 
 </LinearLayout>

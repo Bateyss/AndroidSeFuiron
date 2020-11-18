@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fm.modules.app.login.Logon;
-import com.fm.modules.app.login.LoguedFacebook;
-
 public class MainActivity extends AppCompatActivity {
 
     Splash splash = new Splash();
@@ -28,11 +25,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class Splash extends AsyncTask<String, String, String> {
-
         @Override
         protected String doInBackground(String... strings) {
             try {
-                Thread.sleep(3 * 1000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(MainActivity.this, Logon.class);
+            Intent intent = new Intent(MainActivity.this, ComprobarLoginActivity.class);
             startActivity(intent);
         }
     }

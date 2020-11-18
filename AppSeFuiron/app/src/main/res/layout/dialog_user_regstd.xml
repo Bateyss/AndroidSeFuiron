@@ -49,6 +49,18 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@color/purple"
             android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialog"
+            style="@style/PrimaryButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_2x"
+            android:layout_marginBottom="@dimen/space_2x"
+            android:padding="@dimen/space_2x"
+            android:text="@string/next" />
+
     </LinearLayout>
 
 

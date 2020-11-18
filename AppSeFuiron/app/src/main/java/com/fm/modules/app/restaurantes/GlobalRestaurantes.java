@@ -4,6 +4,7 @@ import com.fm.modules.models.Menu;
 import com.fm.modules.models.MenxCategoria;
 import com.fm.modules.models.OpcionesDeSubMenu;
 import com.fm.modules.models.Platillo;
+import com.fm.modules.models.PlatillosNames;
 import com.fm.modules.models.Restaurante;
 import com.fm.modules.models.SubMenu;
 
@@ -18,6 +19,7 @@ public class GlobalRestaurantes {
     public static List<Platillo> platilloList;
     public static List<SubMenu> subMenuList;
     public static List<OpcionesDeSubMenu> opcionesDeSubMenuList;
+    public static List<PlatillosNames> platillosNamesList;
     public static Platillo platillo;
     public static Platillo platilloSeleccionado;
     public static SubMenu subMenu;

@@ -6,7 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/opaquePurple</item>
-        <item name="fontFamily">@font/comfortaa_family</item>
+        <item name="fontFamily">@font/comfortaa_bold</item>
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
     </style>
 
@@ -132,5 +133,13 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">@dimen/space_default</item>
+        <item name="android:background">@drawable/facebook_rounded</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 
 </resources>

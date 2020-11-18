@@ -112,6 +112,7 @@ public class RecyclerPlatillosSeleccionadosAdapter extends RecyclerView.Adapter<
                     for (OpcionesDeSubMenuSeleccionado op : ll) {
                         if (op.getPlatilloSeleccionado().getPlatilloSeleccionadoId().intValue() == platilloSeleccionado.getPlatilloSeleccionadoId().intValue()) {
                             stb.append(op.getNombre());
+                            stb.append(" ");
                         }
                     }
                 }

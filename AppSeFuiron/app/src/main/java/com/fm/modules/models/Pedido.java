@@ -17,7 +17,7 @@ public class Pedido {
     private double totalDeCargosExtra;
     private double totalEnRestautanteSinComision;
     private boolean pedidoPagado;
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Guatemala")
+    @JsonFormat(timezone = "America/Guatemala")
     private Date fechaOrdenado;
     private String tiempoPromedioEntrega;
     private boolean pedidoEntregado;

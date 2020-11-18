@@ -6,51 +6,75 @@
     android:orientation="vertical"
     tools:context=".app.carrito.PagoTargetaFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_5x"
-        android:layout_marginTop="@dimen/space_5x"
-        android:layout_marginEnd="@dimen/space_5x"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <ImageView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="@dimen/space_5x"
-            android:layout_marginEnd="@dimen/space_5x"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_targeta" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tarjetaRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_5x" />
-
-
-        <ImageView
-            android:id="@+id/tarjetaAgregar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_3x"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_plus" />
-
-        <Button
-            android:id="@+id/tarjetaUsar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_3x"
             android:layout_marginTop="@dimen/space_5x"
-            android:layout_marginEnd="@dimen/space_3x"
-            android:background="@drawable/add_food_action_bacground_orange"
-            android:text="Usar Tarjeta"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_marginEnd="@dimen/space_5x"
+            android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/pagoProgress"
+                style="@style/HorizontalProgressBarStyle"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
+            <ImageView
+                android:id="@+id/leftArrowChoicer"
+                android:layout_width="@dimen/space_4x"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginEnd="@dimen/space_5x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_left_arrow" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/space_5x"
+                android:layout_marginTop="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_5x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/tarjeta" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tarjetaRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_5x" />
+
+
+            <ImageView
+                android:id="@+id/tarjetaAgregar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_3x"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_plus" />
+
+            <Button
+                android:id="@+id/tarjetaUsar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_3x"
+                android:layout_marginTop="@dimen/space_5x"
+                android:layout_marginEnd="@dimen/space_3x"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/add_food_action_bacground_orange"
+                android:text="Usar Tarjeta"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

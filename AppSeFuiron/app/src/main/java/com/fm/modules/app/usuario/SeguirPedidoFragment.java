@@ -90,6 +90,7 @@ public class SeguirPedidoFragment extends Fragment {
                 }
             } catch (Exception e) {
                 System.out.println("Error en MyOrdenes:" + e);
+                pedido = null;
             }
             return pedido;
         }
@@ -134,6 +135,9 @@ public class SeguirPedidoFragment extends Fragment {
                                 pointer3.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 pointer4.setImageDrawable(viewGlobal.getResources().getDrawable(R.drawable.ic_pointer));
                                 break;
+                            case 5:
+                                showFragment(new SeguirPedidoCancelledFragment());
+                                break;
                         }
                     } else {
                         String neles = "No hay";
@@ -143,6 +147,8 @@ public class SeguirPedidoFragment extends Fragment {
                         neles = "00:00:00";
                         timeStimate.setText(neles);
                     }
+                } else {
+                    showFragment(new SeguirPedidoEmptyFragment());
                 }
             } catch (Exception e) {
                 System.out.println("Error Activity: " + e);

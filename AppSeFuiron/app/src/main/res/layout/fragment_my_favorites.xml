@@ -5,13 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".app.usuario.MyFavorites">
+    <ImageView
+        android:id="@+id/leftArrowChoicer"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="@dimen/space_2x"
+        android:layout_marginTop="@dimen/space_2x"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_left_arrow" />
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/TextViewTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_3x"
-        android:layout_marginTop="@dimen/space_3x"
+        android:layout_marginTop="@dimen/space_2x"
         android:layout_marginEnd="@dimen/space_3x"
         android:layout_marginBottom="@dimen/space_2x"
         android:gravity="center"

@@ -37,10 +37,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_2x"
+                android:layout_marginEnd="@dimen/space_default"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/purple"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/ivOptionIcon"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivOptionIcon"
                 app:layout_constraintTop_toTopOf="@+id/ivOptionIcon"
                 tools:text="Mi perfil" />

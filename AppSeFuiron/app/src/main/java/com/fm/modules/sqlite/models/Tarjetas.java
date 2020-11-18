@@ -1,52 +1,60 @@
 package com.fm.modules.sqlite.models;
 
 public class Tarjetas {
-    private int idTarjeta;
-    private String nombreBanco;
-    private String numero;
-    private String nombre;
-    private String ccv;
+    private String numTarjeta;
+    private String fechaTarjeta;
+    private String codSecu;
+    private Double monto;
+    private Long usuario;
 
     public Tarjetas() {
     }
 
-    public int getIdTarjeta() {
-        return idTarjeta;
+    public Tarjetas(String numTarjeta, String fechaTarjeta, String codSecu, Double monto, Long usuario) {
+        this.numTarjeta = numTarjeta;
+        this.fechaTarjeta = fechaTarjeta;
+        this.codSecu = codSecu;
+        this.monto = monto;
+        this.usuario = usuario;
     }
 
-    public void setIdTarjeta(int idTarjeta) {
-        this.idTarjeta = idTarjeta;
+    public String getNumTarjeta() {
+        return numTarjeta;
     }
 
-    public String getNombreBanco() {
-        return nombreBanco;
+    public void setNumTarjeta(String numTarjeta) {
+        this.numTarjeta = numTarjeta;
     }
 
-    public void setNombreBanco(String nombreBanco) {
-        this.nombreBanco = nombreBanco;
+    public String getFechaTarjeta() {
+        return fechaTarjeta;
     }
 
-    public String getNumero() {
-        return numero;
+    public void setFechaTarjeta(String fechaTarjeta) {
+        this.fechaTarjeta = fechaTarjeta;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public String getCodSecu() {
+        return codSecu;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setCodSecu(String codSecu) {
+        this.codSecu = codSecu;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public Double getMonto() {
+        return monto;
     }
 
-    public String getCcv() {
-        return ccv;
+    public void setMonto(Double monto) {
+        this.monto = monto;
     }
 
-    public void setCcv(String ccv) {
-        this.ccv = ccv;
+    public Long getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Long usuario) {
+        this.usuario = usuario;
     }
 }
